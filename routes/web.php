@@ -6,7 +6,10 @@ use App\Http\Livewire\SubCategoriesController;
 use App\Http\Livewire\ProductsController;
 use App\Http\Livewire\PresentationsController;
 use App\Http\Livewire\CreateBranchController;
-
+use App\Http\Livewire\ListBranchController;
+use App\Http\Livewire\ViewBranchController;
+use App\Http\Livewire\EditBranchController;
+use App\Http\Livewire\CoinsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +32,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('categories', CategoriesController::class);
 Route::get('subcategories', SubCategoriesController::class);
 Route::get('products', ProductsController::class);
+Route::get('dinero', CoinsController::class);
 Route::get('presentation', PresentationsController::class);
-Route::get('create-branch', CreateBranchController::class);
-Route::get('edit-branch/{idBranch}', [CreateBranchController::class, 'edit']);
+Route::get('crear-sucursal', CreateBranchController::class);
+Route::get('lista-sucursales', ListBranchController::class);
+Route::get('ver-sucursal/{idBranch}', ViewBranchController::class);
+Route::get('editar-sucursal/{idBranch}', EditBranchController::class);

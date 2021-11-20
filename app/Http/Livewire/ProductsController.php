@@ -48,7 +48,7 @@ class ProductsController extends Component
             'products'=>$products,
             'sub_categories'=>SubCategory::orderBy('name','asc')->get(),
             'presentations'=>Presentation::orderBy('name','asc')->get()
-        ]) 
+        ])
         ->extends('layouts.theme.app')
         ->section('content');
     }
@@ -90,7 +90,7 @@ class ProductsController extends Component
 
 
     public function resetUI(){
-      
+
     }
 
 }

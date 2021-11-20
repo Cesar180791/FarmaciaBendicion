@@ -17,8 +17,9 @@
 <link href="{{ asset('assets/css/forms/theme-checkbox-radio.css') }}" rel="stylesheet" type="text/css" />
 
 <!-- begin link para agregar sucursal -->
-<link href="{{ asset('assets/css/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="{{asset('plugins/dropify/dropify.min.css') }}">
+<link href="{{ asset('assets/css/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
+
 <!-- end link para agregar sucursal -->
 
 <!-- END GLOBAL MANDATORY STYLES -->

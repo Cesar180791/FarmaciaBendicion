@@ -32,9 +32,9 @@
         <!--  BEGIN SIDEBAR  -->
         @include('layouts.theme.sidebar')
         <!--  END SIDEBAR  -->
-        
+
         <!--  BEGIN CONTENT AREA  -->
-        <div id="content" class="main-content">
+        <div id="content" class="main-content"> 
             <div class="layout-px-spacing">
                 @yield('content')
 

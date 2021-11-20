@@ -24,22 +24,22 @@
                           <div class="row">
                             <div class="col-sm-6">
                               <div class="form-group">
-                                <label for="fullName">Nombre de la Sucursal</label>
-                                <input wire:model.lazy="nameShop" type="text" class="form-control mb-4" placeholder="Ejemplo: Sucursal Ciudad Toledo">
+                                <label for="fullName">Nombre actual de la Sucursal: {{$nameShop}}</label>
+                                <input wire:model.lazy="nameNew" type="text" class="form-control mb-4" placeholder="Ejemplo: Sucursal Ciudad Toledo">
                                   @error('nameShop') <span class="text-danger er">{{ $message }}</span> @enderror
                               </div>
                             </div>
                             <div class="col-sm-6">
                               <div class="form-group">
-                                <label for="telefono">Telefono de la Sucursal</label>
-                                <input wire:model.lazy="phoneShop" type="number" class="form-control mb-4" placeholder="Ejemplo: 2667-3030">
+                                <label for="telefono">Telefono actual de la Sucursal es: {{$phoneShop}}</label>
+                                <input wire:model.lazy="phoneNew" type="number" class="form-control mb-4" placeholder="Ejemplo: 2667-3030">
                                   @error('phoneShop') <span class="text-danger er">{{ $message }}</span> @enderror
                               </div>
                             </div>
                           </div>
                           <div class="form-group">
-                            <label for="direccion">Direccion</label>
-                            <input wire:model.lazy="addressShop" type="text" class="form-control mb-4" placeholder="Ejemplo: Ciudad Toledo San Miguel">
+                            <label for="direccion">Direccion actual: {{$addressShop}}</label>
+                            <input wire:model.lazy="addressNew" type="text" class="form-control mb-4" placeholder="Ejemplo: Ciudad Toledo San Miguel">
                               @error('addressShop') <span class="text-danger er">{{ $message }}</span> @enderror
                           </div>
                         </div>
@@ -55,22 +55,29 @@
     </div>
     <div class="account-settings-footer">
       <div class="as-footer-container">
-        <button id="multiple-reset" wire:click.prevent="resetUI()" class="btn btn-warning"><i class="fas fa-snowplow"></i> limpiar</button>
+        <a href="{{ url('/lista-sucursales')}}" class="btn btn-warning"> <i class="fas fa-undo"></i> Regresar</a>
         <div class="blockui-growl-message">
           <i class="flaticon-double-check"></i>&nbsp; Settings Saved Successfully
         </div>
-        <button id="multiple-messages" wire:click.prevent="Store()" class="btn btn-primary"><i class="far fa-save"></i> Guardar</button>
+        <button id="multiple-messages" wire:click.prevent="update()" class="btn btn-primary"><i class="fas fa-pen"></i> Actualizar</button>
       </div>
     </div>
   </div>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-    window.livewire.on('Sucursal-creada', msg=>{
+    window.livewire.on('Sucursal-actualizada', msg=>{
       swal({
-             title: 'Sucursal Creada con Exito!',
+             title: 'Sucursal actualizada con Exito!',
              text: msg,
              type: 'success',
+         })
+    });
+    window.livewire.on('No-Selected', msg=>{
+      swal({
+             title: 'Error',
+             text: msg,
+             type: 'warning',
          })
     });
 });

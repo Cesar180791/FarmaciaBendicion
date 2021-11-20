@@ -1,10 +1,10 @@
 <div class="sidebar-wrapper sidebar-theme">
-            
+
             <nav id="compactSidebar">
                 <ul class="navbar-nav theme-brand flex-row">
                     <li class="nav-item theme-logo">
                         <a href="index.html">
-                            <img src="assets/img/logoS.png" class="navbar-logo" alt="logo">
+                            <img src="{{ asset('assets/img/logoS.png') }}" class="navbar-logo" alt="logo">
                         </a>
                     </li>
                 </ul>
@@ -140,15 +140,15 @@
                         </a>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     </li>
-                    
-                    
+
+
                 </ul>
             </nav>
 
             <div id="compact_submenuSidebar" class="submenu-sidebar">
 
                 <div class="submenu" id="dashboard">
-                    <ul class="submenu-list" data-parent-element="#dashboard"> 
+                    <ul class="submenu-list" data-parent-element="#dashboard">
                         <li class="active">
                             <a href="index.html"> Analytics </a>
                         </li>
@@ -159,7 +159,7 @@
                 </div>
 
                 <div class="submenu" id="app">
-                    <ul class="submenu-list" data-parent-element="#app"> 
+                    <ul class="submenu-list" data-parent-element="#app">
                         <li>
                             <a href="{{ url('/categories')}}"> Categorías </a>
                         </li>
@@ -187,7 +187,7 @@
                 </div>
 
                 <div class="submenu" id="uiKit">
-                    <ul class="submenu-list" data-parent-element="#uiKit"> 
+                    <ul class="submenu-list" data-parent-element="#uiKit">
                         <li>
                             <a href="{{ url('/presentation')}}"> Presentaciones </a>
                         </li>
@@ -204,7 +204,7 @@
                 </div>
 
                 <div class="submenu" id="components">
-                    <ul class="submenu-list" data-parent-element="#components"> 
+                    <ul class="submenu-list" data-parent-element="#components">
                         <li>
                             <a href="component_tabs.html">Tabs </a>
                         </li>
@@ -213,7 +213,7 @@
                         </li>
                         <li>
                             <a href="component_modal.html">Modals </a>
-                        </li>                            
+                        </li>
                         <li>
                             <a href="component_cards.html">Cards </a>
                         </li>
@@ -378,7 +378,7 @@
                                 <li>
                                     <a href="user_account_setting.html">Account Settings </a>
                                 </li>
-                                
+
                             </ul>
                         </li>
 
@@ -463,7 +463,7 @@
                                 </li>
                             </ul>
                         </li>
-                        
+
                         <li class="sub-submenu">
                             <a role="menu" class="collapsed" data-toggle="collapse" data-target="#starter-kit" aria-expanded="true"><div>Starter Kit</div> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
                             <ul id="starter-kit" class="collapse show" data-parent="#compact_submenuSidebar">
