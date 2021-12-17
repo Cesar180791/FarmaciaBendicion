@@ -9,9 +9,14 @@ class Purchase extends Model
 {
     use HasFactory;
     protected $fillable =[
+        'fecha_compra',
         'total',
         'item',
-        'users_id'
-
+        'lote',
+        'descripcion_lote',
+        'factura',
+        'vencimiento',
+        'users_id',
+        'proveedores_id'
     ];
 }

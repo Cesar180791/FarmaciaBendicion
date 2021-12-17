@@ -16,15 +16,19 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name',255);
+            $table->string('chemical_component',100);
             $table->string('barCode',25)->nullable();
+            $table->string('Numero_registro',25)->unique();
+            $table->string('laboratory');
+            $table->string('token')->unique();
             $table->decimal('cost',10,2)->default(0);
+            $table->decimal('iva_cost',10,2)->default(0);
+            $table->decimal('final_cost',10,2)->default(0);
             $table->decimal('price',10,2)->default(0);
-            $table->foreignId('presentation_id')->constrained();
-            //creacion de llave foranea
-           // $table->unsignedBigInteger('sub_category_id');
-           // $table->foreign('sub_category_id')->references('id')->on('sub_categories'); 
-           $table->foreignId('sub_category_id')->constrained();
-            
+            $table->decimal('iva_price',10,2)->default(0);
+            $table->decimal('final_price',10,2)->default(0);
+            $table->foreignId('sub_category_id')->constrained();
+            $table->enum('estado',['ACTIVO','DESHABILITADO'])->default('ACTIVO');
             $table->timestamps();
         });
     }

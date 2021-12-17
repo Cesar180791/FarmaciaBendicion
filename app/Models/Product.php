@@ -10,19 +10,25 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable =[
+        'id',
         'name',
+        'chemical_component',
         'barCode',
+        'Numero_registro',
+        'laboratory',
+        'token',
         'cost',
+        'iva_cost',
+        'iva_cost',
+        'final_cost',
         'price',
-        'presentation_id',
+        'iva_price',
+        'final_price',
+        'estado',
         'sub_category_id'
     ];
 
      public function subCategory(){
         return $this->belongsTo(SubCategory::class); 
-    }
-
-    public function presentation(){
-        return $this->belongsTo(Presentation::class); 
     }
 }

@@ -5,14 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SaleDetails extends Model
+class Detalle_cargas extends Model
 {
     use HasFactory;
-
-    protected $fillable =[
-        'price',
-        'quantity',
-        'stocks_id',
-        'sale_id'
-    ];
 }

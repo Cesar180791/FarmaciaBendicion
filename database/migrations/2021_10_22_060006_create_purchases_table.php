@@ -15,6 +15,7 @@ class CreatePurchasesTable extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
+            $table->date('fecha_compra');
             $table->decimal('total',10,2);
             $table->integer('item');
             $table->string('lote',25)->unique();
@@ -22,6 +23,7 @@ class CreatePurchasesTable extends Migration
             $table->string('factura');
             $table->date('vencimiento');
             $table->foreignId('users_id')->constrained();
+            $table->foreignId('proveedores_id')->constrained();
             $table->timestamps();
         });
     }
