@@ -113,6 +113,17 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Descarga
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Descarga newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Descarga newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Descarga query()
+ */
+	class Descarga extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Detalle_cargas
  *
  * @property int $id
@@ -148,6 +159,17 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereVencimientoLote($value)
  */
 	class Detalle_cargas extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Detalle_descargas
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas query()
+ */
+	class Detalle_descargas extends \Eloquent {}
 }
 
 namespace App\Models{
