@@ -10,12 +10,9 @@ class Cargas extends Model
     use HasFactory;
 
     protected $fillable =[
-        'fecha_carga',
         'total_carga',
         'total_item_carga',
-        'lote_carga',
-        'descripcion_lote_carga',
-        'vencimiento_lote_carga',
-        'users_id'
+        'descripcion_carga',
+        'users_id',
     ];
 }

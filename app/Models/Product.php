@@ -21,11 +21,13 @@ class Product extends Model
         'iva_cost',
         'iva_cost',
         'final_cost',
+        'porcentaje_ganancia',
         'price',
         'iva_price',
         'final_price',
-        'estado',
-        'sub_category_id'
+        'sub_category_id',
+        'existencia',
+        'estado', 
     ];
 
      public function subCategory(){

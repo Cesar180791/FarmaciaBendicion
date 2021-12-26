@@ -15,12 +15,9 @@ namespace App\Models{
  * App\Models\Cargas
  *
  * @property int $id
- * @property string $fecha_carga
  * @property string $total_carga
  * @property int $total_item_carga
- * @property string $lote_carga
- * @property string $descripcion_lote_carga
- * @property string $vencimiento_lote_carga
+ * @property string $descripcion_carga
  * @property int $users_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -28,15 +25,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Cargas newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Cargas query()
  * @method static \Illuminate\Database\Eloquent\Builder|Cargas whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Cargas whereDescripcionLoteCarga($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Cargas whereFechaCarga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Cargas whereDescripcionCarga($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cargas whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Cargas whereLoteCarga($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cargas whereTotalCarga($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cargas whereTotalItemCarga($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cargas whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cargas whereUsersId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Cargas whereVencimientoLoteCarga($value)
  */
 	class Cargas extends \Eloquent {}
 }
@@ -122,14 +116,36 @@ namespace App\Models{
  * App\Models\Detalle_cargas
  *
  * @property int $id
+ * @property int $cargas_id
+ * @property int $products_id
+ * @property string $detalle_cargas_lote
+ * @property string $vencimiento_lote
+ * @property string $detalle_cargas_costo
+ * @property string $detalle_cargas_costo_iva
+ * @property string $detalle_cargas_costo_mas_iva
+ * @property string $detalle_cargas_precio_venta
+ * @property string $detalle_cargas_precio_iva
+ * @property string $detalle_cargas_precio_mas_iva
+ * @property int $detalle_cargas_quantity
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereCargasId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasCosto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasCostoIva($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasCostoMasIva($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasLote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasPrecioIva($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasPrecioMasIva($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasPrecioVenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereProductsId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereVencimientoLote($value)
  */
 	class Detalle_cargas extends \Eloquent {}
 }
@@ -174,10 +190,12 @@ namespace App\Models{
  * @property string $cost
  * @property string $iva_cost
  * @property string $final_cost
+ * @property string $porcentaje_ganancia
  * @property string $price
  * @property string $iva_price
  * @property string $final_price
  * @property int $sub_category_id
+ * @property int $existencia
  * @property string $estado
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -190,6 +208,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereEstado($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereExistencia($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereFinalCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereFinalPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereId($value)
@@ -198,6 +217,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereLaboratory($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereNumeroRegistro($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product wherePorcentajeGanancia($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereSubCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
@@ -214,12 +234,14 @@ namespace App\Models{
  * @property string $telefono
  * @property string $NIT
  * @property string $NRC
+ * @property string $estado_proveedor
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores query()
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereEstadoProveedor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereNIT($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereNRC($value)
@@ -271,7 +293,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $purchases_id
- * @property int $stocks_id
+ * @property int $products_id
  * @property string $costo
  * @property string $costo_iva
  * @property string $costo_mas_iva
@@ -292,9 +314,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail wherePrecioIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail wherePrecioMasIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail wherePrecioVenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereProductsId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail wherePurchasesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereQuantity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereStocksId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereUpdatedAt($value)
  */
 	class PurchaseDetail extends \Eloquent {}
@@ -336,7 +358,7 @@ namespace App\Models{
  * @property int $id
  * @property string $price
  * @property string $quantity
- * @property int $stocks_id
+ * @property int $products_id
  * @property int $sale_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -346,62 +368,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereProductsId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereSaleId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereStocksId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereUpdatedAt($value)
  */
 	class SaleDetails extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\Shop
- *
- * @property int $id
- * @property string $nameShop
- * @property string $addressShop
- * @property int $phoneShop
- * @property string $codeShop
- * @property string|null $image
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Shop newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Shop newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Shop query()
- * @method static \Illuminate\Database\Eloquent\Builder|Shop whereAddressShop($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Shop whereCodeShop($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Shop whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Shop whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Shop whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Shop whereNameShop($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Shop wherePhoneShop($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Shop whereUpdatedAt($value)
- */
-	class Shop extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\Stock
- *
- * @property int $id
- * @property int $products_id
- * @property int $shops_id
- * @property int $quantity
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Stock newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Stock newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Stock query()
- * @method static \Illuminate\Database\Eloquent\Builder|Stock whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Stock whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Stock whereProductsId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Stock whereQuantity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Stock whereShopsId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Stock whereUpdatedAt($value)
- */
-	class Stock extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -432,54 +404,41 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\SubProducts
- *
- * @property int $id
- * @property string $name_products
- * @property int $products_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|SubProducts newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SubProducts newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SubProducts query()
- * @method static \Illuminate\Database\Eloquent\Builder|SubProducts whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubProducts whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubProducts whereNameProducts($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubProducts whereProductsId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubProducts whereUpdatedAt($value)
- */
-	class SubProducts extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * App\Models\User
  *
  * @property int $id
  * @property string $name
- * @property string|null $phone
+ * @property string $phone
+ * @property string $address
+ * @property string $dui
  * @property string $email
- * @property string $profile
- * @property string $status
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
- * @property string|null $image
+ * @property string $profile
+ * @property string $status
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDui($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)

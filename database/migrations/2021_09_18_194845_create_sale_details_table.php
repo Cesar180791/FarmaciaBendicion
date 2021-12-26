@@ -21,7 +21,7 @@ class CreateSaleDetailsTable extends Migration
             ///otra forma de agregar llaves foraneas en una sola linea siguiendo las convenciones de laravel
             ///que todas las tablas tiene  que estar en plural
 
-            $table->foreignId('stocks_id')->constrained(); //products
+            $table->foreignId('products_id')->constrained(); //products
             $table->foreignId('sale_id')->constrained(); //sales
 
             $table->timestamps(); 

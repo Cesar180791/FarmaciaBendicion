@@ -16,19 +16,23 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name'=>'Mateo Leo',
-            'phone'=>'752082200',
-            'email'=>'leo@gmail.com',
-            'profile'=>'ADMIN',
+            'phone'=>'75208200',
+            'address'=>'San Miguel',
+            'dui'=>'04484224-0',
+            'email'=>'mateo@gmail.com',
+            'profile'=>'Administrador',
             'status'=>'ACTIVE',
             'password'=>bcrypt('12345678')
-        ]);
+        ]);//->syncRoles('Administrador');
         User::create([
-            'name'=>'Aurora Leo',
-            'phone'=>'752082200',
-            'email'=>'Auro@gmail.com',
-            'profile'=>'EMPLOYEE',
+            'name'=>'Fabricio Rivera',
+            'phone'=>'75208741',
+            'address'=>'San Miguel',
+            'dui'=>'04484224-1',
+            'email'=>'leo@gmail.com',
+            'profile'=>'Cajero',
             'status'=>'ACTIVE',
             'password'=>bcrypt('12345678')
-        ]);
+        ]);//->syncRoles('Cajero');
     }
 }

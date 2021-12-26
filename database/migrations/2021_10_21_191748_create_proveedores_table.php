@@ -17,8 +17,9 @@ class CreateProveedoresTable extends Migration
             $table->id();
             $table->string('nombre_proveedor',150);
             $table->string('telefono',10);
-            $table->string('NIT',20);
-            $table->string('NRC',20);
+            $table->string('NIT',20)->unique();
+            $table->string('NRC',20)->unique();
+            $table->enum('estado_proveedor',['ACTIVO','DESHABILITADO'])->default('ACTIVO');
             $table->timestamps();
         });
     }

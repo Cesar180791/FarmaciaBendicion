@@ -91,7 +91,6 @@ class ProductsController extends Component
             'barCode'               =>  $this->barCode,
             'Numero_registro'       =>  $this->Numero_registro,
             'laboratory'            =>  $this->laboratory,
-            'token'                    =>  uniqid(), 
             'sub_category_id'       =>  $this->subCategoryId
          ]);
 
