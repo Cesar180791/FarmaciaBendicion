@@ -115,9 +115,23 @@ namespace App\Models{
 /**
  * App\Models\Descarga
  *
+ * @property int $id
+ * @property string $total_descarga
+ * @property int $total_item_descaga
+ * @property string $descripcion_Descarga
+ * @property int $users_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Descarga newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Descarga newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Descarga query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Descarga whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Descarga whereDescripcionDescarga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Descarga whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Descarga whereTotalDescarga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Descarga whereTotalItemDescaga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Descarga whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Descarga whereUsersId($value)
  */
 	class Descarga extends \Eloquent {}
 }
@@ -165,9 +179,33 @@ namespace App\Models{
 /**
  * App\Models\Detalle_descargas
  *
+ * @property int $id
+ * @property int $descargas_id
+ * @property int $products_id
+ * @property string $detalle_descargas_costo
+ * @property string $detalle_descargas_costo_iva
+ * @property string $detalle_descargas_costo_mas_iva
+ * @property string $detalle_descargas_precio_venta
+ * @property string $detalle_descargas_precio_iva
+ * @property string $detalle_descargas_precio_mas_iva
+ * @property int $detalle_descargas_quantity
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDescargasId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasCosto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasCostoIva($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasCostoMasIva($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasPrecioIva($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasPrecioMasIva($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasPrecioVenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereProductsId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereUpdatedAt($value)
  */
 	class Detalle_descargas extends \Eloquent {}
 }

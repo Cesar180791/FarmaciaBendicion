@@ -11,8 +11,8 @@ class Descarga extends Model
 
     protected $fillable = [
         'total_descarga',
-        'total_item_descaga',
-        'descripcion_Descarga',
+        'total_item_descarga',
+        'descripcion_descarga',
         'users_id'
     ];
 }

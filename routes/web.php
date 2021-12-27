@@ -6,12 +6,12 @@ use App\Http\Livewire\SubCategoriesController;
 use App\Http\Livewire\ProductsController;
 use App\Http\Livewire\CoinsController;
 use App\Http\Livewire\CargaInventarioController;
+use App\Http\Livewire\DescargainventarioController;
 use App\Http\Livewire\UserController;
 use App\Http\Livewire\RolesController;
 use App\Http\Livewire\PermisosController;
 use App\Http\Livewire\AsignarController;
 use App\Http\Livewire\ProveedoresController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +37,7 @@ Route::get('subcategories', SubCategoriesController::class);
 Route::get('products', ProductsController::class);
 Route::get('dinero', CoinsController::class);
 Route::get('cargas-inventario', CargaInventarioController::class);
+Route::get('descargas-inventario', DescargainventarioController::class);
 Route::get('usuarios', UserController::class);
 Route::get('roles', RolesController::class);
 Route::get('permisos', PermisosController::class);

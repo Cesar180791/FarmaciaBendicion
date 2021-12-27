@@ -103,7 +103,7 @@
                             <a href="{{ url('/cargas-inventario')}}"> Cargas de Inventario </a>
                         </li>
                         <li>
-                            <a href="#"> Descargas de Inventario </a>
+                            <a href="{{ url('/descargas-inventario')}}"> Descargas de Inventario </a>
                         </li>
                     </ul>
                 </div>

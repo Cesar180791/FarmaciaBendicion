@@ -18,8 +18,10 @@ class CargaInventarioController extends Component
 
     public function mount(){
         //Cart::clear();
-        $this->pageTitle = 'Listado';
-        $this->componentName = 'Productos';
+        $this->pageTitle = 'Productos';
+        $this->componentName = 'Cargas de Inventario';
+        $this->pageTitle2 = 'Detalle';
+        $this->componentName2 = 'Cargas de Inventario';
         $this->proveedor='Seleccionar';
         $this->total = Cart::getTotal();
         $this->itemsQuantity = Cart::getTotalQuantity();
@@ -95,7 +97,7 @@ class CargaInventarioController extends Component
                     date('Y-m-d')
                 ));
                 $this->total = Cart::getTotal();
-               // $this->itemsQuantity = Cart::getTotalQuantity();
+                $this->itemsQuantity = Cart::getTotalQuantity();
                 $this->emit('add-ok','El Producto ha sido agregado');
         }
     }

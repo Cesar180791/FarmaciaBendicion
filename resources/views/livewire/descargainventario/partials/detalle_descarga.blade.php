@@ -1,6 +1,6 @@
 <div class="connect-sorting">
     <div class="connect-sorting-content">
-        <div class="card simple-title-task ui-sortable-handle"> 
+        <div class="card simple-title-task ui-sortable-handle">
             <div class="card-body">
                 <div class="widget-heading">
                     <h4 class="card-title">
@@ -20,6 +20,9 @@
                                 </th>
                                 <th class="table-th text-center text-white">
                                     <div class="size">Cant</div>
+                                </th>
+                                <th class="table-th text-center text-white">
+                                    <div class="size">Existencias</div>
                                 </th>
                                 <th class="table-th text-white">
                                     <div class="size-product">Producto</div>
@@ -41,12 +44,6 @@
                                 </th>
                                 <th class="table-th text-center text-white">
                                     <div class="size">PV + IVA</div>
-                                </th>
-                                <th class="table-th text-white">
-                                    <div class="size">Lote</div>
-                                </th>
-                                <th class="table-th text-white">
-                                    <div class="size">Vencimiento</div>
                                 </th>
                             </tr>
                         </thead>
@@ -75,14 +72,16 @@
                                         wire:change="updateCant({{$item->id}}, $('#r'+ {{$item->id}}).val() )"
                                         class="form-control text-center" value="{{$item->quantity}}">
                                 </td>
+                                <td class="text-center">
+                                    <p>{{$item->attributes[7]}}</p>
+                                </td>
                                 <td>
                                     <p>{{$item->name}}</p>
                                 </td>
                                 <td>
-                                    <input type="number" id="c{{$item->id}}" min="1" pattern="^[0-9]+"
-                                        wire:change="updateCost({{$item->id}}, $('#c'+ {{$item->id}}).val() )"
-                                        class="form-control text-center"
-                                        value="{{number_format($item->attributes[0],4)}}">
+                                    <p class="text-center"> 
+                                        ${{number_format($item->attributes[0],4)}}
+                                    </p>
                                 </td>
                                 <td class="text-center">
                                     <p>
@@ -94,26 +93,14 @@
                                         ${{number_format($item->attributes[2] * $item->quantity,4)}}
                                     </p>
                                 </td>
-                                <td>
-                                    <input type="number" id="p{{$item->id}}" min="1" pattern="^[0-9]+"
-                                        wire:change="updatePrice({{$item->id}}, $('#p'+ {{$item->id}}).val() )"
-                                        class="form-control text-center" value="{{$item->attributes[3]}}">
+                                <td class="text-center">
+                                    <p>%{{$item->attributes[3]}}</p>
                                 </td>
                                 <td>
                                     <p class="text-center">${{number_format($item->attributes[4],4)}}</p>
                                 </td>
                                 <td>
                                     <p class="text-center">${{number_format($item->attributes[6],4)}}</p>
-                                </td>
-                                <td>
-                                    <input type="text" id="u{{$item->id}}"
-                                        wire:change="updateProductList({{$item->id}}, $('#u'+ {{$item->id}}).val() )"
-                                        class="form-control" value="{{$item->attributes[7]}}">
-                                </td>
-                                <td>
-                                    <input type="date" id="d{{$item->id}}"
-                                        wire:change="updateVencimiento({{$item->id}}, $('#d'+ {{$item->id}}).val() )"
-                                        class="form-control text-center" value="{{$item->attributes[8]}}">
                                 </td>
                             </tr>
                             @endforeach
@@ -126,11 +113,11 @@
                                 <td>
                                     <h6 class="text-center">{{$itemsQuantity}}</h6>
                                 </td>
-                                <td>
-                                    <h6 class="text-center font-weight-bold">Total Costo</h6>
+                                <td colspan="2">
+                                    <h6 class="text-center font-weight-bold">Total Descarga</h6>
                                 </td>
                                 <td>
-                                    <h6 class="text-center">${{number_format($total,2)}}</h6>
+                                    <h6 class="text-center">${{number_format($total,4)}}</h6>
                                 </td>
                             </tr>
                         </tfoot>
@@ -139,22 +126,22 @@
 
                 <div class="col-sm-12 col-md-12 mt-3">
                     <hr>
-                    <h6>Descripcion de la carga</h6>
+                    <h6>Descripcion de la Descarga</h6>
                     <hr>
-                    <textarea name="descripcion_carga" wire:model.lazy="descripcion_carga" class="ckeditor form-control"
+                    <textarea name="descripcion_descarga" wire:model.lazy="descripcion_descarga" class="ckeditor form-control"
                         id="my-editor" cols="20" rows="5"></textarea>
-                    @error('descripcion_carga') <span class="text-danger er">{{ $message }}</span> @enderror
+                    @error('descripcion_descarga') <span class="text-danger er">{{ $message }}</span> @enderror
                     <hr>
                 </div>
 
                 <ul class="tabs tab-pills mt-3">
                     <li style="list-style: none;">
-                        <a href="javascript:void(0)" wire:click="validarCampos" class="float-right tabmenu btn btn-dark"
+                        <a href="javascript:void(0)" wire:click="EjecutarDescarga" class="float-right tabmenu btn btn-dark"
                             id=""><i class="far fa-save"></i><b> Guardar</b></a>
                     </li>
                 </ul>
                 @endif
-                <div wire:loading.inline wire:target="validarCampos">
+                <div wire:loading.inline wire:target="EjecutarDescarga">
                     <h6 class="text-danger text-center">Actualizando inventario...</h6>
                 </div>
             </div>
