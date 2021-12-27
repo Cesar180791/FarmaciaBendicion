@@ -19,6 +19,7 @@ class CreateProveedoresTable extends Migration
             $table->string('telefono',10);
             $table->string('NIT',20)->unique();
             $table->string('NRC',20)->unique();
+            $table->string('gran_con',20)->unique();
             $table->enum('estado_proveedor',['ACTIVO','DESHABILITADO'])->default('ACTIVO');
             $table->timestamps();
         });

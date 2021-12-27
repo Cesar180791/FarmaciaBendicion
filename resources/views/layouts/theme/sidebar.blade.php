@@ -97,7 +97,7 @@
                             <a href="#"> Compras </a>
                         </li>
                         <li>
-                            <a href="#"> Consulta de Inventario </a>
+                            <a href="{{ url('/consulta-inventario')}}"> Consulta de Inventario </a>
                         </li>
                         <li>
                             <a href="{{ url('/cargas-inventario')}}"> Cargas de Inventario </a>
