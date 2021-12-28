@@ -11,7 +11,7 @@ class Detalle_descargas extends Model
 
     protected $fillable = [
         'descargas_id',
-        'products_id',
+        'lotes_id',
         'detalle_descargas_costo',
         'detalle_descargas_costo_iva',
         'detalle_descargas_costo_mas_iva',

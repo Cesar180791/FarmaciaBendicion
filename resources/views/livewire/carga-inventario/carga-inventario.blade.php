@@ -6,6 +6,12 @@
         <div class="col-sm-12" id="detalle" wire:ignore.self>
             @include('livewire.carga-inventario.partials.detalle_carga')
         </div>
+        <div class="col-sm-12" id="crear-lote" wire:ignore.self>
+            @include('livewire.carga-inventario.partials.crear_lote')
+        </div>
+        <div class="col-sm-12" id="asignar-producto-lote" wire:ignore.self>
+            @include('livewire.carga-inventario.partials.asignar_product_lote')
+        </div>
     </div>
 </div>
 <script src="{{ asset('js/keypress.js') }}"></script>
@@ -15,6 +21,8 @@
 <script>
     document.addEventListener('DOMContentLoaded', function(){
         $('#listar-productos').hide();
+        $('#asignar-producto-lote').hide();
+        $('#crear-lote').hide();
 
         $('#buscarbtn').on("click", function () {
         $('#listar-productos').show();
@@ -26,7 +34,43 @@
         $('#detalle').show();
         });
 
+        $('#regresar2').on("click", function () {
+        $('#listar-productos').show();
+        $('#asignar-producto-lote').hide();
+        });
 
+        $('#regresar3').on("click", function () {
+        $('#crear-lote').hide();
+        $('#asignar-producto-lote').show();
+        });
+
+        
+       
+
+        window.livewire.on('editar-lote', msg=>{
+            $('#crear-lote').show();
+            $('#asignar-producto-lote').hide();
+        });
+
+        window.livewire.on('lote-actualizado', msg=>{
+            $('#crear-lote').hide();
+            $('#asignar-producto-lote').show();
+        });
+
+        window.livewire.on('ver-lotes', msg=>{
+            $('#listar-productos').hide();
+            $('#asignar-producto-lote').show();
+        });
+
+        window.livewire.on('crear-lote', msg=>{
+            $('#crear-lote').show();
+            $('#asignar-producto-lote').hide();
+        });
+
+        window.livewire.on('lote-registrado', msg=>{
+            $('#crear-lote').hide();
+            $('#asignar-producto-lote').show();
+        });
 
          window.livewire.on('empty-cost', msg=>{
             swal({
@@ -38,6 +82,7 @@
 
         window.livewire.on('add-ok', msg=>{
             $('#listar-productos').hide();
+            $('#asignar-producto-lote').hide();
             $('#detalle').show();
         });
 

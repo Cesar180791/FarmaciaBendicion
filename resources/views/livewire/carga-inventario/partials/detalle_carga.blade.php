@@ -4,7 +4,7 @@
             <div class="card-body">
                 <div class="widget-heading">
                     <h4 class="card-title">
-                        <b class="sizeEncabezado">{{$componentName2}} | {{$pageTitle2}}</b>
+                        <b class="sizeEncabezado">{{$componentName}} | {{$pageTitle2}}</b>
                     </h4>
                 </div>
                 <a class="btn btn-dark mbmobile mb-4" id="buscarbtn"><b>Buscar F1</b></a>
@@ -42,10 +42,10 @@
                                 <th class="table-th text-center text-white">
                                     <div class="size">PV + IVA</div>
                                 </th>
-                                <th class="table-th text-white">
+                                <th class="table-th text-white text-center">
                                     <div class="size">Lote</div>
                                 </th>
-                                <th class="table-th text-white">
+                                <th class="table-th text-white text-center">
                                     <div class="size">Vencimiento</div>
                                 </th>
                             </tr>
@@ -105,15 +105,11 @@
                                 <td>
                                     <p class="text-center">${{number_format($item->attributes[6],4)}}</p>
                                 </td>
-                                <td>
-                                    <input type="text" id="u{{$item->id}}"
-                                        wire:change="updateProductList({{$item->id}}, $('#u'+ {{$item->id}}).val() )"
-                                        class="form-control" value="{{$item->attributes[7]}}">
+                                <td class="text-center">
+                                    <p>{{$item->attributes[7]}}</p>
                                 </td>
-                                <td>
-                                    <input type="date" id="d{{$item->id}}"
-                                        wire:change="updateVencimiento({{$item->id}}, $('#d'+ {{$item->id}}).val() )"
-                                        class="form-control text-center" value="{{$item->attributes[8]}}">
+                                <td class="text-center">
+                                    <p><b>{{$item->attributes[8]}}</b></p>
                                 </td>
                             </tr>
                             @endforeach

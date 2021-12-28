@@ -8,6 +8,9 @@
 	listener.simple_combo("esc", function(){
         $('#detalle').show();
         $('#listar-productos').hide(); 
+        $('#asignar-producto-lote').hide();
+        $('#crear-lote').hide();
+
 	})
 	
 </script>

@@ -117,8 +117,8 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $total_descarga
- * @property int $total_item_descaga
- * @property string $descripcion_Descarga
+ * @property int $total_item_descarga
+ * @property string $descripcion_descarga
  * @property int $users_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -129,7 +129,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Descarga whereDescripcionDescarga($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Descarga whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Descarga whereTotalDescarga($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Descarga whereTotalItemDescaga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Descarga whereTotalItemDescarga($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Descarga whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Descarga whereUsersId($value)
  */
@@ -142,9 +142,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $cargas_id
- * @property int $products_id
- * @property string $detalle_cargas_lote
- * @property string $vencimiento_lote
+ * @property int $lotes_id
  * @property string $detalle_cargas_costo
  * @property string $detalle_cargas_costo_iva
  * @property string $detalle_cargas_costo_mas_iva
@@ -162,15 +160,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasCosto($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasCostoIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasCostoMasIva($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasLote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasPrecioIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasPrecioMasIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasPrecioVenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereProductsId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereLotesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereVencimientoLote($value)
  */
 	class Detalle_cargas extends \Eloquent {}
 }
@@ -208,6 +204,35 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereUpdatedAt($value)
  */
 	class Detalle_descargas extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Lotes
+ *
+ * @property int $id
+ * @property int $products_id
+ * @property int $users_id
+ * @property string $numero_lote
+ * @property int $existencia_lote
+ * @property string $caducidad_lote
+ * @property string $estado_lote
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Lotes newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Lotes newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Lotes query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereCaducidadLote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereEstadoLote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereExistenciaLote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereNumeroLote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereProductsId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereUsersId($value)
+ */
+	class Lotes extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -294,6 +319,7 @@ namespace App\Models{
  * @property string $telefono
  * @property string $NIT
  * @property string $NRC
+ * @property string $gran_con
  * @property string $estado_proveedor
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -302,6 +328,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores query()
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereEstadoProveedor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereGranCon($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereNIT($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereNRC($value)
@@ -320,10 +347,8 @@ namespace App\Models{
  * @property string $fecha_compra
  * @property string $total
  * @property int $item
- * @property string $lote
  * @property string $descripcion_lote
  * @property string $factura
- * @property string $vencimiento
  * @property int $users_id
  * @property int $proveedores_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -337,12 +362,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereFechaCompra($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereItem($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereLote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereProveedoresId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereUsersId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereVencimiento($value)
  */
 	class Purchase extends \Eloquent {}
 }
@@ -353,7 +376,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $purchases_id
- * @property int $products_id
+ * @property int $lotes_id
  * @property string $costo
  * @property string $costo_iva
  * @property string $costo_mas_iva
@@ -371,10 +394,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereCostoMasIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereLotesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail wherePrecioIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail wherePrecioMasIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail wherePrecioVenta($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereProductsId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail wherePurchasesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereUpdatedAt($value)
@@ -418,7 +441,7 @@ namespace App\Models{
  * @property int $id
  * @property string $price
  * @property string $quantity
- * @property int $products_id
+ * @property int $lotes_id
  * @property int $sale_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -427,8 +450,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails query()
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereLotesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereProductsId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereSaleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereUpdatedAt($value)

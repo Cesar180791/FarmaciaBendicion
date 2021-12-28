@@ -3,7 +3,8 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\Models\Product; 
+use App\Models\Product;
+use App\Models\Lotes;
 use App\Models\Cargas; 
 use App\Models\Detalle_cargas; 
 use Livewire\withPagination;
@@ -13,15 +14,18 @@ use DB;
 class CargaInventarioController extends Component
 {
     use withPagination;
-    public $search, $itemsQuantity, $total, $descripcion_carga;
+    public $search, $itemsQuantity, $total, $descripcion_carga, $loteId, $producto ,$numero_lote, $caducidad_lote, $idProducto, $idBuscarProducto;
     private $pagination = 5;
 
     public function mount(){
         //Cart::clear();
-        $this->pageTitle = 'Productos';
-        $this->componentName = 'Cargas de Inventario';
+        $this->lotes=[];
+        $this->pageTitle = 'Selecciona producto a cargar';
         $this->pageTitle2 = 'Detalle';
-        $this->componentName2 = 'Cargas de Inventario';
+        $this->pageTitle3 = 'lote';
+        $this->pageTitle4 = 'Selecciona lote para cargar producto';
+        $this->componentName = 'Cargas';
+        
         $this->proveedor='Seleccionar';
         $this->total = Cart::getTotal();
         $this->itemsQuantity = Cart::getTotalQuantity();
@@ -37,7 +41,23 @@ class CargaInventarioController extends Component
 
 
     public function render()
-    {
+    {  
+        //id de lote se almacena en $idBuscarProducto y cambia mediante la funcion asignarIdBusquedaProducto()
+        $this->lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
+                        ->join('users as u','u.id','lotes.users_id')
+                        ->select('pro.*','pro.name as nombreProducto','pro.id as idProducto','u.name','lotes.*')
+                        ->where('lotes.products_id',$this->idBuscarProducto)
+                        ->orderBy('pro.id','desc')
+                        ->get();
+
+                       // dd($this->lotes);
+                        //en esta parte se asigna el id a la variable idProducto
+                        //y se le asigna al boton nuevo lote o crear lote
+                       $this->idProducto = $this->idBuscarProducto;
+
+
+
+
         if (strlen($this->search) > 0)
         $products = Product::join('sub_categories as c','c.id','products.sub_category_id')
                         ->select('products.*','c.name as sub_category')
@@ -58,30 +78,105 @@ class CargaInventarioController extends Component
 
         return view('livewire.carga-inventario.carga-inventario',[
             'products'      =>  $products,
-            'cart'          =>  Cart::getContent()->sortBy('id')
+            'cart'          =>  Cart::getContent()->sortBy('id'),
+            'lotes'         =>  $this->lotes
         ])
         ->extends('layouts.theme.app')
         ->section('content');;
     }
 
     protected $listeners = [ 
-        'addItem',
-        'removeItem'
+        'removeItem',
+        'lote-registrado' => '$refresh'
     ]; 
 
+    public function nuevoLote(Product $idProduct){
+        $this->producto = $idProduct->name;
+        $this->idProducto = $idProduct->id;
+        $this->emit('crear-lote','El Producto ha sido agregado');
+    }
 
-    public function addItem($id, $cant = 1){
+    public function crearLote(){
+        $rules = [
+            'numero_lote'       =>  'required|unique:lotes,numero_lote|min:3',
+            'caducidad_lote'    =>  'required|date'
+        ];
+
+        $messages = [
+            'numero_lote.required'      =>  'Numero de lote requerido',
+            'numero_lote.unique'        =>  'Ya existe el numero de lote',
+            'numero_lote.min'           =>  'El numero de lte debe tener al menos 3 caracteres',
+            'caducidad_lote.required'   =>  'La fecha de vencimiento del lote es requerida',
+            'caducidad_lote.date'       =>  'Ingrese una fecha valida'
+        ];
+
+        $this->validate($rules, $messages);
+
+        Lotes::create([
+            'products_id'       =>  $this->idProducto,
+            'users_id'          =>  auth()->user()->id,
+            'numero_lote'       =>  $this->numero_lote,
+            'caducidad_lote'    =>  $this->caducidad_lote
+        ]);
+
+        $this->emit('lote-registrado','lote registrado con exito');
+        $this->resetUI();
+    }
+
+    public function asignarIdBusquedaProducto($idProduct){
+        $this->idBuscarProducto = $idProduct;
+        $this->emit('ver-lotes','Ver lotes del producto seleccionado');
+    }
+
+    public function editarLote(Lotes $id){
+        $this->emit('editar-lote','editar lote');
+     
+        $this->numero_lote = $id->numero_lote;
+        $this->caducidad_lote = $id->caducidad_lote;
+        $this->loteId = $id->id;
+    }
+
+    public function actualizarLote(){
+        $rules = [
+            'numero_lote'       =>  "required|unique:lotes,numero_lote,{$this->loteId}|min:3",
+            'caducidad_lote'    =>  'required|date'
+        ];
+
+        $messages = [
+            'numero_lote.required'      =>  'Numero de lote requerido',
+            'numero_lote.unique'        =>  'Ya existe el numero de lote',
+            'numero_lote.min'           =>  'El numero de lte debe tener al menos 3 caracteres',
+            'caducidad_lote.required'   =>  'La fecha de vencimiento del lote es requerida',
+            'caducidad_lote.date'       =>  'Ingrese una fecha valida'
+        ];
+
+        $this->validate($rules, $messages);
+
+         $updateLote = Lotes::find($this->loteId);
+         $updateLote->update([
+            'numero_lote'       =>  $this->numero_lote,
+            'caducidad_lote'    =>  $this->caducidad_lote
+         ]);
+
+         $this->resetUI();
+         $this->emit('lote-actualizado','Producto Actualizado Correctamente');
+
+    }
+
+    public function addItem($id, $id_lote, $cant = 1){
 
         $product = Product::where('id', $id)->first();
+        $buscar_lote = Lotes::where('id', $id_lote)->first();
 
         if($product == null){
             $this->emit('producto-no-encontrado','El producto no esta registrado');
         } else {
-            if ($this->InCart($product->id)) {
+            if ($this->InCart($buscar_lote->id)) {
+                $this->emit('add-ok','El Producto ha sido agregado');
                 return;
             }
             Cart::add(
-                $product->id,
+                $buscar_lote->id,
                 $product->name,
                 0,
                 $cant,
@@ -93,8 +188,9 @@ class CargaInventarioController extends Component
                     $product->price, 
                     $product->iva_price,
                     $product->final_price,
-                    "",
-                    date('Y-m-d')
+                    $buscar_lote->numero_lote,
+                    $buscar_lote->caducidad_lote,
+                    $product->id,
                 ));
                 $this->total = Cart::getTotal();
                 $this->itemsQuantity = Cart::getTotalQuantity();
@@ -167,7 +263,8 @@ class CargaInventarioController extends Component
                    $exist->attributes[5],
                    $exist->attributes[6],
                    $exist->attributes[7],
-                   $exist->attributes[8]
+                   $exist->attributes[8],
+                   $exist->attributes[9]
                 ));
            $this->total = Cart::getTotal();
            $this->itemsQuantity = Cart::getTotalQuantity();
@@ -201,26 +298,13 @@ class CargaInventarioController extends Component
                     $final_price,
                     $exist->attributes[7],
                     $exist->attributes[8],
+                    $exist->attributes[9]
                 ));
 
                 $this->total = Cart::getTotal();
                 $this->itemsQuantity = Cart::getTotalQuantity();
                 //$this->emit('add-ok', $title);
             }
-    }
-    
-    public function updateProductList($id, $product){
-        $exist = Cart::get($id);
-        Cart::update($exist->id, array( array(
-            $exist->attributes[7] = $product,
-        )));
-    }
-    
-    public function updateVencimiento($id, $vencimiento){
-        $exist = Cart::get($id);
-        Cart::update($exist->id, array( array(
-            $exist->attributes[8] = $vencimiento,
-        )));
     }
     
     public function validarCampos(){
@@ -262,9 +346,7 @@ class CargaInventarioController extends Component
                 foreach($items as $item){
                     $detalle = Detalle_cargas::create([
                         'cargas_id'                     =>  $carga->id,
-                        'products_id'                   =>  $item->id,
-                        'detalle_cargas_lote'           =>  $item->attributes[7],
-                        'vencimiento_lote'              =>  $item->attributes[8],
+                        'lotes_id'                      =>  $item->id,
                         'detalle_cargas_costo'          =>  $item->attributes[0],
                         'detalle_cargas_costo_iva'      =>  $item->attributes[1],
                         'detalle_cargas_costo_mas_iva'  =>  $item->attributes[2],
@@ -273,11 +355,13 @@ class CargaInventarioController extends Component
                         'detalle_cargas_precio_mas_iva' =>  $item->attributes[6],
                         'detalle_cargas_quantity'       =>  $item->quantity,
                     ]);
+
+                    ///ACTUALIZAR TABLA PRODUCTO
                     ///A PETICION DEL CLIENTE SI EL PRODUCTO TIENE MAS DE 60 DIAS ENTRE LA ULTIMA ACTUALIZACION
                     //Y EL REGISTRO DE CARGA RECIEN CREADO Y SU EXISTENCIA ES CERO LOS COSTOS SE SOBREESCRIBIRAN Y NO SE APLICARA
                     //COSTO PROMEDIO.
                     //PARA ESTO SE BUSCA EL REGISTRO A MODIFICAR POR LA CARGA
-                    $actualizarExistencia = Product::find($item->id);
+                    $actualizarExistencia = Product::find($item->attributes[9]);
 
                     //Y LUEGO CON LA FUNCION DIFFINDAYS DE CARBON SE CALCULA LA DIFERENCIA DE DIAS ENTRE
                     //LA ULTIMA ACTUALIZACION DEL PRODUCTO EN SU COLUMNA UPDATED_AT
@@ -326,6 +410,16 @@ class CargaInventarioController extends Component
                     $actualizarExistencia->iva_price = $item->attributes[5];
                     $actualizarExistencia->final_price = $item->attributes[6];
                     $actualizarExistencia->save();
+
+                    ///ACTUALIZAR LOTE
+                    $actualizarlote = Lotes::find($item->id);
+                    if($actualizarlote->existencia_lote > 0){
+                        $actualizarlote->existencia_lote += $item->quantity;
+                        $actualizarlote->save();
+                    } else{
+                        $actualizarlote->existencia_lote = $item->quantity;
+                        $actualizarlote->save();
+                    }
                 }
             }
             $this->emit('carga-ok','Carga Registrada con exito');
@@ -333,9 +427,20 @@ class CargaInventarioController extends Component
             DB::commit();
             Cart::clear();
             $this->total = Cart::getTotal();
+            $this->resetUI();
         } catch (Exception $e) {
             DB::rollback();
             $this->emit('sale-error',$e->getMessage());
         }
+    }
+
+    public function resetUI(){
+        $this->search = '';
+        $this->descripcion_carga = ''; 
+        $this->numero_lote = ''; 
+        $this->caducidad_lote = '';   
+        $this->loteId = '';
+        $this->resetPage();
+        $this->resetValidation();
     }
 }
