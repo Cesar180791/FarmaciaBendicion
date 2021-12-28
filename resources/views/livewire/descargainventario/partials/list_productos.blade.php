@@ -7,7 +7,7 @@
             <li style="list-style: none;">
                 <a href="javascript:void(0)" id="regresar" class="tabmenu btn btn-dark text-white"><b>Regresar</b></a>
             </li>
-        </ul>
+        </ul> 
     </div>
     @include('common.searchbox')
     @if(count($products)==0)
@@ -36,33 +36,33 @@
                     @foreach($products as $product)
                     <tr>
                         <td>
-                            <h6>{{$product-> Numero_registro}}</h6>
+                            {{$product->Numero_registro}}
                         </td>
                         <td>
-                            <h6>{{$product-> name}}</h6>
+                            {{$product->name}}
                         </td>
                         <td>
-                            <h6>{{$product-> chemical_component}}</h6>
+                            {{$product->chemical_component}}
                         </td>
                         <td>
-                            <h6>{{$product-> sub_category}}</h6>
+                           {{$product->sub_category}}
                         </td>
                         <td>
-                            <h6>{{$product-> laboratory}}</h6>
+                           {{$product->laboratory}}
                         </td>
                         <td class="text-center">
-                            <h6>${{number_format($product-> cost,4)}} <br> IVA:
-                                ${{number_format($product-> iva_cost,4)}}</h6>
+                            ${{number_format($product->cost,4)}} <br> IVA:
+                                ${{number_format($product->iva_cost,4)}}
                         </td>
                         <td class="text-center">
-                            <h6>${{number_format($product-> final_cost,4)}}</h6>
+                            ${{number_format($product->final_cost,4)}}
                         </td>
                         <td class="text-center">
-                            <h6>${{number_format($product-> price,4)}} <br> IVA:
-                                ${{number_format($product-> iva_price,4)}}</h6>
+                            ${{number_format($product->price,4)}} <br> IVA:
+                                ${{number_format($product->iva_price,4)}}
                         </td>
                         <td class="text-center">
-                            <h6>${{number_format($product-> final_price,4)}}</h6>
+                            ${{number_format($product->final_price,4)}}
                         </td>
                         <td class="text-center"><span
                                 class="badge {{$product->estado == 'ACTIVO' ? 'badge-success' : 'badge-danger'}} text-uppercase">{{$product->estado}}</span>
@@ -74,7 +74,7 @@
                             <ul class="table-controls">
                                 <li style="list-style: none;">
                                     <a href="javascript:void(0);"
-                                        wire:click.prevent="$emit('addItem',{{$product->id}})"
+                                        wire:click.prevent="asignarIdBusquedaProducto({{$product->id}})"
                                         data-toggle="tooltip" data-placement="top" title="Agregar">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

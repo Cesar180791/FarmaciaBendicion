@@ -16,7 +16,7 @@ class CreateDetalleDescargasTable extends Migration
         Schema::create('detalle_descargas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('descargas_id')->constrained(); 
-            $table->foreignId('products_id')->constrained();
+            $table->foreignId('lotes_id')->constrained(); 
             $table->decimal('detalle_descargas_costo',10,4);
             $table->decimal('detalle_descargas_costo_iva',10,4);
             $table->decimal('detalle_descargas_costo_mas_iva',10,4);

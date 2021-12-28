@@ -6,6 +6,9 @@
         <div class="col-sm-12" id="detalle" wire:ignore.self>
             @include('livewire.descargainventario.partials.detalle_descarga')
         </div>
+        <div class="col-sm-12" id="seleccionar_lote_descarga" wire:ignore.self>
+            @include('livewire.descargainventario.partials.seleccionar_lote_descarga') 
+        </div>
     </div>
 </div>
 <script src="{{ asset('js/keypress.js') }}"></script>
@@ -14,9 +17,10 @@
 <script>
     document.addEventListener('DOMContentLoaded', function(){
         $('#listar-productos').hide();
+        $('#seleccionar_lote_descarga').hide();
 
         $('#buscarbtn').on("click", function () {
-        $('#listar-productos').show();
+        $('#listar-productos').show(); 
         $('#detalle').hide();
         });
 
@@ -25,7 +29,15 @@
         $('#detalle').show();
         });
 
+        $('#regresar2').on("click", function () {
+        $('#listar-productos').show();
+        $('#seleccionar_lote_descarga').hide();
+        });
 
+        window.livewire.on('ver-lotes', msg=>{
+            $('#seleccionar_lote_descarga').show();
+            $('#listar-productos').hide();
+        });
 
          window.livewire.on('no-stock', msg=>{
             swal({
@@ -45,6 +57,7 @@
 
         window.livewire.on('add-ok', msg=>{
             $('#listar-productos').hide();
+            $('#seleccionar_lote_descarga').hide();
             $('#detalle').show();
         });
 

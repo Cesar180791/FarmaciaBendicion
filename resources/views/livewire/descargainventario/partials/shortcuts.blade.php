@@ -8,6 +8,7 @@
 	listener.simple_combo("esc", function(){
         $('#detalle').show();
         $('#listar-productos').hide(); 
+        $('#seleccionar_lote_descarga').hide();
 	})
 	
 </script>

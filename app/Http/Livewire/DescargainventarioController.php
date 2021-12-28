@@ -4,8 +4,9 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Product;
+use App\Models\Lotes;
 use App\Models\Descarga;
-use App\Models\Detalle_descargas;
+use App\Models\Detalle_descargas; 
 use Livewire\withPagination;
 use Darryldecode\Cart\Facades\CartFacade as Cart; 
 use DB;
@@ -13,7 +14,7 @@ use DB;
 class DescargainventarioController extends Component
 {
     use withPagination;
-    public $search, $itemsQuantity, $total, $descripcion_descarga;
+    public $search, $itemsQuantity, $total, $descripcion_descarga, $idBuscarProducto, $idProducto;
     private $pagination = 5;
 
     public function mount(){
@@ -22,6 +23,7 @@ class DescargainventarioController extends Component
         $this->componentName = 'Descargas de Inventario';
         $this->pageTitle2 = 'Detalle';
         $this->componentName2 = 'Descargas de Inventario';
+        $this->pageTitle4 = 'Selecciona lote para descargar producto';
         $this->total = Cart::getTotal();
         $this->itemsQuantity = Cart::getTotalQuantity();
     }
@@ -36,6 +38,20 @@ class DescargainventarioController extends Component
 
     public function render()
     {
+        //id de lote se almacena en $idBuscarProducto y cambia mediante la funcion asignarIdBusquedaProducto()
+        $this->lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
+                        ->join('users as u','u.id','lotes.users_id')
+                        ->select('pro.*','pro.name as nombreProducto','pro.id as idProducto','u.name','lotes.*')
+                        ->where('lotes.products_id',$this->idBuscarProducto)
+                        ->orderBy('pro.id','desc')
+                        ->get();
+
+                       // dd($this->lotes);
+                        //en esta parte se asigna el id a la variable idProducto
+                        //y se le asigna al boton nuevo lote o crear lote
+                       $this->idProducto = $this->idBuscarProducto;
+
+
         if (strlen($this->search) > 0)
         $products = Product::join('sub_categories as c','c.id','products.sub_category_id')
                         ->select('products.*','c.name as sub_category')
@@ -55,7 +71,8 @@ class DescargainventarioController extends Component
 
         return view('livewire.descargainventario.descargainventario',[
             'products'      =>  $products,
-            'cart'          =>  Cart::getContent()->sortBy('id')
+            'cart'          =>  Cart::getContent()->sortBy('id'),
+            'lotes'         =>  $this->lotes
         ])
         ->extends('layouts.theme.app')
         ->section('content');
@@ -65,10 +82,17 @@ class DescargainventarioController extends Component
         'addItem',
         'removeItem'
     ];
+
+    public function asignarIdBusquedaProducto($idProduct){
+        $this->idBuscarProducto = $idProduct;
+        $this->emit('ver-lotes','Ver lotes del producto seleccionado');
+    }
+
     
-    public function addItem($id, $cant = 1){
+    public function addItem($id, $id_lote, $cant = 1){
 
         $product = Product::where('id', $id)->first();
+        $buscar_lote = Lotes::where('id', $id_lote)->first();
 
         if($product == null){
             $this->emit('producto-no-encontrado','El producto no esta registrado');
@@ -76,13 +100,13 @@ class DescargainventarioController extends Component
             if ($this->InCart($product->id)) {
                 return;
             }
-            if ($product->existencia <1 ) {
+            if ($buscar_lote->existencia_lote <1 ) {
                 $this->emit('no-stock', 'Existencias Insuficientes');
                 return;
             }
 
             Cart::add(
-                $product->id,
+                $buscar_lote->id,
                 $product->name,
                 $product->cost,
                 $cant,
@@ -94,7 +118,10 @@ class DescargainventarioController extends Component
                     $product->price, 
                     $product->iva_price,
                     $product->final_price,
-                    $product->existencia
+                    $buscar_lote->existencia_lote,
+                    $buscar_lote->numero_lote,
+                    $buscar_lote->caducidad_lote,
+                    $product->id
                 ));
                 $this->total = Cart::getTotal();
                 $this->itemsQuantity = Cart::getTotalQuantity();
@@ -117,18 +144,18 @@ class DescargainventarioController extends Component
        // $this->emit('add-ok','Producto eliminado');
     }
 
-    public function updateCant($productId, $cant = 1){
-        $product = Product::find($productId);
-        $exist = Cart::get($productId);
+    public function updateCant($loteId, $cant = 1){
+        $lote = Lotes::find($loteId);
+        $exist = Cart::get($loteId);
         
         if($exist){
-            if ($product->existencia < $cant ) {
+            if ($lote->existencia_lote < $cant ) {
             $this->emit('no-stock', 'Existencias insuficiente');
             return;
             }
         }
         
-        $this->removeItem($productId);
+        $this->removeItem($loteId);
 
         if ($cant > 0) {
            Cart::add(
@@ -145,6 +172,9 @@ class DescargainventarioController extends Component
                    $exist->attributes[5],
                    $exist->attributes[6],
                    $exist->attributes[7],
+                   $exist->attributes[8],
+                   $exist->attributes[9],
+                   $exist->attributes[10],
                 ));
            $this->total = Cart::getTotal();
            $this->itemsQuantity = Cart::getTotalQuantity();
@@ -184,7 +214,7 @@ class DescargainventarioController extends Component
                 foreach($items as $item){
                     $detalle = Detalle_descargas::create([
                         'descargas_id'                      =>  $descarga->id,
-                        'products_id'                       =>  $item->id,
+                        'lotes_id'                          =>  $item->id,
                         'detalle_descargas_costo'           =>  $item->attributes[0],
                         'detalle_descargas_costo_iva'       =>  $item->attributes[1],
                         'detalle_descargas_costo_mas_iva'   =>  $item->attributes[2],
@@ -194,9 +224,16 @@ class DescargainventarioController extends Component
                         'detalle_descargas_quantity'        =>  $item->quantity,
                     ]);
 
-                    $actualizarExistencia = Product::find($item->id);
+                    //actualizar tabla productos
+                    $actualizarExistencia = Product::find($item->attributes[10]);
                     $actualizarExistencia->existencia -= $item->quantity;
                     $actualizarExistencia->save();
+
+                    //actualizar lote
+                    $actualizarLote = Lotes::find($item->id);
+                    $actualizarLote->existencia_lote -= $item->quantity;
+                    $actualizarLote->save();
+
                 }
             }
             $this->emit('carga-ok','Carga Registrada con exito');
