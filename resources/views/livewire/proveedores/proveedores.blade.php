@@ -20,6 +20,7 @@
                          <thead class="text-white" style="background: #3B3F5C">
                              <tr>
                                  <th class="table-th text-white">Proveedor</th>
+                                 <th class="table-th text-white">Vendedor</th>
                                  <th class="table-th text-white text-center">Telefono</th>
                                  <th class="table-th text-white text-center">NIT</th>
                                  <th class="table-th text-white text-center">NRC</th>
@@ -31,6 +32,7 @@
                               @foreach($Proveedores as $proveedor)
                              <tr>
                                  <td><h6>{{$proveedor->nombre_proveedor}}</h6></td>
+                                 <td><h6>{{$proveedor->nombre_vendedor}}</h6></td>
                                  <td class="text-center"><h6>{{$proveedor->telefono}}</h6></td>
                                  <td class="text-center"><h6>{{$proveedor->NIT}}</h6></td>
                                  <td class="text-center"><h6>{{$proveedor->NRC}}</h6></td>

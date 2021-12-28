@@ -11,9 +11,11 @@ class Proveedores extends Model
 
     protected $fillable = [
         'nombre_proveedor',
+        'nombre_vendedor',
         'telefono',
         'NIT',
         'NRC',
+        'gran_con',
         'estado_proveedor'
     ];
 }

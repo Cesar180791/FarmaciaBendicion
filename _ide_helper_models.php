@@ -177,7 +177,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $descargas_id
- * @property int $products_id
+ * @property int $lotes_id
  * @property string $detalle_descargas_costo
  * @property string $detalle_descargas_costo_iva
  * @property string $detalle_descargas_costo_mas_iva
@@ -200,7 +200,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasPrecioVenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereProductsId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereLotesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereUpdatedAt($value)
  */
 	class Detalle_descargas extends \Eloquent {}
@@ -316,10 +316,11 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $nombre_proveedor
+ * @property string $nombre_vendedor
  * @property string $telefono
  * @property string $NIT
  * @property string $NRC
- * @property string $gran_con
+ * @property int $gran_con
  * @property string $estado_proveedor
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -333,6 +334,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereNIT($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereNRC($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereNombreProveedor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereNombreVendedor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereTelefono($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Proveedores whereUpdatedAt($value)
  */

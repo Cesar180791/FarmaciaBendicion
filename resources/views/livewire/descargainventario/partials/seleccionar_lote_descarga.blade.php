@@ -31,23 +31,23 @@
                     @foreach($lotes as $lote)
                     <tr>
                         <td>
-                            <h6>{{$lote->numero_lote}}</h6>
+                           {{$lote->numero_lote}}
                         </td>
                         <td>
-                            <h6>{{$lote->nombreProducto}}</h6>
+                           {{$lote->nombreProducto}}
                         </td>
                         <td>
-                            <h6>{{$lote->existencia_lote}}</h6>
+                           {{$lote->existencia_lote}}
                         </td>
                         <td>
-                            <h6>{{$lote->caducidad_lote}}</h6>
+                           {{$lote->caducidad_lote}}
                         </td>
                         <td class="text-center">
                             <span
                                 class="badge {{$lote->estado_lote == 'ACTIVO' ? 'badge-success' : 'badge-danger'}} text-uppercase">{{$lote->estado_lote}}</span>
                         </td>
                         <td class="text-center">
-                            <h6>{{$lote->name}}</h6>
+                           {{$lote->name}}
                         </td>
                         <td class="">
                             <ul class="table-controls">
