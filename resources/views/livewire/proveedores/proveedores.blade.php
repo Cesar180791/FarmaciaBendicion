@@ -49,10 +49,10 @@
                                         {{$proveedor->NRC}}
                                     </td>
                                     <td class="text-center">
-                                        @if($proveedor->gran_con == 1)
-                                        Si es gran contribuyente
+                                        @if($proveedor->gran_con == 'SI')
+                                        Si, es gran contribuyente
                                         @else
-                                        No es gran contribuyente
+                                        No, es gran contribuyente
                                         @endif
                                     </td>
                                     <td class="text-center"><span

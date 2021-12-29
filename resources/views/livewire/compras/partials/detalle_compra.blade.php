@@ -123,7 +123,7 @@
                                     <h6 class="text-center">{{$itemsQuantity}}</h6>
                                 </td>
                                 <td>
-                                    <h6 class="text-center font-weight-bold">Total Costo</h6>
+                                    <h6 class="text-center font-weight-bold">Total Compra</h6>
                                 </td>
                                 <td>
                                     <h6 class="text-center">${{number_format($total,2)}}</h6>
@@ -131,16 +131,6 @@
                             </tr>
                         </tfoot>
                     </table>
-                </div>
-
-                <div class="col-sm-12 col-md-12 mt-3">
-                    <hr>
-                    <h6>Descripcion de la carga</h6>
-                    <hr>
-                    <textarea name="descripcion_carga" wire:model.lazy="descripcion_carga" class="ckeditor form-control"
-                        id="my-editor" cols="20" rows="5"></textarea>
-                    @error('descripcion_carga') <span class="text-danger er">{{ $message }}</span> @enderror
-                    <hr>
                 </div>
 
                 <ul class="tabs tab-pills mt-3">

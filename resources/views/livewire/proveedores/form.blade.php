@@ -81,8 +81,8 @@
 		<div class="form-group">
 			<select wire:model='gran_con' class="form-control">
 				<option value="Seleccionar" disabled>Seleccionar</option>
-                <option value="1">Si</option>
-                <option value="2">No</option>
+                <option value="SI">Si</option>
+                <option value="NO">No</option>
 			</select>
 			@error('gran_con') <span class="text-danger er">{{ $message }}</span> @enderror
 		</div>

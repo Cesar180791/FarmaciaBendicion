@@ -9,13 +9,19 @@
         <div class="col-sm-12" id="listar-productos" wire:ignore.self>
             @include('livewire.compras.partials.list-productos')
         </div>
+        <div class="col-sm-12" id="lotes" wire:ignore.self>
+            @include('livewire.compras.partials.asignar_product_lote')
+        </div>
     </div>
 </div>
+
+<link href="{{ asset('assets/css/tables/table-basic.css') }}" rel="stylesheet" type="text/css" />
 
 <script>
     document.addEventListener('DOMContentLoaded', function(){
         $('#datos-generales').hide();
         $('#listar-productos').hide();
+        $('#lotes').hide();
       
         $('#buscarbtn').on("click", function () {
         $('#detalle-compra').hide(); 
@@ -27,10 +33,20 @@
         $('#listar-productos').hide();
         });
 
+        $('#regresar2').on("click", function () {
+        $('#lotes').hide(); 
+        $('#listar-productos').show();
+        });
+
        
-        window.livewire.on('validacion-ok', msg=>{
-            $('#seleccionar_lote_descarga').show();
+        window.livewire.on('ver-lotes', msg=>{
             $('#listar-productos').hide();
+            $('#lotes').show();
+        });
+
+        window.livewire.on('add-ok', msg=>{
+            $('#detalle-compra').show();
+            $('#lotes').hide();
         });
 
         
