@@ -94,7 +94,7 @@
                             <a href="{{ url('/products')}}"> Productos </a>
                         </li>
                            <li>
-                            <a href="#"> Compras </a>
+                            <a href="{{ url('/compras')}}"> Compras </a>
                         </li>
                         <li>
                             <a href="{{ url('/consulta-inventario')}}"> Consulta de Inventario </a>

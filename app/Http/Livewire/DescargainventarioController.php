@@ -205,7 +205,7 @@ class DescargainventarioController extends Component
                 'total_descarga'       => $this->total,
                 'total_item_descarga'  => $this->itemsQuantity,
                 'descripcion_descarga' => $this->descripcion_descarga,
-                'users_id'          => auth()->user()->id,
+                'users_id'             => auth()->user()->id,
             ]);
             if ($descarga) {
                 ///se crea el registro en la tabla ventas se busca en el carrito el detalle 

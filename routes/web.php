@@ -12,7 +12,9 @@ use App\Http\Livewire\UserController;
 use App\Http\Livewire\RolesController;
 use App\Http\Livewire\PermisosController;
 use App\Http\Livewire\AsignarController;
+use App\Http\Livewire\ComprasController;
 use App\Http\Livewire\ProveedoresController;
+
 
 
 
@@ -47,6 +49,7 @@ Route::get('permisos', PermisosController::class);
 Route::get('asignar', AsignarController::class);
 Route::get('proveedores', ProveedoresController::class);
 Route::get('consulta-inventario', InventarioController::class);
+Route::get('compras', ComprasController::class);
 
 
 
