@@ -17,7 +17,7 @@
                         <option value="{{$proveedor->id}}">{{$proveedor->nombre_proveedor}}</option>
                         @endforeach
                     </select>
-                    @error('proveedors_id') <span class="text-danger er">{{ $message }}</span> @enderror
+                    @error('proveedores_id') <span class="text-danger er">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -58,14 +58,14 @@
                     <textarea name="descripcion_carga" wire:model.lazy="descripcion_carga" class="ckeditor form-control"
                         id="my-editor" cols="20" rows="5"></textarea>
                 </div>
-                @error('fecha_compra') <span class="text-danger er">{{ $message }}</span> @enderror
+                @error('descripcion_carga') <span class="text-danger er">{{ $message }}</span> @enderror
             </div>
   
         </div>
         <ul class="tabs tab-pills mt-4 mr-3 d-flex">
             <li class="ml-auto" style="list-style: none;">
-                <a href="javascript:void(0)" class=" tabmenu btn btn-dark text-white mb-1" wire:click.prevent="validacionesPresupuestoGeneral()"
-                    wire:ignore.self><b>Siguiente <i class="fas fa-arrow-right"></i></b></a>
+                <a href="javascript:void(0)" class=" tabmenu btn btn-dark text-white mb-1" wire:click.prevent="validacionCampos()"
+                    wire:ignore.self><b>Siguiente <i class="fas fa-arrow-right"></i></b></a> 
             </li>
         </ul>
     </div>
