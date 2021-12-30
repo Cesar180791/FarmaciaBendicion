@@ -136,7 +136,7 @@
                 <ul class="tabs tab-pills mt-3">
                     <li style="list-style: none;">
                         <a href="javascript:void(0)" wire:click="validarCampos" class="float-right tabmenu btn btn-dark"
-                            id=""><i class="far fa-save"></i><b> Guardar</b></a>
+                            id=""><b>Siguiente <i class="fas fa-arrow-right"></i></b></a>
                     </li>
                 </ul>
                 @endif

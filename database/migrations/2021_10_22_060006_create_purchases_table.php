@@ -20,6 +20,7 @@ class CreatePurchasesTable extends Migration
             $table->integer('item');
             $table->string('descripcion_lote',150);
             $table->string('factura')->unique();
+            $table->foreignId('politicas_garantias_id')->constrained();
             $table->foreignId('users_id')->constrained();
             $table->foreignId('proveedores_id')->constrained();
             $table->timestamps();

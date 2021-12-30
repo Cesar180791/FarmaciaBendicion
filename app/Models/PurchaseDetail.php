@@ -11,7 +11,7 @@ class PurchaseDetail extends Model
 
     protected $fillable =[
         'purchases_id',
-        'stocks_id',
+        'lotes_id',
         'costo',
         'costo_iva',
         'costo_mas_iva',

@@ -8,7 +8,7 @@
     <div class="widget-content">
         <div class="row">
 
-            <div class="col-sm-12 col-md-4 mt-3">
+            <div class="col-sm-12 col-md-6 mt-3">
                 <label>Proveedor</label>
                 <div class="form-group">
                     <select wire:model='proveedores_id' class="form-control">
@@ -21,7 +21,20 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-4 mt-3">
+            <div class="col-sm-12 col-md-6 mt-3">
+                <label>Politica de Garantia</label>
+                <div class="form-group">
+                    <select wire:model='politicas_garantias_id' class="form-control">
+                        <option value="Seleccionar" disabled>Seleccionar</option>
+                        @foreach($politicas as $politica)
+                        <option value="{{$politica->id}}">{{$politica->concepto}}</option>
+                        @endforeach
+                    </select>
+                    @error('politicas_garantias_id') <span class="text-danger er">{{ $message }}</span> @enderror
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 mt-3">
                 <label>Numero de factura </label>
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -37,7 +50,7 @@
                 @error('factura') <span class="text-danger er">{{ $message }}</span> @enderror
             </div>
 
-            <div class="col-sm-12 col-md-4 mt-3">
+            <div class="col-sm-12 col-md-6 mt-3">
                 <label>Fecha de compra</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -55,17 +68,18 @@
             <div class="col-sm-12 col-md-12 mt-3">
                 <label>Descripcion de la compra</label>
                 <div class="input-group">
-                    <textarea name="descripcion_carga" wire:model.lazy="descripcion_carga" class="ckeditor form-control"
+                    <textarea name="descripcion_lote" wire:model.lazy="descripcion_lote" class="ckeditor form-control"
                         id="my-editor" cols="20" rows="5"></textarea>
                 </div>
-                @error('descripcion_carga') <span class="text-danger er">{{ $message }}</span> @enderror
+                @error('descripcion_lote') <span class="text-danger er">{{ $message }}</span> @enderror
             </div>
   
         </div>
         <ul class="tabs tab-pills mt-4 mr-3 d-flex">
             <li class="ml-auto" style="list-style: none;">
-                <a href="javascript:void(0)" class=" tabmenu btn btn-dark text-white mb-1" wire:click.prevent="validacionCampos()"
-                    wire:ignore.self><b>Siguiente <i class="fas fa-arrow-right"></i></b></a> 
+                <a href="javascript:void(0)" id="regresar4" class=" tabmenu btn btn-danger text-white mb-1" wire:ignore.self><b><i class="fas fa-arrow-left"></i> Atras</b></a>
+                <a href="javascript:void(0)" class=" tabmenu btn btn-dark text-white mb-1" wire:click.prevent="validacionCabecera()"
+                    wire:ignore.self><b>Guardar</b></a> 
             </li>
         </ul>
     </div>
