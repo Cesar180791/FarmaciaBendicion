@@ -20,9 +20,9 @@ class CreateDetalleDescargasTable extends Migration
             $table->decimal('detalle_descargas_costo',10,4);
             $table->decimal('detalle_descargas_costo_iva',10,4);
             $table->decimal('detalle_descargas_costo_mas_iva',10,4);
-            $table->decimal('detalle_descargas_precio_venta',10,4);
-            $table->decimal('detalle_descargas_precio_iva',10,4);
-            $table->decimal('detalle_descargas_precio_mas_iva',10,4);
+            $table->decimal('detalle_descargas_precio_caja',10,4);
+            $table->decimal('detalle_descargas_precio_mayoreo',10,4);
+            $table->decimal('detalle_descargas_precio_unidad',10,4);
             $table->integer('detalle_descargas_quantity');
             $table->timestamps();
         }); 

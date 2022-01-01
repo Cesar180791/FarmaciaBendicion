@@ -21,8 +21,8 @@ class CreatePurchaseDetailsTable extends Migration
             $table->decimal('costo_iva',10,2);
             $table->decimal('costo_mas_iva',10,2);
             $table->decimal('precio_venta',10,2);
-            $table->decimal('precio_iva',10,2);
-            $table->decimal('precio_mas_iva',10,2);
+            $table->decimal('precio_venta_mayoreo',10,2);
+            $table->decimal('precio_venta_unidad',10,2);
             $table->integer('quantity');
             $table->timestamps();
         });

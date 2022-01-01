@@ -15,9 +15,9 @@ class Detalle_cargas extends Model
         'detalle_cargas_costo',
         'detalle_cargas_costo_iva',
         'detalle_cargas_costo_mas_iva',
-        'detalle_cargas_precio_venta',
-        'detalle_cargas_precio_iva',
-        'detalle_cargas_precio_mas_iva',
+        'detalle_cargas_precio_caja',
+        'detalle_cargas_precio_mayoreo',
+        'detalle_cargas_precio_unidad',
         'detalle_cargas_quantity',
     ];
 }

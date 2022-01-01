@@ -18,59 +18,72 @@
             <table class="table table-bordered table-striped mt-1">
                 <thead class="text-white" style="background: #3B3F5C">
                     <tr>
-                        <th class="table-th text-white">N° Registro</th>
-                        <th width="50%" class="table-th text-white">Producto</th>
+                        <th class="table-th text-white text-center">Stock</th>
+                        <th class="table-th text-white text-center">Stock unidades</th>
+                        <th class="table-th text-white">Producto</th>
                         <th class="table-th text-white text-center">Componente</th>
                         <th class="table-th text-white text-center">S-Categoría</th>
                         <th class="table-th text-white text-center">Lab</th>
                         <th class="table-th text-white text-center">Costo</th>
                         <th class="table-th text-white text-center">Costo + IVA</th>
-                        <th class="table-th text-white text-center">P.Venta</th>
-                        <th class="table-th text-white text-center">P.Venta + IVA</th>
+                        <th class="table-th text-white text-center">Precio</th>
+                        <th class="table-th text-white text-center">P. Mayoreo</th>
+                        <th class="table-th text-white text-center">P. Unidad
                         <th class="table-th text-white text-center">Estado</th>
-                        <th class="table-th text-white text-center">Existencias</th>
-                        <th class="table-th"></th>
+                        <th class="table-th text-white text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($products as $product)
                     <tr>
-                        <td>
-                            {{$product->Numero_registro}}
-                        </td>
-                        <td>
-                            {{$product->name}}
-                        </td>
-                        <td>
-                            {{$product->chemical_component}}
-                        </td>
-                        <td>
-                           {{$product->sub_category}}
-                        </td>
-                        <td>
-                           {{$product->laboratory}}
+                        <td class="text-center">
+                            <p>{{$product->existencia_caja}}</p>
                         </td>
                         <td class="text-center">
-                            ${{number_format($product->cost,4)}} <br> IVA:
-                                ${{number_format($product->iva_cost,4)}}
+                            @if ($product->existencia_unidad > 0)
+                            <p>{{$product->existencia_unidad}}</p>
+                            @else
+                            <p>No se vende por unidad o no se ha registrado venta de unidades</p>
+                            @endif
+                        </td>
+                        <td>
+                            <p>{{$product->name}}</p>
+                        </td>
+                        <td>
+                            <p>{{$product->chemical_component}}</p>
+                        </td>
+                        <td>
+                            <p>{{$product->sub_category}}</p>
+                        </td>
+                        <td>
+                            <p>{{$product->laboratory}}</p>
                         </td>
                         <td class="text-center">
-                            ${{number_format($product->final_cost,4)}}
+                            <p>${{number_format($product->cost,4)}} <br> IVA: <br>
+                                ${{number_format($product->iva_cost,4)}}</p>
                         </td>
                         <td class="text-center">
-                            ${{number_format($product->price,4)}} <br> IVA:
-                                ${{number_format($product->iva_price,4)}}
+                            <p>${{number_format($product->final_cost,4)}}</p>
                         </td>
                         <td class="text-center">
-                            ${{number_format($product->final_price,4)}}
+                            <p>${{number_format($product->precio_caja,4)}}</p>
                         </td>
+                        <td class="text-center">
+                            <p>${{number_format($product->precio_mayoreo,4)}}</p>
+                        </td>
+                        @if ($product->precio_unidad > 0)
+                        <td class="text-center">
+                            <p>${{number_format($product->precio_unidad,4)}}</p>
+                        </td>
+                        @else
+                        <td class="text-center">
+                            <p>Sin precio de unidad</p>
+                        </td>
+                        @endif
                         <td class="text-center"><span
                                 class="badge {{$product->estado == 'ACTIVO' ? 'badge-success' : 'badge-danger'}} text-uppercase">{{$product->estado}}</span>
                         </td>
                         <td class="text-center">
-                            <h6>{{$product-> existencia}}</h6>
-                        </td>
-                        <td class="">
                             <ul class="table-controls">
                                 <li style="list-style: none;">
                                     <a href="javascript:void(0);"

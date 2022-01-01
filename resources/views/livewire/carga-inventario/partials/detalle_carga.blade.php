@@ -15,7 +15,7 @@
                     <table class="table table-bordered table-striped mt-1">
                         <thead class="text-white" style="background: #3B3F5C">
                             <tr>
-                                <th class="table-th text-center text-white">
+                                 <th class="table-th text-center text-white">
                                     <div class="size">Acciones</div>
                                 </th>
                                 <th class="table-th text-center text-white">
@@ -34,13 +34,13 @@
                                     <div class="size">C+IVA*CANT</div>
                                 </th>
                                 <th class="table-th text-center text-white">
-                                    <div class="size">P.Ganacia</div>
+                                    <div class="size">Precio</div>
                                 </th>
                                 <th class="table-th text-center text-white">
-                                    <div class="size">PV</div>
+                                    <div class="size">P. MAYOREO</div>
                                 </th>
                                 <th class="table-th text-center text-white">
-                                    <div class="size">PV + IVA</div>
+                                    <div class="size">P. UNIDAD</div>
                                 </th>
                                 <th class="table-th text-white text-center">
                                     <div class="size">Lote</div>
@@ -100,16 +100,21 @@
                                         class="form-control text-center" value="{{$item->attributes[3]}}">
                                 </td>
                                 <td>
-                                    <p class="text-center">${{number_format($item->attributes[4],4)}}</p>
+                                    <input type="number" id="m{{$item->id}}" min="1" pattern="^[0-9]+"
+                                        wire:change="updateMayoreo({{$item->id}}, $('#m'+ {{$item->id}}).val() )"
+                                        class="form-control text-center" value="{{$item->attributes[4]}}">
                                 </td>
                                 <td>
-                                    <p class="text-center">${{number_format($item->attributes[6],4)}}</p>
+                                    <input type="number" id="u{{$item->id}}" min="1" pattern="^[0-9]+"
+                                        wire:change="updateUnidad({{$item->id}}, $('#u'+ {{$item->id}}).val() )"
+                                        class="form-control text-center" value="{{$item->attributes[5]}}">
+                                </td>
+                       
+                                <td class="text-center">
+                                    <p>{{$item->attributes[6]}}</p>
                                 </td>
                                 <td class="text-center">
-                                    <p>{{$item->attributes[7]}}</p>
-                                </td>
-                                <td class="text-center">
-                                    <p><b>{{$item->attributes[8]}}</b></p>
+                                    <p><b>{{$item->attributes[7]}}</b></p>
                                 </td>
                             </tr>
                             @endforeach

@@ -20,9 +20,9 @@ class CreateDetalleCargasTable extends Migration
             $table->decimal('detalle_cargas_costo',10,4);
             $table->decimal('detalle_cargas_costo_iva',10,4);
             $table->decimal('detalle_cargas_costo_mas_iva',10,4);
-            $table->decimal('detalle_cargas_precio_venta',10,4);
-            $table->decimal('detalle_cargas_precio_iva',10,4);
-            $table->decimal('detalle_cargas_precio_mas_iva',10,4);
+            $table->decimal('detalle_cargas_precio_caja',10,4);
+            $table->decimal('detalle_cargas_precio_mayoreo',10,4);
+            $table->decimal('detalle_cargas_precio_unidad',10,4);
             $table->integer('detalle_cargas_quantity');
             $table->timestamps(); 
         });

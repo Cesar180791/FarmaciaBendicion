@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Product;
 use App\Models\Lotes;
-use App\Models\Descarga;
+use App\Models\Descarga; 
 use App\Models\Detalle_descargas; 
 use Livewire\withPagination;
 use Darryldecode\Cart\Facades\CartFacade as Cart; 
@@ -45,7 +45,7 @@ class DescargainventarioController extends Component
                         ->where('lotes.products_id',$this->idBuscarProducto)
                         ->orderBy('pro.id','desc')
                         ->get();
-
+ 
                        // dd($this->lotes);
                         //en esta parte se asigna el id a la variable idProducto
                         //y se le asigna al boton nuevo lote o crear lote
@@ -108,16 +108,15 @@ class DescargainventarioController extends Component
             Cart::add(
                 $buscar_lote->id,
                 $product->name,
-                $product->cost,
+                $product->final_cost,
                 $cant,
                 array(
                     $product->cost,
                     $product->iva_cost, 
                     $product->final_cost, 
-                    $product->porcentaje_ganancia,
-                    $product->price, 
-                    $product->iva_price,
-                    $product->final_price,
+                    $product->precio_caja,
+                    $product->precio_mayoreo, 
+                    $product->precio_unidad,
                     $buscar_lote->existencia_lote,
                     $buscar_lote->numero_lote,
                     $buscar_lote->caducidad_lote,
@@ -174,7 +173,6 @@ class DescargainventarioController extends Component
                    $exist->attributes[7],
                    $exist->attributes[8],
                    $exist->attributes[9],
-                   $exist->attributes[10],
                 ));
            $this->total = Cart::getTotal();
            $this->itemsQuantity = Cart::getTotalQuantity();
@@ -213,20 +211,20 @@ class DescargainventarioController extends Component
                 ///se recorre el detalle para guardar en la tabla detalle de ventas 
                 foreach($items as $item){
                     $detalle = Detalle_descargas::create([
-                        'descargas_id'                      =>  $descarga->id,
-                        'lotes_id'                          =>  $item->id,
-                        'detalle_descargas_costo'           =>  $item->attributes[0],
-                        'detalle_descargas_costo_iva'       =>  $item->attributes[1],
-                        'detalle_descargas_costo_mas_iva'   =>  $item->attributes[2],
-                        'detalle_descargas_precio_venta'    =>  $item->attributes[4],
-                        'detalle_descargas_precio_iva'      =>  $item->attributes[5],
-                        'detalle_descargas_precio_mas_iva'  =>  $item->attributes[6],
-                        'detalle_descargas_quantity'        =>  $item->quantity,
+                        'descargas_id'                          =>  $descarga->id,
+                        'lotes_id'                              =>  $item->id,
+                        'detalle_descargas_costo'               =>  $item->attributes[0],
+                        'detalle_descargas_costo_iva'           =>  $item->attributes[1],
+                        'detalle_descargas_costo_mas_iva'       =>  $item->attributes[2],
+                        'detalle_descargas_precio_caja'         =>  $item->attributes[3],
+                        'detalle_descargas_precio_mayoreo'      =>  $item->attributes[4],
+                        'detalle_descargas_precio_unidad'       =>  $item->attributes[5],
+                        'detalle_descargas_quantity'            =>  $item->quantity,
                     ]);
 
                     //actualizar tabla productos
-                    $actualizarExistencia = Product::find($item->attributes[10]);
-                    $actualizarExistencia->existencia -= $item->quantity;
+                    $actualizarExistencia = Product::find($item->attributes[9]);
+                    $actualizarExistencia->existencia_caja -= $item->quantity;
                     $actualizarExistencia->save();
 
                     //actualizar lote

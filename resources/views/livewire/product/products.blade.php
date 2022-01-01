@@ -18,14 +18,15 @@
                         <thead class="text-white" style="background: #3B3F5C">
                             <tr>
                                 <th class="table-th text-white">N° Registro</th>
-                                <th width="50%" class="table-th text-white">Producto</th>
+                                <th class="table-th text-white">Producto</th>
                                 <th class="table-th text-white text-center">Componente</th>
                                 <th class="table-th text-white text-center">S-Categoría</th>
                                 <th class="table-th text-white text-center">Lab</th>
                                 <th class="table-th text-white text-center">Costo</th>
                                 <th class="table-th text-white text-center">Costo + IVA</th>
-                                <th class="table-th text-white text-center">P.Venta</th>
-                                <th class="table-th text-white text-center">P.Venta + IVA</th>
+                                <th class="table-th text-white text-center">Precio</th>
+                                <th class="table-th text-white text-center">P. Mayoreo</th>
+                                <th class="table-th text-white text-center">P. Unidad <br>(Si es presentacion en caja)</th>
                                 <th class="table-th text-white text-center">Estado</th>
                                 <th class="table-th text-white text-center">Acciones</th>
                             </tr>
@@ -33,15 +34,20 @@
                         <tbody>
                             @foreach($products as $product)
                             <tr>
-                                <td><h6>{{$product-> Numero_registro}}</h6></td>
-                                <td><h6>{{$product-> name}}</h6></td>
-                                <td><h6>{{$product-> chemical_component}}</h6></td>
-                                <td><h6>{{$product-> sub_category}}</h6></td>
-                                <td><h6>{{$product-> laboratory}}</h6></td>
-                                <td class="text-center"><h6>${{number_format($product-> cost,4)}} <br> IVA: ${{number_format($product-> iva_cost,4)}}</h6></td>
-                                <td class="text-center"><h6>${{number_format($product-> final_cost,4)}}</h6></td>
-                                <td class="text-center"><h6>${{number_format($product-> price,4)}} <br> IVA: ${{number_format($product-> iva_price,4)}}</h6></td>
-                                <td class="text-center"><h6>${{number_format($product-> final_price,4)}}</h6></td>
+                                <td><h6>{{$product->Numero_registro}}</h6></td>
+                                <td><h6>{{$product->name}}</h6></td>
+                                <td><h6>{{$product->chemical_component}}</h6></td>
+                                <td><h6>{{$product->sub_category}}</h6></td>
+                                <td><h6>{{$product->laboratory}}</h6></td>
+                                <td class="text-center"><h6>${{number_format($product->cost,4)}} <br> IVA: <br> ${{number_format($product->iva_cost,4)}}</h6></td>
+                                <td class="text-center"><h6>${{number_format($product->final_cost,4)}}</h6></td>
+                                <td class="text-center"><h6>${{number_format($product->precio_caja,4)}}</h6></td>
+                                <td class="text-center"><h6>${{number_format($product->precio_mayoreo,4)}}</h6></td>
+                                @if ($product->precio_unidad > 0)
+                                <td class="text-center"><h6>${{number_format($product->precio_unidad,4)}}</h6></td>
+                                @else
+                                <td class="text-center"><h6>Sin precio de unidad</h6></td>
+                                @endif
                                 <td class="text-center"><span class="badge {{$product->estado == 'ACTIVO' ? 'badge-success' : 'badge-danger'}} text-uppercase">{{$product->estado}}</span></td>
                                 <td class="text-center">
                                     <a href="javascript:void(0)" class="mtmobile" wire:click.prevent="Edit({{$product->id}})" title="Editar">

@@ -10,23 +10,21 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable =[
-        'id',
         'name',
         'chemical_component',
         'barCode',
         'Numero_registro',
         'laboratory',
-        'token',
         'cost',
         'iva_cost',
-        'iva_cost',
         'final_cost',
-        'porcentaje_ganancia',
-        'price',
-        'iva_price',
-        'final_price',
+        'unidades_presentacion',
+        'precio_caja',
+        'precio_mayoreo',
+        'precio_unidad',
         'sub_category_id',
-        'existencia',
+        'existencia_caja',
+        'existencia_unidad',
         'estado', 
     ];
 

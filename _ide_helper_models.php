@@ -264,6 +264,27 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\PoliticasGarantias
+ *
+ * @property int $id
+ * @property int $meses
+ * @property string $concepto
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|PoliticasGarantias newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PoliticasGarantias newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PoliticasGarantias query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PoliticasGarantias whereConcepto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PoliticasGarantias whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PoliticasGarantias whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PoliticasGarantias whereMeses($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PoliticasGarantias whereUpdatedAt($value)
+ */
+	class PoliticasGarantias extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Product
  *
  * @property int $id
@@ -275,12 +296,13 @@ namespace App\Models{
  * @property string $cost
  * @property string $iva_cost
  * @property string $final_cost
- * @property string $porcentaje_ganancia
- * @property string $price
- * @property string $iva_price
- * @property string $final_price
+ * @property int $unidades_presentacion
+ * @property string $precio_caja
+ * @property string $precio_mayoreo
+ * @property string $precio_unidad
  * @property int $sub_category_id
- * @property int $existencia
+ * @property int $existencia_caja
+ * @property int $existencia_unidad
  * @property string $estado
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -293,18 +315,19 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereEstado($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereExistencia($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereExistenciaCaja($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereExistenciaUnidad($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereFinalCost($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereFinalPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereIvaCost($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereIvaPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereLaboratory($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereNumeroRegistro($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product wherePorcentajeGanancia($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrecioCaja($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrecioMayoreo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrecioUnidad($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereSubCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereUnidadesPresentacion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  */
 	class Product extends \Eloquent {}
@@ -320,7 +343,7 @@ namespace App\Models{
  * @property string $telefono
  * @property string $NIT
  * @property string $NRC
- * @property int $gran_con
+ * @property string $gran_con
  * @property string $estado_proveedor
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -351,6 +374,7 @@ namespace App\Models{
  * @property int $item
  * @property string $descripcion_lote
  * @property string $factura
+ * @property int $politicas_garantias_id
  * @property int $users_id
  * @property int $proveedores_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -364,6 +388,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereFechaCompra($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereItem($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Purchase wherePoliticasGarantiasId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereProveedoresId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Purchase whereUpdatedAt($value)

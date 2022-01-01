@@ -16,8 +16,8 @@ class PurchaseDetail extends Model
         'costo_iva',
         'costo_mas_iva',
         'precio_venta',
-        'precio_iva',
-        'precio_mas_iva',
+        'precio_venta_mayoreo',
+        'precio_venta_unidad',
         'quantity',
     ];
 }

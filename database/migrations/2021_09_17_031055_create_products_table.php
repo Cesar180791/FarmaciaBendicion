@@ -23,12 +23,13 @@ class CreateProductsTable extends Migration
             $table->decimal('cost',10,4)->default(0);
             $table->decimal('iva_cost',10,4)->default(0);
             $table->decimal('final_cost',10,4)->default(0);
-            $table->decimal('porcentaje_ganancia',10,2)->default(0);
-            $table->decimal('price',10,4)->default(0);
-            $table->decimal('iva_price',10,4)->default(0);
-            $table->decimal('final_price',10,4)->default(0);
+            $table->integer('unidades_presentacion')->default(0);
+            $table->decimal('precio_caja',10,4)->default(0);
+            $table->decimal('precio_mayoreo',10,4)->default(0);
+            $table->decimal('precio_unidad',10,4)->default(0);
             $table->foreignId('sub_category_id')->constrained();
-            $table->integer('existencia')->default(0);
+            $table->integer('existencia_caja')->default(0);
+            $table->integer('existencia_unidad')->default(0);
             $table->enum('estado',['ACTIVO','DESHABILITADO'])->default('ACTIVO');
             $table->timestamps();
         });

@@ -37,7 +37,7 @@ class ComprasController extends Component
         return 'vendor.livewire.bootstrap';
     }
     
-    public function updatingSearch(){
+    public function updatingSearch(){ 
         $this->resetPage();
     }
 
@@ -137,7 +137,7 @@ class ComprasController extends Component
      
         $this->numero_lote = $id->numero_lote;
         $this->caducidad_lote = $id->caducidad_lote;
-        $this->loteId = $id->id;
+        $this->loteId = $id->id; 
     }
 
     public function actualizarLote(){
@@ -190,10 +190,9 @@ class ComprasController extends Component
                     0,
                     0, 
                     0, 
-                    $product->porcentaje_ganancia,
-                    $product->price, 
-                    $product->iva_price,
-                    $product->final_price,
+                    $product->precio_caja, 
+                    $product->precio_mayoreo,
+                    $product->precio_unidad,
                     $buscar_lote->numero_lote,
                     $buscar_lote->caducidad_lote,
                     $product->id,
@@ -219,22 +218,12 @@ class ComprasController extends Component
             $iva_cost = $cost * 0.13;
             $final_cost = $cost + $iva_cost;
 
-            //actualizar el precio
-            $porcentaje = (100 - $exist->attributes[3]) / 100;
-            $price = $cost /  $porcentaje;
-            $iva_price = $price * 0.13;
-            $final_price = $price +  $iva_price;
-
         Cart::update($exist->id, array( 
             array(
                 $exist->price = $final_cost,
                 $exist->attributes[0] = $cost,
                 $exist->attributes[1] = $iva_cost,
                 $exist->attributes[2] = $final_cost,
-
-                $exist->attributes[4] = $price,
-                $exist->attributes[5] = $iva_price,
-                $exist->attributes[6] = $final_price
             )));
             $this->total = Cart::getTotal();
             $this->itemsQuantity = Cart::getTotalQuantity();
@@ -270,7 +259,6 @@ class ComprasController extends Component
                    $exist->attributes[6],
                    $exist->attributes[7],
                    $exist->attributes[8],
-                   $exist->attributes[9]
                 ));
            $this->total = Cart::getTotal();
            $this->itemsQuantity = Cart::getTotalQuantity();
@@ -278,17 +266,12 @@ class ComprasController extends Component
        }
     }
 
-    public function updatePrice($productId, $porcentaje){
+    public function updatePrice($productId, $precio){
         $exist = Cart::get($productId);
 
         $this->removeItem($productId);
 
-       if($porcentaje > 0) {
-           $calculoPorcentaje = (100 - $porcentaje) / 100;
-           $price = $exist->attributes[0] /  $calculoPorcentaje;
-           $iva_price = $price * 0.13;
-           $final_price = $price +  $iva_price;
-
+       if($precio > 0) {
             Cart::add(
                 $exist->id,
                 $exist->name,
@@ -298,13 +281,72 @@ class ComprasController extends Component
                     $exist->attributes[0],
                     $exist->attributes[1],
                     $exist->attributes[2],
-                    $porcentaje,
-                    $price,
-                    $iva_price,
-                    $final_price,
+                    $precio,
+                    $exist->attributes[4],
+                    $exist->attributes[5],
+                    $exist->attributes[6],
                     $exist->attributes[7],
-                    $exist->attributes[8],
-                    $exist->attributes[9]
+                    $exist->attributes[8]
+                ));
+
+                $this->total = Cart::getTotal();
+                $this->itemsQuantity = Cart::getTotalQuantity();
+                //$this->emit('add-ok', $title);
+            }
+    }
+
+    public function updateMayoreo($productId, $mayoreo){
+      
+        $exist = Cart::get($productId);
+
+        $this->removeItem($productId);
+
+       if($mayoreo > 0) {
+            Cart::add(
+                $exist->id,
+                $exist->name,
+                $exist->price,
+                $exist->quantity,
+                array(
+                    $exist->attributes[0],
+                    $exist->attributes[1],
+                    $exist->attributes[2],
+                    $exist->attributes[3],
+                    $mayoreo,
+                    $exist->attributes[5],
+                    $exist->attributes[6],
+                    $exist->attributes[7],
+                    $exist->attributes[8]
+                ));
+
+                $this->total = Cart::getTotal();
+                $this->itemsQuantity = Cart::getTotalQuantity();
+                //$this->emit('add-ok', $title);
+            }
+    }
+
+    public function updateUnidad($productId, $unidad){
+      
+        $exist = Cart::get($productId);
+
+        $this->removeItem($productId);
+
+       if($unidad > 0) {
+            Cart::add(
+                $exist->id,
+                $exist->name,
+                $exist->price,
+                $exist->quantity,
+                array(
+                    $exist->attributes[0],
+                    $exist->attributes[1],
+                    $exist->attributes[2],
+                    $exist->attributes[3],
+                    $exist->attributes[4],
+                    $unidad,
+                    $exist->attributes[6],
+                    $exist->attributes[7],
+                    $exist->attributes[8]
                 ));
 
                 $this->total = Cart::getTotal();
@@ -317,8 +359,8 @@ class ComprasController extends Component
     public function validarCampos(){
         $items = Cart::getContent();
         foreach($items as $item){
-            if ($item->attributes[0] == 0 || $item->attributes[3] == 0 || $item->attributes[7] === '') {
-                return $this->emit('empty-cost','Producto: '.$item->name. ' lote: '. $item->attributes[7].' Revisa los siguientes valores introducidos: costo, porcentaje de ganancia o numero de lote ya que pueden estar en cero o vacios');
+            if ($item->attributes[0] == 0 || $item->attributes[3] == 0 || $item->attributes[4] == 0) {
+                return $this->emit('empty-cost','Producto: '.$item->name. ' lote: '. $item->attributes[6].' Revisa los siguientes valores introducidos: costo, porcentaje de ganancia o numero de lote ya que pueden estar en cero o vacios');
             }
         }
         $this->emit('validacion-detalle-ok', 'Validacion de detalle completa y con exito');
@@ -365,15 +407,15 @@ class ComprasController extends Component
                 ///se recorre el detalle para guardar en la tabla purchase_details
                 foreach($items as $item){
                     $detalle = PurchaseDetail::create([
-                        'purchases_id'   =>  $compra->id,
-                        'lotes_id'       =>  $item->id,
-                        'costo'          =>  $item->attributes[0],
-                        'costo_iva'      =>  $item->attributes[1],
-                        'costo_mas_iva'  =>  $item->attributes[2],
-                        'precio_venta'   =>  $item->attributes[4],
-                        'precio_iva'     =>  $item->attributes[5],
-                        'precio_mas_iva' =>  $item->attributes[6],
-                        'quantity'       =>  $item->quantity,
+                        'purchases_id'          =>  $compra->id,
+                        'lotes_id'              =>  $item->id,
+                        'costo'                 =>  $item->attributes[0],
+                        'costo_iva'             =>  $item->attributes[1],
+                        'costo_mas_iva'         =>  $item->attributes[2],
+                        'precio_venta'          =>  $item->attributes[3],
+                        'precio_venta_mayoreo'  =>  $item->attributes[4],
+                        'precio_venta_unidad'   =>  $item->attributes[5],
+                        'quantity'              =>  $item->quantity,
                     ]);
 
                     ///ACTUALIZAR TABLA PRODUCTO
@@ -381,7 +423,7 @@ class ComprasController extends Component
                     //Y EL REGISTRO DE CARGA RECIEN CREADO Y SU EXISTENCIA ES CERO LOS COSTOS SE SOBREESCRIBIRAN Y NO SE APLICARA
                     //COSTO PROMEDIO.
                     //PARA ESTO SE BUSCA EL REGISTRO A MODIFICAR POR LA CARGA
-                    $actualizarExistencia = Product::find($item->attributes[9]);
+                    $actualizarExistencia = Product::find($item->attributes[8]);
 
                     //Y LUEGO CON LA FUNCION DIFFINDAYS DE CARBON SE CALCULA LA DIFERENCIA DE DIAS ENTRE
                     //LA ULTIMA ACTUALIZACION DEL PRODUCTO EN SU COLUMNA UPDATED_AT
@@ -389,7 +431,7 @@ class ComprasController extends Component
                 
 
                     //LUEGO SI LA EXISTENCIA DEL PRODUCTO ES CERO SE SOBREESCRIBE LA CANTIDAD Y LOS COSTOS
-                    if($actualizarExistencia->existencia == 0){ 
+                    if($actualizarExistencia->existencia_caja == 0){ 
                         $diasDiferencia = $detalle->created_at->diffInDays($actualizarExistencia->updated_at);
                         if($diasDiferencia > 60){
                             $actualizarExistencia->cost = $item->attributes[0];
@@ -403,12 +445,12 @@ class ComprasController extends Component
                             } else{                        
                                 //aplicando costo promedio
                                 ///paso 1 multiplicar costo actual del producto por su existencia actual
-                                $actualizarExistencia->cost = (($actualizarExistencia->cost * $actualizarExistencia->existencia)+($item->attributes[0] * $item->quantity)) / (($actualizarExistencia->existencia + $item->quantity));
+                                $actualizarExistencia->cost = (($actualizarExistencia->cost * $actualizarExistencia->existencia_caja)+($item->attributes[0] * $item->quantity)) / (($actualizarExistencia->existencia_caja + $item->quantity));
                                 $actualizarExistencia->iva_cost = $actualizarExistencia->cost * 0.13;
                                 $actualizarExistencia->final_cost = $actualizarExistencia->iva_cost + $actualizarExistencia->cost;
                             }
                         }
-                        $actualizarExistencia->existencia = $item->quantity;
+                        $actualizarExistencia->existencia_caja = $item->quantity;
                     } else{
                        
                         if($actualizarExistencia->cost == 0){
@@ -418,17 +460,17 @@ class ComprasController extends Component
                         } else{
                             //aplicando costo promedio
                             ///paso 1 multiplicar costo actual del producto por su existencia actual
-                            $actualizarExistencia->cost = (($actualizarExistencia->cost * $actualizarExistencia->existencia)+($item->attributes[0] * $item->quantity)) / (($actualizarExistencia->existencia + $item->quantity));
+                            $actualizarExistencia->cost = (($actualizarExistencia->cost * $actualizarExistencia->existencia_caja)+($item->attributes[0] * $item->quantity)) / (($actualizarExistencia->existencia_caja + $item->quantity));
                             $actualizarExistencia->iva_cost = $actualizarExistencia->cost * 0.13;
                             $actualizarExistencia->final_cost = $actualizarExistencia->iva_cost + $actualizarExistencia->cost;
                         }
-                        $actualizarExistencia->existencia += $item->quantity;
+                        $actualizarExistencia->existencia_caja += $item->quantity;
                     }
 
-                    $actualizarExistencia->porcentaje_ganancia = $item->attributes[3];
-                    $actualizarExistencia->price = $item->attributes[4];
-                    $actualizarExistencia->iva_price = $item->attributes[5];
-                    $actualizarExistencia->final_price = $item->attributes[6];
+ 
+                    $actualizarExistencia->precio_caja = $item->attributes[3];
+                    $actualizarExistencia->precio_mayoreo = $item->attributes[4];
+                    $actualizarExistencia->precio_unidad = $item->attributes[5];
                     $actualizarExistencia->save();
 
                     ///ACTUALIZAR LOTE
@@ -456,6 +498,19 @@ class ComprasController extends Component
 
 
 
-    public function resetUI(){}
+    public function resetUI(){
+        $this->descripcion_lote = '';
+        $this->factura = '';
+        $this->politicas_garantias_id = 'Seleccionar';
+        $this->fecha_compra = '';
+        $this->proveedores_id = 'Seleccionar';
+        $this->search = '';
+        $this->descripcion_lote = ''; 
+        $this->numero_lote = ''; 
+        $this->caducidad_lote = '';   
+        $this->loteId = '';
+        $this->resetPage();
+        $this->resetValidation();
+    }
 
 }

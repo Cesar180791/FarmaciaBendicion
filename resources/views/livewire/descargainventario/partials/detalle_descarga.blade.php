@@ -9,7 +9,7 @@
                 </div>
                 <a class="btn btn-dark mbmobile mb-4" id="buscarbtn"><b>Buscar F1</b></a>
                 @if(count($cart)==0)
-                <div class="alert alert-danger">No hay Registros que mostrar</div>
+                <div class="alert alert-danger">No hay Registros que mostrar</div> 
                 @else
                 <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
                     <table class="table table-bordered table-striped mt-1">
@@ -22,7 +22,7 @@
                                     <div class="size">Cant</div>
                                 </th>
                                 <th class="table-th text-center text-white">
-                                    <div class="size">Existencias</div>
+                                    <div class="size">Stok lote</div>
                                 </th>
                                 <th class="table-th text-white">
                                     <div class="size-product">Producto</div>
@@ -37,13 +37,19 @@
                                     <div class="size">C+IVA*CANT</div>
                                 </th>
                                 <th class="table-th text-center text-white">
-                                    <div class="size">P.Ganacia</div>
+                                    <div class="size">Precio</div>
                                 </th>
                                 <th class="table-th text-center text-white">
-                                    <div class="size">PV</div>
+                                    <div class="size">P. MAYOREO</div>
                                 </th>
                                 <th class="table-th text-center text-white">
-                                    <div class="size">PV + IVA</div>
+                                    <div class="size">P. UNIDAD</div>
+                                </th>
+                                <th class="table-th text-white text-center">
+                                    <div class="size">Lote</div>
+                                </th>
+                                <th class="table-th text-white text-center">
+                                    <div class="size">Vencimiento</div>
                                 </th>
                             </tr>
                         </thead>
@@ -62,7 +68,7 @@
                                             <path
                                                 d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
                                             </path>
-                                            <line x1="10" y1="11" x2="10" y2="17"></line> 
+                                            <line x1="10" y1="11" x2="10" y2="17"></line>
                                             <line x1="14" y1="11" x2="14" y2="17"></line>
                                         </svg>
                                     </a>
@@ -73,15 +79,13 @@
                                         class="form-control text-center" value="{{$item->quantity}}">
                                 </td>
                                 <td class="text-center">
-                                    <p>{{$item->attributes[7]}}</p>
+                                    <p>{{$item->attributes[6]}}</p>
                                 </td>
                                 <td>
                                     <p>{{$item->name}}</p>
                                 </td>
-                                <td>
-                                    <p class="text-center"> 
-                                        ${{number_format($item->attributes[0],4)}}
-                                    </p>
+                                <td class="text-center">
+                                    <p>{{number_format($item->attributes[0],4)}}</p>
                                 </td>
                                 <td class="text-center">
                                     <p>
@@ -94,14 +98,21 @@
                                     </p>
                                 </td>
                                 <td class="text-center">
-                                    <p>%{{$item->attributes[3]}}</p>
+                                    <p>{{$item->attributes[3]}}</p>
                                 </td>
-                                <td>
-                                    <p class="text-center">${{number_format($item->attributes[4],4)}}</p>
+                                <td class="text-center">
+                                    <p>{{$item->attributes[4]}}</p>
                                 </td>
-                                <td>
-                                    <p class="text-center">${{number_format($item->attributes[6],4)}}</p>
+                                <td class="text-center">
+                                    <p>{{$item->attributes[5]}}</p>
                                 </td>
+                       
+                                <td class="text-center">
+                                    <p>{{$item->attributes[7]}}</p>
+                                </td>
+                                <td class="text-center">
+                                    <p><b>{{$item->attributes[8]}}</b></p>
+                                </td></tr>
                             </tr>
                             @endforeach
                         </tbody>
