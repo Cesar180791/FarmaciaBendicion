@@ -63,6 +63,17 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Clientes
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Clientes newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Clientes newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Clientes query()
+ */
+	class Clientes extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Company
  *
  * @property int $id
@@ -146,9 +157,9 @@ namespace App\Models{
  * @property string $detalle_cargas_costo
  * @property string $detalle_cargas_costo_iva
  * @property string $detalle_cargas_costo_mas_iva
- * @property string $detalle_cargas_precio_venta
- * @property string $detalle_cargas_precio_iva
- * @property string $detalle_cargas_precio_mas_iva
+ * @property string $detalle_cargas_precio_caja
+ * @property string $detalle_cargas_precio_mayoreo
+ * @property string $detalle_cargas_precio_unidad
  * @property int $detalle_cargas_quantity
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -160,9 +171,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasCosto($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasCostoIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasCostoMasIva($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasPrecioIva($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasPrecioMasIva($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasPrecioVenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasPrecioCaja($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasPrecioMayoreo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasPrecioUnidad($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereDetalleCargasQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_cargas whereLotesId($value)
@@ -181,9 +192,9 @@ namespace App\Models{
  * @property string $detalle_descargas_costo
  * @property string $detalle_descargas_costo_iva
  * @property string $detalle_descargas_costo_mas_iva
- * @property string $detalle_descargas_precio_venta
- * @property string $detalle_descargas_precio_iva
- * @property string $detalle_descargas_precio_mas_iva
+ * @property string $detalle_descargas_precio_caja
+ * @property string $detalle_descargas_precio_mayoreo
+ * @property string $detalle_descargas_precio_unidad
  * @property int $detalle_descargas_quantity
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -195,9 +206,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasCosto($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasCostoIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasCostoMasIva($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasPrecioIva($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasPrecioMasIva($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasPrecioVenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasPrecioCaja($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasPrecioMayoreo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasPrecioUnidad($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereDetalleDescargasQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Detalle_descargas whereLotesId($value)
@@ -408,8 +419,8 @@ namespace App\Models{
  * @property string $costo_iva
  * @property string $costo_mas_iva
  * @property string $precio_venta
- * @property string $precio_iva
- * @property string $precio_mas_iva
+ * @property string $precio_venta_mayoreo
+ * @property string $precio_venta_unidad
  * @property int $quantity
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -422,9 +433,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereLotesId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail wherePrecioIva($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail wherePrecioMasIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail wherePrecioVenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail wherePrecioVentaMayoreo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail wherePrecioVentaUnidad($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail wherePurchasesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PurchaseDetail whereUpdatedAt($value)
