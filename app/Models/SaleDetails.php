@@ -10,9 +10,14 @@ class SaleDetails extends Model
     use HasFactory;
 
     protected $fillable =[
-        'price',
-        'quantity',
-        'stocks_id',
-        'sale_id'
-    ];
+        'lotes_id',
+        'sale_id',
+        'tipo_venta',
+        'costo',
+        'costo_iva',
+        'costo_mas_iva',
+        'iva_precio_venta',
+        'precio_venta',
+        'quantity'
+    ]; 
 }

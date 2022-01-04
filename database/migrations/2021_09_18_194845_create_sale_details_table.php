@@ -15,15 +15,15 @@ class CreateSaleDetailsTable extends Migration
     {
         Schema::create('sale_details', function (Blueprint $table) {
             $table->id();
-            $table->decimal('price',10,2);
-            $table->decimal('quantity',10,2);
-
-            ///otra forma de agregar llaves foraneas en una sola linea siguiendo las convenciones de laravel
-            ///que todas las tablas tiene  que estar en plural
-
             $table->foreignId('lotes_id')->constrained();
-            $table->foreignId('sale_id')->constrained(); //sales
-
+            $table->foreignId('sale_id')->constrained();
+            $table->enum('tipo_venta',['Presentacion','Mayoreo','Unidad']);
+            $table->decimal('costo',10,2);
+            $table->decimal('costo_iva',10,2);
+            $table->decimal('costo_mas_iva',10,2);
+            $table->decimal('iva_precio_venta',10,2); 
+            $table->decimal('precio_venta',10,2); 
+            $table->integer('quantity');
             $table->timestamps(); 
         });
     }

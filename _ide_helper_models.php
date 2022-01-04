@@ -65,9 +65,27 @@ namespace App\Models{
 /**
  * App\Models\Clientes
  *
+ * @property int $id
+ * @property string $nombre_cliente
+ * @property string $telefono
+ * @property string $NIT_cliente
+ * @property string $NRC_cliente
+ * @property string $gran_con_cliente
+ * @property string $estado_cliente
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Clientes newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Clientes newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Clientes query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Clientes whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clientes whereEstadoCliente($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clientes whereGranConCliente($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clientes whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clientes whereNITCliente($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clientes whereNRCCliente($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clientes whereNombreCliente($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clientes whereTelefono($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clientes whereUpdatedAt($value)
  */
 	class Clientes extends \Eloquent {}
 }

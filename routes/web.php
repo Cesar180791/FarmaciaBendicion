@@ -15,10 +15,7 @@ use App\Http\Livewire\AsignarController;
 use App\Http\Livewire\ComprasController;
 use App\Http\Livewire\ProveedoresController;
 use App\Http\Livewire\ClientesController;
-
-
-
-
+use App\Http\Livewire\FacturacionController;
 
 
 /*
@@ -54,6 +51,7 @@ Route::get('proveedores', ProveedoresController::class);
 Route::get('consulta-inventario', InventarioController::class);
 Route::get('compras', ComprasController::class);
 Route::get('clientes', ClientesController::class);
+Route::get('facturacion', FacturacionController::class);
 
 
 
