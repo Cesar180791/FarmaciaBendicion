@@ -471,6 +471,8 @@ namespace App\Models{
  * @property string $cash
  * @property string $change
  * @property string $status
+ * @property int $clientes_id
+ * @property int $tipos_transacciones_id
  * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -479,10 +481,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Sale query()
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereCash($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereChange($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereClientesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereItems($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereTiposTransaccionesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereUserId($value)
@@ -495,21 +499,31 @@ namespace App\Models{
  * App\Models\SaleDetails
  *
  * @property int $id
- * @property string $price
- * @property string $quantity
  * @property int $lotes_id
  * @property int $sale_id
+ * @property string $tipo_venta
+ * @property string $costo
+ * @property string $costo_iva
+ * @property string $costo_mas_iva
+ * @property string $iva_precio_venta
+ * @property string $precio_venta
+ * @property int $quantity
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails query()
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereCosto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereCostoIva($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereCostoMasIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereIvaPrecioVenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereLotesId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails wherePrecioVenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereSaleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereTipoVenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereUpdatedAt($value)
  */
 	class SaleDetails extends \Eloquent {}
@@ -539,6 +553,25 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|SubCategory whereUpdatedAt($value)
  */
 	class SubCategory extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\TiposTransacciones
+ *
+ * @property int $id
+ * @property string $tipo_transaccion
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|TiposTransacciones newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TiposTransacciones newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TiposTransacciones query()
+ * @method static \Illuminate\Database\Eloquent\Builder|TiposTransacciones whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TiposTransacciones whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TiposTransacciones whereTipoTransaccion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TiposTransacciones whereUpdatedAt($value)
+ */
+	class TiposTransacciones extends \Eloquent {}
 }
 
 namespace App\Models{

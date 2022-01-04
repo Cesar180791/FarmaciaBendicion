@@ -14,7 +14,10 @@ class Sale extends Model
         'items',
         'cash',
         'change',
+        'numero_factura',
         'status',
+        'clientes_id',
+        'tipos_transacciones_id',
         'user_id'
     ];
 }

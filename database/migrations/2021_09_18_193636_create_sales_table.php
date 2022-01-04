@@ -20,8 +20,10 @@ class CreateSalesTable extends Migration
             $table->integer('items');
             $table->decimal('cash',10,2);
             $table->decimal('change',10,2);
+            $table->string('numero_factura')->nullable();
             $table->enum('status',['PAID','PENDING','CANCELLED'])->default('PAID');
-
+            $table->foreignId('clientes_id')->constrained()->nullable();
+            $table->foreignId('tipos_transacciones_id')->constrained();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
