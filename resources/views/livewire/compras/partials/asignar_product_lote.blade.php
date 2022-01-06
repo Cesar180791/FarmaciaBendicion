@@ -13,7 +13,7 @@
         </ul>
     </div>
 
-    <div class="widget-content">
+    <div class="widget-content"> 
         @if(count($lotes)==0)
         <div class="alert alert-danger">No hay lotes registrados a este producto</div>
         @else
@@ -24,6 +24,7 @@
                         <th class="table-th text-white">Numero de lote</th>
                         <th width="50%" class="table-th text-white">Producto</th>
                         <th class="table-th text-white text-center">Existencia</th>
+                        <th class="table-th text-white text-center">Existencia U</th>
                         <th class="table-th text-white text-center">Caducidad</th>
                         <th class="table-th text-white text-center">Estado</th>
                         <th class="table-th text-white text-center">Creado por</th>
@@ -41,6 +42,14 @@
                         </td>
                         <td>
                             {{$lote->existencia_lote}}
+                        </td>
+                        <td>
+                            @if ($lote->existencia_lote_unidad === null)
+                            <p>No se vende por unidad</p>
+
+                            @else
+                            <p>{{$lote->existencia_lote_unidad}}</p>
+                            @endif
                         </td>
                         <td>
                             {{$lote->caducidad_lote}}
@@ -71,7 +80,8 @@
                                         data-toggle="tooltip" data-placement="top" title="Editar">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit text-primary">
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-edit text-primary">
                                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                         </svg>

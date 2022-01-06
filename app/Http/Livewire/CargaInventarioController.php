@@ -14,7 +14,7 @@ use DB;
 class CargaInventarioController extends Component
 {
     use withPagination;
-    public $search, $itemsQuantity, $total, $descripcion_carga, $loteId, $producto ,$numero_lote, $caducidad_lote, $idProducto, $idBuscarProducto;
+    public $search, $itemsQuantity, $total, $descripcion_carga, $loteId, $producto ,$numero_lote, $caducidad_lote, $idProducto, $idBuscarProducto, $existencia_lote_unidad;
     private $pagination = 5;
 
     public function mount(){
@@ -112,11 +112,21 @@ class CargaInventarioController extends Component
 
         $this->validate($rules, $messages);
 
+        $existenciaunidad = Product::find($this->idProducto);
+        //$this->existencia_lote_unidad = $existenciaunidad->existencia_unidad;
+
+        if($existenciaunidad->precio_unidad === null){
+            $this->existencia_lote_unidad = null; 
+         }else{
+            $this->existencia_lote_unidad = 0; 
+         }
+        
         Lotes::create([
-            'products_id'       =>  $this->idProducto,
-            'users_id'          =>  auth()->user()->id,
-            'numero_lote'       =>  $this->numero_lote,
-            'caducidad_lote'    =>  $this->caducidad_lote
+            'products_id'            =>     $this->idProducto,
+            'users_id'               =>     auth()->user()->id,
+            'numero_lote'            =>     $this->numero_lote,
+            'existencia_lote_unidad' =>     $this->existencia_lote_unidad,
+            'caducidad_lote'         =>     $this->caducidad_lote
         ]);
 
         $this->emit('lote-registrado','lote registrado con exito');
@@ -482,6 +492,7 @@ class CargaInventarioController extends Component
         $this->numero_lote = ''; 
         $this->caducidad_lote = '';   
         $this->loteId = '';
+        $this->existencia_lote_unidad = '';
         $this->resetPage();
         $this->resetValidation();
     }

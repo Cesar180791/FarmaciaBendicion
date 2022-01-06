@@ -43,10 +43,10 @@
                                 <td class="text-center"><h6>${{number_format($product->final_cost,4)}}</h6></td>
                                 <td class="text-center"><h6>${{number_format($product->precio_caja,4)}}</h6></td>
                                 <td class="text-center"><h6>${{number_format($product->precio_mayoreo,4)}}</h6></td>
-                                @if ($product->precio_unidad > 0)
+                                @if ($product->precio_unidad != null)
                                 <td class="text-center"><h6>${{number_format($product->precio_unidad,4)}}</h6></td>
                                 @else
-                                <td class="text-center"><h6>Sin precio de unidad</h6></td>
+                                <td class="text-center"><h6>No se vende por unidad</h6></td>
                                 @endif
                                 <td class="text-center"><span class="badge {{$product->estado == 'ACTIVO' ? 'badge-success' : 'badge-danger'}} text-uppercase">{{$product->estado}}</span></td>
                                 <td class="text-center">

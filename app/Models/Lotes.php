@@ -13,6 +13,7 @@ class Lotes extends Model
         'users_id',
         'numero_lote',
         'existencia_lote',
+        'existencia_lote_unidad',   
         'caducidad_lote',
         'estado_lote' 
     ];

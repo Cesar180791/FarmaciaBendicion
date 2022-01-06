@@ -177,7 +177,7 @@ namespace App\Models{
  * @property string $detalle_cargas_costo_mas_iva
  * @property string $detalle_cargas_precio_caja
  * @property string $detalle_cargas_precio_mayoreo
- * @property string $detalle_cargas_precio_unidad
+ * @property string|null $detalle_cargas_precio_unidad
  * @property int $detalle_cargas_quantity
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -244,6 +244,7 @@ namespace App\Models{
  * @property int $users_id
  * @property string $numero_lote
  * @property int $existencia_lote
+ * @property int|null $existencia_lote_unidad
  * @property string $caducidad_lote
  * @property string $estado_lote
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -255,6 +256,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereEstadoLote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereExistenciaLote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereExistenciaLoteUnidad($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereNumeroLote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Lotes whereProductsId($value)
@@ -328,7 +330,7 @@ namespace App\Models{
  * @property int $unidades_presentacion
  * @property string $precio_caja
  * @property string $precio_mayoreo
- * @property string $precio_unidad
+ * @property string|null $precio_unidad
  * @property int $sub_category_id
  * @property int $existencia_caja
  * @property int $existencia_unidad
@@ -438,7 +440,7 @@ namespace App\Models{
  * @property string $costo_mas_iva
  * @property string $precio_venta
  * @property string $precio_venta_mayoreo
- * @property string $precio_venta_unidad
+ * @property string|null $precio_venta_unidad
  * @property int $quantity
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -470,6 +472,7 @@ namespace App\Models{
  * @property int $items
  * @property string $cash
  * @property string $change
+ * @property string|null $numero_factura
  * @property string $status
  * @property int $clientes_id
  * @property int $tipos_transacciones_id
@@ -485,6 +488,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereItems($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereNumeroFactura($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereTiposTransaccionesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereTotal($value)

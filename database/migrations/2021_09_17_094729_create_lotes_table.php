@@ -18,7 +18,8 @@ class CreateLotesTable extends Migration
             $table->foreignId('products_id')->constrained();
             $table->foreignId('users_id')->constrained();
             $table->string('numero_lote',200);
-            $table->integer('existencia_lote')->default(0); 
+            $table->integer('existencia_lote')->default(0);
+            $table->integer('existencia_lote_unidad')->nullable(); 
             $table->date('caducidad_lote');
             $table->enum('estado_lote',['ACTIVO','DESHABILITADO'])->default('ACTIVO');
             $table->timestamps();

@@ -34,9 +34,7 @@ class ProductsController extends Component
         if ($this->precio_mayoreo == null) {
             $this->precio_mayoreo=0;
         }
-        if ($this->precio_unidad == null) {
-            $this->precio_unidad=0;
-        }
+
         if ($this->unidades_presentacion == null || $this->unidades_presentacion == 0) {
             $this->unidades_presentacion=1;
         }
@@ -162,6 +160,10 @@ class ProductsController extends Component
         ];
 
          $this->validate($rules, $messages);
+
+         if($this->precio_unidad ===''){
+            $this->precio_unidad = null; 
+         }
 
          $updateProduct = Product::find($this->selected_id);
          $updateProduct->update([

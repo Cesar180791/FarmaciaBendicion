@@ -17,7 +17,7 @@ class ComprasController extends Component
 {
     use withPagination;
 
-    public $proveedores_id, $search, $fecha_compra, $factura, $descripcion_lote, $total, $itemsQuantity, $pageTitle2, $pageTitle3, $idBuscarProducto, $idProducto,$producto,$loteId, $numero_lote, $caducidad_lote, $politicas_garantias_id;
+    public $proveedores_id, $search, $fecha_compra, $factura, $descripcion_lote, $total, $itemsQuantity, $pageTitle2, $pageTitle3, $idBuscarProducto, $idProducto,$producto,$loteId, $numero_lote, $caducidad_lote, $politicas_garantias_id, $existencia_lote_unidad;
 
     private $pagination = 5;
 
@@ -121,11 +121,21 @@ class ComprasController extends Component
 
         $this->validate($rules, $messages);
 
+        $existenciaunidad = Product::find($this->idProducto);
+        //$this->existencia_lote_unidad = $existenciaunidad->existencia_unidad;
+
+        if($existenciaunidad->precio_unidad === null){
+            $this->existencia_lote_unidad = null; 
+         }else{
+            $this->existencia_lote_unidad = 0; 
+         }
+
         Lotes::create([
-            'products_id'       =>  $this->idProducto,
-            'users_id'          =>  auth()->user()->id,
-            'numero_lote'       =>  $this->numero_lote,
-            'caducidad_lote'    =>  $this->caducidad_lote
+            'products_id'               =>  $this->idProducto,
+            'users_id'                  =>  auth()->user()->id,
+            'numero_lote'               =>  $this->numero_lote,
+            'existencia_lote_unidad'    =>  $this->existencia_lote_unidad,
+            'caducidad_lote'            =>  $this->caducidad_lote
         ]);
 
         $this->emit('lote-registrado','lote registrado con exito');
