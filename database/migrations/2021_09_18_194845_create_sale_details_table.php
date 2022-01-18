@@ -17,12 +17,13 @@ class CreateSaleDetailsTable extends Migration
             $table->id();
             $table->foreignId('lotes_id')->constrained();
             $table->foreignId('sale_id')->constrained();
-            $table->enum('tipo_venta',['Presentacion','Mayoreo','Unidad']);
+            $table->enum('tipo_venta',['Normal','Mayoreo','Unidad']);
             $table->decimal('costo',10,2);
             $table->decimal('costo_iva',10,2);
             $table->decimal('costo_mas_iva',10,2);
-            $table->decimal('iva_precio_venta',10,2); 
             $table->decimal('precio_venta',10,2); 
+            $table->decimal('iva_precio_venta',10,2); 
+            $table->decimal('precio_venta_mas_iva',10,2); 
             $table->integer('quantity');
             $table->timestamps(); 
         });

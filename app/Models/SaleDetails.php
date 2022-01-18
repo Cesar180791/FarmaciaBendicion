@@ -16,8 +16,9 @@ class SaleDetails extends Model
         'costo',
         'costo_iva',
         'costo_mas_iva',
-        'iva_precio_venta',
         'precio_venta',
+        'iva_precio_venta',
+        'precio_venta_mas_iva',
         'quantity'
     ]; 
 }

@@ -1,7 +1,7 @@
 <div>
     <div class="row layout-top-spacing">
         
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 layout-spacing offset-lg-3 offset-md-3">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 layout-spacing offset-lg-3 offset-md-3" id="menu" wire:ignore.self>
             <div class="widget widget-three">
                 <div class="widget-heading">
                     <h5 class="text-center">Facturación</h5>
@@ -97,16 +97,21 @@
             </div>
         </div>
 
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" id="buscar" wire:ignore.self>
             @include('livewire.facturacion.partials.buscar_productos')
         </div>
 
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" id="lote" wire:ignore.self>
             @include('livewire.facturacion.partials.seleccionar_lote_venta') 
         </div>
 
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 layout-spacing" id="detalle" wire:ignore.self>
             @include('livewire.facturacion.partials.detalle_sale') 
+        </div>
+
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 layout-spacing" id="total" wire:ignore.self>
+            @include('livewire.facturacion.partials.total') 
+            @include('livewire.facturacion.partials.denomination') 
         </div>
 
 
@@ -115,16 +120,73 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function(){
-        $('#').hide();
+        $('#buscar').hide();
+        $('#lote').hide();
+        $('#detalle').hide();
+        $('#total').hide();
+
        
-        $('#').on("click", function () {
-        $('#').show(); 
-        $('#').hide();
+        $('#btn-regresar').on("click", function () {
+        $('#menu').show(); 
+        $('#total').hide();
+        $('#detalle').hide();
         });
 
+        $('#btn-regresar2').on("click", function () {
+        $('#total').show();
+        $('#detalle').show();
+        $('#buscar').hide();
+        });
+
+        $('#btn-regresar3').on("click", function () {
+        $('#lote').hide();
+        $('#buscar').show();
+        });
+
+        
+
+        $('#btn-buscar').on("click", function () {
+        $('#total').hide();
+        $('#detalle').hide();
+        $('#buscar').show();
+        });
+
+        
+
         window.livewire.on('ver-lotes', msg=>{
-            $('#seleccionar_lote_descarga').show();
-            $('#listar-productos').hide();
+            $('#buscar').hide();
+            $('#lote').show();
+        });
+
+        window.livewire.on('consumidor-final', msg=>{
+            $('#detalle').show();
+            $('#total').show();
+            $('#menu').hide();
+        });
+
+        window.livewire.on('no-stock', msg=>{
+            swal({
+               title: 'Error',
+               text: msg,
+               type: 'error',
+           })
+        });
+
+        window.livewire.on('add-ok', msg=>{
+            $('#detalle').show();
+            $('#total').show();
+            $('#lote').hide();
+        });
+
+        window.livewire.on('sale-ok', msg=>{
+            swal({
+               title: 'Facturado',
+               text: msg,
+               type: 'success',
+           })
+            $('#detalle').hide();
+            $('#total').hide();
+            $('#menu').show();
         });
 
 

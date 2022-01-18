@@ -474,7 +474,7 @@ namespace App\Models{
  * @property string $change
  * @property string|null $numero_factura
  * @property string $status
- * @property int $clientes_id
+ * @property int|null $clientes_id
  * @property int $tipos_transacciones_id
  * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at

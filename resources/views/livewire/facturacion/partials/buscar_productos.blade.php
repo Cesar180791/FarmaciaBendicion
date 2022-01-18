@@ -5,7 +5,7 @@
         </h4>
         <ul class="tabs tab-pills">
             <li style="list-style: none;">
-                <a href="javascript:void(0)" id="regresar" class="tabmenu btn btn-dark text-white"><b>Regresar</b></a>
+                <a href="javascript:void(0)" id="btn-regresar2" class="tabmenu btn btn-dark text-white"><b>Regresar</b></a>
             </li>
         </ul> 
     </div>
@@ -52,7 +52,7 @@
                             <p>{{$product->laboratory}}</p>
                         </td>
                         <td class="text-center">
-                            <button wire:click.prevent="verLotes({{$product->id}},'CAJA o PRESENTACION PRINCIPAL')" class="btn btn-dark btn-block den">
+                            <button wire:click.prevent="verLotes({{$product->id}},'NORMAL')" class="btn btn-dark btn-block den">
                                 ${{number_format($product->precio_caja,4)}}
                             </button>
                         </td>
