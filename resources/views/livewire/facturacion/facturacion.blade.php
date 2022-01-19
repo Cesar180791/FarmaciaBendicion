@@ -110,8 +110,12 @@
         </div>
 
         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 layout-spacing" id="total" wire:ignore.self>
-            @include('livewire.facturacion.partials.total') 
             @include('livewire.facturacion.partials.denomination') 
+            @include('livewire.facturacion.partials.total') 
+        </div>
+
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" id="clientes" wire:ignore.self>
+            @include('livewire.facturacion.partials.detalle_credito_fiscal') 
         </div>
 
 
@@ -124,12 +128,14 @@
         $('#lote').hide();
         $('#detalle').hide();
         $('#total').hide();
+        $('#clientes').hide();
 
        
         $('#btn-regresar').on("click", function () {
         $('#menu').show(); 
         $('#total').hide();
         $('#detalle').hide();
+        $('#clientes').hide();
         });
 
         $('#btn-regresar2').on("click", function () {
@@ -141,6 +147,11 @@
         $('#btn-regresar3').on("click", function () {
         $('#lote').hide();
         $('#buscar').show();
+        });
+
+        $('#btn-regresar4').on("click", function () {
+        $('#clientes').hide();
+        $('#menu').show();
         });
 
         
@@ -158,11 +169,19 @@
             $('#lote').show();
         });
 
-        window.livewire.on('consumidor-final', msg=>{
+        window.livewire.on('facturacion', msg=>{
             $('#detalle').show();
             $('#total').show();
             $('#menu').hide();
+            $('#clientes').hide();
         });
+
+        window.livewire.on('credito-fiscal', msg=>{
+            $('#menu').hide();
+            $('#clientes').show();
+        });
+
+       
 
         window.livewire.on('no-stock', msg=>{
             swal({
@@ -187,6 +206,15 @@
             $('#detalle').hide();
             $('#total').hide();
             $('#menu').show();
+        });
+
+        window.livewire.on('cliente-added', msg => {
+            $('#theModal').modal('hide');
+            swal({
+                title: 'Agregado!',
+                text: msg,
+                type: 'success',
+            })
         });
 
 

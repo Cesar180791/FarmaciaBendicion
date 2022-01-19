@@ -8,12 +8,9 @@
 			 			<div class="card-body">
 			 				<div class="task-header">
 			 					<div>
-			 						<h4>Total: ${{number_format($total,2)}}</h4>
+			 						<h6>Total: ${{number_format($total,2)}} | Cambio: ${{number_format($change,2)}}</h6>
+									<h6 class="mt-3">Articulos: {{$itemsQuantity}}</h6>
 			 						<input type="hidden" id="hiddenTotal" value="{{$total}}">
-			 						<h6 class="text-muted">Cambio: ${{number_format($change,2)}}</h6>
-			 					</div>
-			 					<div>
-			 						<h5 class="mt-3">Articulos: {{$itemsQuantity}}</h5>
 			 					</div>
 			 				</div>
 			 			</div>

@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\TiposTransacciones;
 use App\Models\Product;
 use App\Models\Lotes;
+use App\Models\Clientes;
 use App\Models\Sale; 
 use App\Models\SaleDetails;
 use App\Models\Denomination;
@@ -17,16 +18,17 @@ class FacturacionController extends Component
 {
     use withPagination;
 
-    public $transaccionId, $search, $idProduct, $tipoPrecio, $lotes, $efectivo, $change, $itemsQuantity;
+    public $pageTitle2, $transaccionId, $search, $search2, $idProduct, $tipoPrecio, $lotes, $efectivo, $change, $itemsQuantity, $numero_factura, $clientes_id, $selected_id, $nombre_cliente , $telefono ,$NIT_cliente, $NRC_cliente, $gran_con_cliente;
 
-    private $pagination = 5;
+    private $pagination = 5, $pagination2 = 5;
 
     public function mount(){
-       // Cart::clear();
+        Cart::clear();
+        $this->pageTitle5 = 'Clientes';
         $this->pageTitle4 = 'Seleccionar Lote';
-        $this->pageTitle = 'Productos';
-        $this->pageTitle2 = 'Detalle de venta';
+        $this->pageTitle = 'Productos';       
         $this->componentName = 'Facturación';
+        $this->gran_con_cliente =   'Seleccionar';
         $this->total = Cart::getTotal();
         $this->itemsQuantity = Cart::getTotalQuantity();
     }
@@ -40,6 +42,11 @@ class FacturacionController extends Component
         $this->resetPage();
     }
 
+    public function updatingSearch2()
+    {
+        $this->resetPage('clientes-page');
+    }
+
 
     public function render()
     {
@@ -51,6 +58,16 @@ class FacturacionController extends Component
              $this->change = ($this->efectivo - $this->total);
         }
         $this->itemsQuantity = Cart::getTotalQuantity();
+
+
+        if(strlen($this->search2) > 0)
+            $data = Clientes::where('nombre_cliente', 'like', '%'.$this->search2.'%')
+            ->orWhere('NIT_cliente', 'like', '%'.$this->search2.'%')
+            ->orWhere('NRC_cliente', 'like', '%'.$this->search2.'%')
+            ->paginate($this->pagination2, ['*'], 'clientes-page');
+        else
+            $data = Clientes::orderBy('id','desc')->paginate($this->pagination2, ['*'], 'clientes-page');
+
 
          $this->lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
                         ->select('pro.*','pro.name as nombreProducto','pro.id as idProducto','lotes.*')
@@ -97,6 +114,7 @@ class FacturacionController extends Component
 
         return view('livewire.facturacion.facturacion',[
             'products'      =>  $products,
+            'Clientes'      =>  $data,
             'transacciones' =>  TiposTransacciones::orderBy('id', 'asc')->get(),
             'cart'          =>  Cart::getContent()->sortBy('id'),
             'denominations' =>  Denomination::orderBy('type','asc')->get(),
@@ -115,11 +133,13 @@ class FacturacionController extends Component
     public function validarTipoTransaccion(TiposTransacciones $transaccionId){
         $this->transaccionId = $transaccionId->id;
         if($this->transaccionId === 1){
-            $this->emit('consumidor-final');
+            $this->pageTitle2 = 'Detalle de venta Consumidor Final';
+            $this->emit('facturacion');
             //dd($this->transaccionId);
             //dd('Emitir evento para abrir interfaces de facturacion consumidor final');
         }
         if($this->transaccionId === 2){
+            $this->pageTitle2 = 'Detalle de venta Credito Fiscal';
             $this->emit('credito-fiscal');
             //dd($this->transaccionId);
         }
@@ -412,6 +432,52 @@ class FacturacionController extends Component
     }
 
 
+      //Crear Cliente
+      public function Store(){
+        $rules = [
+            'nombre_cliente'    =>  'required|unique:clientes|min:3',
+            'telefono'          =>  'required|min:8',
+            'NIT_cliente'       =>  'required|min:10|unique:clientes,NIT_cliente',
+            'NRC_cliente'       =>  'required|min:10|unique:clientes,NRC_cliente',
+            'gran_con_cliente'  =>  'required|not_in:Seleccionar'
+        ];
+
+        $messages = [
+            'nombre_cliente.required'   => 'Nombre de el cliente es requerido',
+            'nombre_cliente.unique'     => 'El cliente ya existe',
+            'nombre_cliente.min'        => 'El cliente debe tener al menos 3 caracteres',
+            'telefono.required'         => 'telefono de el cliente es requerido',
+            'telefono.min'              => 'El telefono debe tener al menos 8 caracteres',
+            'NIT_cliente.required'      => 'El NIT del cliente es requerido',
+            'NIT_cliente.min'           => 'El NIT del cliente debe tener al menos 10 caracteres',
+            'NIT_cliente.unique'        => 'El NIT ingresado ya esta asociado a otro cliente',
+            'NRC_cliente.required'      => 'El NRC del cliente es requerido',
+            'NRC_cliente.min'           => 'El NRC del cliente debe tener al menos 10 caracteres',
+            'NRC_cliente.unique'        => 'El NRC ingresado ya esta asociado a otro cliente',
+            'gran_con_cliente.not_in'   => 'Selecciona si es gran contribuyente'
+            
+        ];
+
+        $this->validate($rules, $messages);
+        
+        Clientes::create([
+            'nombre_cliente'    =>  $this->nombre_cliente,
+            'telefono'          =>  $this->telefono,
+            'NIT_cliente'       =>  $this->NIT_cliente,
+            'NRC_cliente'       =>  $this->NRC_cliente,
+            'gran_con_cliente'  =>  $this->gran_con_cliente
+        ]);
+
+        //$this->resetUI();
+        $this->emit('cliente-added','Cliente registrado');
+    }
+
+    ///asignar id del cliente
+    public function ClienteCreditoFiscal($idCliente){
+        $this->selected_id = $idCliente;
+        $this->emit('facturacion');
+    }
+
      public function saveSale(){
      
         if($this->total <=0){
@@ -441,13 +507,25 @@ class FacturacionController extends Component
                 ]);
             }
             if ($this->transaccionId === 2) {
+
+                $rules = [
+                    'numero_factura'    =>  'required|min:3',
+                ];
+        
+                $messages = [
+                    'numero_factura.required'   => 'Numero de factura es requerido',    
+                    'numero_factura.min'        => 'El numero de factura debe tener al menos 3 caracteres',                  
+                ];
+        
+                $this->validate($rules, $messages);
+
                 $sale = Sale::create([
                 'total'                  => $this->total,
                 'items'                  => $this->itemsQuantity,
                 'cash'                   => $this->efectivo,
                 'change'                 => $this->change,
-                'numero_factura'         => '001',
-                'clientes_id'            => 1,           
+                'numero_factura'         => $this->numero_factura,
+                'clientes_id'            => $this->selected_id,           
                 'tipos_transacciones_id' => $this->transaccionId,
                 'user_id'                => auth()->user()->id
                 ]);
@@ -545,7 +623,15 @@ class FacturacionController extends Component
             DB::rollback();
              $this->emit('sale-error',$e->getMessage());
         }
+    }
 
-
+    public function resetUI(){
+        $this->nombre_cliente   =   ''; 
+        $this->telefono         =   ''; 
+        $this->NIT_cliente      =   '';
+        $this->NRC_cliente      =   '';
+        $this->gran_con_cliente =   'Seleccionar';
+        $this->resetPage();
+        $this->resetValidation();
     }
 }

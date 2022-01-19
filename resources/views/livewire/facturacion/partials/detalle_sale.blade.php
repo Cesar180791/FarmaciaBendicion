@@ -3,14 +3,25 @@
         <div class="card simple-title-task ui-sortable-handle">
             <div class="card-body">
                 <div class="widget-heading">
-                    <h4 class="card-title">
+                    <h6 class="card-title">
                         <b class="sizeEncabezado">{{$componentName}} | {{$pageTitle2}}</b>
-                    </h4>
+                    </h6>
                 </div>
-                <div class="d-flex">
-                    <a class="btn btn-dark mbmobile mb-4 ml-auto" id="btn-regresar"><b>Atras</b></a>
+                <div class="d-flex row">
+                    @if($transaccionId === 2)
+                    <div class="col-sm-3 col-md-6">
+                        <input type="text" wire:model.lazy="numero_factura" class="form-control input-sm" placeholder="Ingresa Numero de Factura">
+                        @error('numero_factura') <span class="text-danger er">{{ $message }}</span> @enderror
+                    </div>
+                    @endif
+                    <div col-sm-9 class="ml-auto">
+                        <a class="btn btn-dark mbmobile mb-4 ml-auto" id="btn-regresar"><b>Atras</b></a>
                     <a class="btn btn-dark mbmobile mb-4 ml-2" id="btn-buscar"><b>Buscar F1</b></a>
+                    </div>
+
+                    
                 </div>
+
                 @if(count($cart)==0)
                 <div class="alert alert-danger">No hay Registros que mostrar</div> 
                 @else
