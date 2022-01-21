@@ -24,8 +24,8 @@ class CreateSalesTable extends Migration
             $table->enum('status',['PAID','PENDING','CANCELLED'])->default('PAID');
             $table->foreignId('clientes_id')->constrained()->nullable();
             $table->foreignId('tipos_transacciones_id')->constrained();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('users_id');
+            $table->foreign('users_id')->references('id')->on('users');
 
             $table->timestamps();
         });
