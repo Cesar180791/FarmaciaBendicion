@@ -37,21 +37,29 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('categories', CategoriesController::class);
-Route::get('subcategories', SubCategoriesController::class);
-Route::get('products', ProductsController::class);
-Route::get('dinero', CoinsController::class);
-Route::get('cargas-inventario', CargaInventarioController::class);
-Route::get('descargas-inventario', DescargainventarioController::class);
-Route::get('usuarios', UserController::class);
-Route::get('roles', RolesController::class);
-Route::get('permisos', PermisosController::class);
-Route::get('asignar', AsignarController::class);
-Route::get('proveedores', ProveedoresController::class);
-Route::get('consulta-inventario', InventarioController::class);
-Route::get('compras', ComprasController::class);
-Route::get('clientes', ClientesController::class);
-Route::get('facturacion', FacturacionController::class);
+Route::middleware(['auth'])->group(function (){
+    Route::group(['middleware' => ['role:Administrador']], function () {
+        Route::get('categories', CategoriesController::class);
+        Route::get('subcategories', SubCategoriesController::class);
+        Route::get('products', ProductsController::class);
+        Route::get('dinero', CoinsController::class);
+        Route::get('cargas-inventario', CargaInventarioController::class);
+        Route::get('descargas-inventario', DescargainventarioController::class);
+        Route::get('usuarios', UserController::class);
+        Route::get('roles', RolesController::class);
+        Route::get('permisos', PermisosController::class);
+        Route::get('asignar', AsignarController::class);
+        Route::get('proveedores', ProveedoresController::class);
+        Route::get('consulta-inventario', InventarioController::class);
+        Route::get('compras', ComprasController::class);
+        Route::get('clientes', ClientesController::class);
+    });
+
+    Route::group(['middleware' => ['role:Administrador||Cajero']], function () {
+        Route::get('facturacion', FacturacionController::class);
+    });
+});
+
 
 
 

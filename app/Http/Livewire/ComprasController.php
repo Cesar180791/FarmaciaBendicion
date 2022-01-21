@@ -197,9 +197,9 @@ class ComprasController extends Component
                 0,
                 $cant,
                 array(
-                    0,
-                    0, 
-                    0, 
+                    $product->cost,
+                    $product->iva_cost, 
+                    $product->final_cost, 
                     $product->precio_caja, 
                     $product->precio_mayoreo,
                     $product->precio_unidad,

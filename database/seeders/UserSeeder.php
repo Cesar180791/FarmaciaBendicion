@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -23,7 +24,7 @@ class UserSeeder extends Seeder
             'profile'=>'Administrador',
             'status'=>'ACTIVE',
             'password'=>bcrypt('12345678')
-        ]);//->syncRoles('Administrador');
+        ])->syncRoles('Administrador');
         User::create([
             'name'=>'Fabricio Rivera',
             'phone'=>'75208741',
@@ -33,6 +34,6 @@ class UserSeeder extends Seeder
             'profile'=>'Cajero',
             'status'=>'ACTIVE',
             'password'=>bcrypt('12345678')
-        ]);//->syncRoles('Cajero');
+        ])->syncRoles('Cajero');
     }
 }
