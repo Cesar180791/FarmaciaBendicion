@@ -21,7 +21,7 @@ class CreateLotesTable extends Migration
             $table->integer('existencia_lote')->default(0);
             $table->integer('existencia_lote_unidad')->nullable(); 
             $table->date('caducidad_lote');
-            $table->enum('estado_lote',['ACTIVO','DESHABILITADO'])->default('ACTIVO');
+            $table->enum('estado_lote',['ACTIVO','DESHABILITADO'])->default('DESHABILITADO');
             $table->timestamps();
         });
     }

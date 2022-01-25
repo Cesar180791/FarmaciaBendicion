@@ -1,8 +1,8 @@
 <div class="widget widget-chart-one">
     <div class="widget-heading">
-        <h4 class="card-title">
+        <h6 class="card-title">
             <b class="sizeEncabezado">{{$componentName}} | {{$pageTitle3}} para {{$producto}}</b> 
-        </h4>
+        </h6>
     </div>
 
     <div class="widget-content">

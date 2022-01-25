@@ -71,7 +71,10 @@ class FacturacionController extends Component
 
          $this->lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
                         ->select('pro.*','pro.name as nombreProducto','pro.id as idProducto','lotes.*')
-                        ->where('lotes.products_id',$this->idProduct)
+                        ->where([
+                            ['lotes.products_id', $this->idProduct],
+                            ['lotes.estado_lote', 'ACTIVO']
+                            ]) 
                         ->orderBy('pro.id','desc')
                         ->get();
 
@@ -89,7 +92,7 @@ class FacturacionController extends Component
                             ])
                         ->orWhere([
                                 ['products.laboratory','like', '%' . $this->search . '%'],
-                                ['estado','ACTIVO']
+                                ['estado','ACTIVO'] 
                             ])
                         ->orWhere([
                                 ['products.Numero_registro','like', '%' . $this->search . '%'],
@@ -562,9 +565,13 @@ class FacturacionController extends Component
                         $product->existencia_caja -= $item->quantity;
                         $product->save();
 
-                       
                         $actualizarLote->existencia_lote -= $item->quantity;
                         $actualizarLote->save();
+
+                        if($actualizarLote->existencia_lote === 0 && $actualizarLote->existencia_lote_unidad === 0 || $actualizarLote->existencia_lote === 0 && $actualizarLote->existencia_lote_unidad === null){
+                            $actualizarLote->estado_lote = 'DESHABILITADO';
+                            $actualizarLote->save();
+                        }
                     }
 
                     if($item->attributes[6] === 'UNIDAD'){
@@ -572,7 +579,18 @@ class FacturacionController extends Component
                             $product->existencia_unidad -= $item->quantity;
                             $product->save();
                             $actualizarLote->existencia_lote_unidad -= $item->quantity;
+
+                            if($actualizarLote->existencia_lote === 0 && $actualizarLote->existencia_lote_unidad === 0){
+                                $actualizarLote->estado_lote = 'DESHABILITADO';
+                            }
+
                             $actualizarLote->save();
+
+                            if($actualizarLote->existencia_lote === 0 && $actualizarLote->existencia_lote_unidad === 0){
+                                $actualizarLote->estado_lote = 'DESHABILITADO';
+                                $actualizarLote->save();
+                            }
+
                         }else{
                             //restar caja y añadir unidades a stock unidades producto
                             $product->existencia_caja -= 1;
@@ -587,7 +605,13 @@ class FacturacionController extends Component
                             $actualizarLote->existencia_lote_unidad += $product->unidades_presentacion;
 
                             $actualizarLote->existencia_lote_unidad -= $item->quantity;
+
                             $actualizarLote->save();
+
+                            if($actualizarLote->existencia_lote === 0 && $actualizarLote->existencia_lote_unidad === 0){
+                                $actualizarLote->estado_lote = 'DESHABILITADO';
+                                $actualizarLote->save();
+                            }
                         }
                     }
                      //Fin  actualizar la cantidad de producto
@@ -624,6 +648,7 @@ class FacturacionController extends Component
              $this->emit('sale-error',$e->getMessage());
         }
     }
+    
 
     public function resetUI(){
         $this->nombre_cliente   =   ''; 

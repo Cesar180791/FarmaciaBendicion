@@ -476,7 +476,7 @@ namespace App\Models{
  * @property string $status
  * @property int|null $clientes_id
  * @property int $tipos_transacciones_id
- * @property int $user_id
+ * @property int $users_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Sale newModelQuery()
@@ -493,7 +493,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereTiposTransaccionesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Sale whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereUsersId($value)
  */
 	class Sale extends \Eloquent {}
 }
@@ -509,8 +509,9 @@ namespace App\Models{
  * @property string $costo
  * @property string $costo_iva
  * @property string $costo_mas_iva
- * @property string $iva_precio_venta
  * @property string $precio_venta
+ * @property string $iva_precio_venta
+ * @property string $precio_venta_mas_iva
  * @property int $quantity
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -525,6 +526,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereIvaPrecioVenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereLotesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails wherePrecioVenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails wherePrecioVentaMasIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereSaleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SaleDetails whereTipoVenta($value)

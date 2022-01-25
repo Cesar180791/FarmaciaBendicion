@@ -3,9 +3,9 @@
         <div class="card simple-title-task ui-sortable-handle">
             <div class="card-body">
                 <div class="widget-heading">
-                    <h4 class="card-title">
+                    <h6 class="card-title">
                         <b class="sizeEncabezado">{{$componentName2}} | {{$pageTitle2}}</b>
-                    </h4>
+                    </h6>
                 </div>
                 <a class="btn btn-dark mbmobile mb-4" id="buscarbtn"><b>Buscar F1</b></a>
                 @if(count($cart)==0)

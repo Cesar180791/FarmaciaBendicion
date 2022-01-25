@@ -34,19 +34,19 @@
                         <tbody>
                             @foreach($products as $product)
                             <tr>
-                                <td><h6>{{$product->Numero_registro}}</h6></td>
-                                <td><h6>{{$product->name}}</h6></td>
-                                <td><h6>{{$product->chemical_component}}</h6></td>
-                                <td><h6>{{$product->sub_category}}</h6></td>
-                                <td><h6>{{$product->laboratory}}</h6></td>
-                                <td class="text-center"><h6>${{number_format($product->cost,4)}} <br> IVA: <br> ${{number_format($product->iva_cost,4)}}</h6></td>
-                                <td class="text-center"><h6>${{number_format($product->final_cost,4)}}</h6></td>
-                                <td class="text-center"><h6>${{number_format($product->precio_caja,4)}}</h6></td>
-                                <td class="text-center"><h6>${{number_format($product->precio_mayoreo,4)}}</h6></td>
+                                <td>{{$product->Numero_registro}}</td>
+                                <td>{{$product->name}}</td>
+                                <td>{{$product->chemical_component}}</td>
+                                <td>{{$product->sub_category}}</td>
+                                <td>{{$product->laboratory}}</td>
+                                <td class="text-center">${{number_format($product->cost,4)}} <br> IVA: <br> ${{number_format($product->iva_cost,4)}}</td>
+                                <td class="text-center">${{number_format($product->final_cost,4)}}</td>
+                                <td class="text-center">${{number_format($product->precio_caja,4)}}</td>
+                                <td class="text-center">${{number_format($product->precio_mayoreo,4)}}</td>
                                 @if ($product->precio_unidad != null)
-                                <td class="text-center"><h6>${{number_format($product->precio_unidad,4)}}</h6></td>
+                                <td class="text-center">${{number_format($product->precio_unidad,4)}}</td>
                                 @else
-                                <td class="text-center"><h6>No se vende por unidad</h6></td>
+                                <td class="text-center">No se vende por unidad</td>
                                 @endif
                                 <td class="text-center"><span class="badge {{$product->estado == 'ACTIVO' ? 'badge-success' : 'badge-danger'}} text-uppercase">{{$product->estado}}</span></td>
                                 <td class="text-center">

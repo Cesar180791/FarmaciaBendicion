@@ -14,8 +14,8 @@ use DB;
 class DescargainventarioController extends Component
 {
     use withPagination;
-    public $search, $itemsQuantity, $total, $descripcion_descarga, $idBuscarProducto, $idProducto;
-    private $pagination = 5;
+    public $search, $search2, $itemsQuantity, $total, $descripcion_descarga, $idBuscarProducto, $idProducto;
+    private $pagination = 5, $pagination2 = 5;
 
     public function mount(){
         //Cart::clear();
@@ -36,15 +36,32 @@ class DescargainventarioController extends Component
         $this->resetPage();
     }
 
+    public function updatingSearch2()
+    {
+        $this->resetPage('pages-lotes');
+    }
+
     public function render()
     {
         //id de lote se almacena en $idBuscarProducto y cambia mediante la funcion asignarIdBusquedaProducto()
-        $this->lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
+        if (strlen($this->search2) > 0)
+        $lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
+                        ->join('users as u','u.id','lotes.users_id')
+                        ->select('pro.*','pro.name as nombreProducto','pro.id as idProducto','u.name','lotes.*')
+                        ->where([
+                            ['lotes.products_id',$this->idBuscarProducto],
+                            ['lotes.numero_lote','like', '%' . $this->search2 . '%']
+                            ])
+                        ->orderBy('pro.id','desc')
+                        ->paginate($this->pagination2, ['*'], 'pages-lotes');
+        
+        else
+        $lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
                         ->join('users as u','u.id','lotes.users_id')
                         ->select('pro.*','pro.name as nombreProducto','pro.id as idProducto','u.name','lotes.*')
                         ->where('lotes.products_id',$this->idBuscarProducto)
                         ->orderBy('pro.id','desc')
-                        ->get();
+                        ->paginate($this->pagination2, ['*'], 'pages-lotes');
  
                        // dd($this->lotes);
                         //en esta parte se asigna el id a la variable idProducto
@@ -72,7 +89,7 @@ class DescargainventarioController extends Component
         return view('livewire.descargainventario.descargainventario',[
             'products'      =>  $products,
             'cart'          =>  Cart::getContent()->sortBy('id'),
-            'lotes'         =>  $this->lotes
+            'lotes'         =>  $lotes
         ])
         ->extends('layouts.theme.app')
         ->section('content');
@@ -228,9 +245,14 @@ class DescargainventarioController extends Component
                     $actualizarExistencia->save();
 
                     //actualizar lote
-                    $actualizarLote = Lotes::find($item->id);
+                    $actualizarLote = Lotes::find($item->id); 
                     $actualizarLote->existencia_lote -= $item->quantity;
                     $actualizarLote->save();
+
+                    if($actualizarLote->existencia_lote === 0 && $actualizarLote->existencia_lote_unidad === 0 || $actualizarLote->existencia_lote === 0 && $actualizarLote->existencia_lote_unidad === null){
+                        $actualizarLote->estado_lote = 'DESHABILITADO';
+                        $actualizarLote->save();
+                    }
 
                 }
             }

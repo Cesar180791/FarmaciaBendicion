@@ -14,8 +14,8 @@ use DB;
 class CargaInventarioController extends Component
 {
     use withPagination;
-    public $search, $itemsQuantity, $total, $descripcion_carga, $loteId, $producto ,$numero_lote, $caducidad_lote, $idProducto, $idBuscarProducto, $existencia_lote_unidad;
-    private $pagination = 5;
+    public $search, $search2, $itemsQuantity, $total, $descripcion_carga, $loteId, $producto ,$numero_lote, $caducidad_lote, $idProducto, $idBuscarProducto, $existencia_lote_unidad;
+    private $pagination = 5, $pagination2 = 5;
 
     public function mount(){
         //Cart::clear();
@@ -39,16 +39,33 @@ class CargaInventarioController extends Component
         $this->resetPage();
     }
 
+    public function updatingSearch2()
+    {
+        $this->resetPage('lotes');
+    }
+
 
     public function render()
     {  
         //id de lote se almacena en $idBuscarProducto y cambia mediante la funcion asignarIdBusquedaProducto()
+        if (strlen($this->search2) > 0)
         $this->lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
+                        ->join('users as u','u.id','lotes.users_id')
+                        ->select('pro.*','pro.name as nombreProducto','pro.id as idProducto','u.name','lotes.*')
+                        ->where([
+                            ['lotes.products_id',$this->idBuscarProducto],
+                            ['lotes.numero_lote','like', '%' . $this->search2 . '%']
+                            ])
+                        ->orderBy('pro.id','desc')
+                        ->paginate($this->pagination2, ['*'],' lotes');
+        
+        else
+         $this->lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
                         ->join('users as u','u.id','lotes.users_id')
                         ->select('pro.*','pro.name as nombreProducto','pro.id as idProducto','u.name','lotes.*')
                         ->where('lotes.products_id',$this->idBuscarProducto)
                         ->orderBy('pro.id','desc')
-                        ->get();
+                        ->paginate($this->pagination2, ['*'], 'lotes');
 
                        // dd($this->lotes);
                         //en esta parte se asigna el id a la variable idProducto
@@ -77,9 +94,10 @@ class CargaInventarioController extends Component
 
 
         return view('livewire.carga-inventario.carga-inventario',[
+            'lotes'         =>  $this->lotes,
             'products'      =>  $products,
             'cart'          =>  Cart::getContent()->sortBy('id'),
-            'lotes'         =>  $this->lotes
+            
         ])
         ->extends('layouts.theme.app')
         ->section('content');;
@@ -191,9 +209,9 @@ class CargaInventarioController extends Component
                 0,
                 $cant,
                 array(
-                    0,
-                    0, 
-                    0, 
+                    $product->cost,
+                    $product->iva_cost, 
+                    $product->final_cost, 
                     $product->precio_caja, 
                     $product->precio_mayoreo,
                     $product->precio_unidad,
@@ -467,9 +485,11 @@ class CargaInventarioController extends Component
                     $actualizarlote = Lotes::find($item->id);
                     if($actualizarlote->existencia_lote > 0){
                         $actualizarlote->existencia_lote += $item->quantity;
+                        $actualizarlote->estado_lote = 'ACTIVO';
                         $actualizarlote->save();
                     } else{
                         $actualizarlote->existencia_lote = $item->quantity;
+                        $actualizarlote->estado_lote = 'ACTIVO';
                         $actualizarlote->save();
                     }
                 }

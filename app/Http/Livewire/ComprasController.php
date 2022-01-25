@@ -17,9 +17,9 @@ class ComprasController extends Component
 {
     use withPagination;
 
-    public $proveedores_id, $search, $fecha_compra, $factura, $descripcion_lote, $total, $itemsQuantity, $pageTitle2, $pageTitle3, $idBuscarProducto, $idProducto,$producto,$loteId, $numero_lote, $caducidad_lote, $politicas_garantias_id, $existencia_lote_unidad;
+    public $proveedores_id, $search, $search2, $fecha_compra, $factura, $descripcion_lote, $total, $itemsQuantity, $pageTitle2, $pageTitle3, $idBuscarProducto, $idProducto,$producto,$loteId, $numero_lote, $caducidad_lote, $politicas_garantias_id, $existencia_lote_unidad;
 
-    private $pagination = 5;
+    private $pagination = 5, $paginate2 = 5;
 
     public function mount(){
         $this->proveedores_id = "Seleccionar";
@@ -41,15 +41,32 @@ class ComprasController extends Component
         $this->resetPage();
     }
 
+    public function updatingSearch2()
+    {
+        $this->resetPage('lotes-page');
+    }
+
     public function render()
     {
         //id de lote se almacena en $idBuscarProducto y cambia mediante la funcion asignarIdBusquedaProducto()
-        $this->lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
+        if (strlen($this->search2) > 0)
+        $lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
+                        ->join('users as u','u.id','lotes.users_id')
+                        ->select('pro.*','pro.name as nombreProducto','pro.id as idProducto','u.name','lotes.*')
+                        ->where([
+                            ['lotes.products_id',$this->idBuscarProducto],
+                            ['lotes.numero_lote','like', '%' . $this->search2 . '%']
+                            ])
+                        ->orderBy('pro.id','desc')
+                        ->paginate($this->paginate2, ['*'],' lotes-page');
+        
+        else
+        $lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
                         ->join('users as u','u.id','lotes.users_id')
                         ->select('pro.*','pro.name as nombreProducto','pro.id as idProducto','u.name','lotes.*')
                         ->where('lotes.products_id',$this->idBuscarProducto)
                         ->orderBy('pro.id','desc')
-                        ->get();
+                        ->paginate($this->paginate2, ['*'], 'lotes-page');
 
                        // dd($this->lotes);
                         //en esta parte se asigna el id a la variable idProducto
@@ -79,6 +96,7 @@ class ComprasController extends Component
  
         return view('livewire.compras.compras',[
             'products'      =>  $products,
+            'lotes'         =>  $lotes,
             'cart'          =>  Cart::getContent()->sortBy('id'),
             'proveedores'   =>  Proveedores::orderBy('nombre_proveedor', 'asc')->where('estado_proveedor', 'ACTIVO')->get(),
             'politicas'     =>  PoliticasGarantias::orderBy('id', 'asc')->get()
@@ -487,10 +505,13 @@ class ComprasController extends Component
                     $actualizarlote = Lotes::find($item->id);
                     if($actualizarlote->existencia_lote > 0){
                         $actualizarlote->existencia_lote += $item->quantity;
+                        $actualizarlote->estado_lote = 'ACTIVO';
                         $actualizarlote->save();
+                        
                     } else{
                         $actualizarlote->existencia_lote = $item->quantity;
-                        $actualizarlote->save();
+                        $actualizarlote->estado_lote = 'ACTIVO';
+                        $actualizarlote->save();    
                     }
                 }
             }

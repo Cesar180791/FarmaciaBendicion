@@ -137,7 +137,7 @@ class ClientesController extends Component
          ]);
     }
 
-    public function Active(Clientes $cliente){
+    public function Active(Clientes $cliente){ 
         $cliente->update([
             'estado_cliente' => 'ACTIVO',
          ]);

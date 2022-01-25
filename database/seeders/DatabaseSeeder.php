@@ -25,5 +25,8 @@ class DatabaseSeeder extends Seeder
         $this->call(GarantiasSeeder::class);
         $this->call(TipoTransacionesSeeder::class);
         $this->call(PermisosSeeder::class);
+        $this->call(ProveedoresSeeder::class);
+        $this->call(ClientesSeeder::class);
+
     }
 }

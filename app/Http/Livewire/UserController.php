@@ -179,7 +179,7 @@ public function Update(){
 
 public function Destroy(User $user){
     if ($user) {
-        $sales = Sale::where('users_id', $user->id)->count();
+        $sales = Sale::where('user_id', $user->id)->count();
         if ($sales > 0) {
             $this->emit('user-sale','No es posible eliminar el usuario porque tiene ventas registradas');
         } else{
