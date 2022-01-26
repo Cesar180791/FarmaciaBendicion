@@ -1,8 +1,8 @@
 <div class="widget widget-chart-one">
     <div class="widget-heading">
-        <h4 class="card-title">
+        <h6 class="card-title">
             <b class="sizeEncabezado">{{$componentName}} | {{$pageTitle}}</b>
-        </h4>
+        </h6>
         <ul class="tabs tab-pills">
             <li style="list-style: none;">
                 <a href="javascript:void(0)" id="btn-regresar2" class="tabmenu btn btn-dark text-white"><b>Regresar</b></a>

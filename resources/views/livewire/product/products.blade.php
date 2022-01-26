@@ -2,9 +2,9 @@
     <div class="col-sm-12">
         <div class="widget widget-chart-one">
             <div class="widget-heading">
-                <h4 class="card-title">
+                <h6 class="card-title">
                     <b style="font-size: 18px;">{{$componentName}} | {{$pageTitle}}</b>
-                </h4>
+                </h6>
                 <ul class="tabs tab-pills">
                     <li style="list-style: none;">
                         <a href="javascript:void(0)" class="tabmenu btn bg-dark" data-toggle="modal" data-target="#theModal">Agregar</a>
@@ -26,7 +26,7 @@
                                 <th class="table-th text-white text-center">Costo + IVA</th>
                                 <th class="table-th text-white text-center">Precio</th>
                                 <th class="table-th text-white text-center">P. Mayoreo</th>
-                                <th class="table-th text-white text-center">P. Unidad <br>(Si es presentacion en caja)</th>
+                                <th class="table-th text-white text-center">P. Unidad</th>
                                 <th class="table-th text-white text-center">Estado</th>
                                 <th class="table-th text-white text-center">Acciones</th>
                             </tr>
@@ -46,7 +46,7 @@
                                 @if ($product->precio_unidad != null)
                                 <td class="text-center">${{number_format($product->precio_unidad,4)}}</td>
                                 @else
-                                <td class="text-center">No se vende por unidad</td>
+                                <td class="text-center">N/A</td>
                                 @endif
                                 <td class="text-center"><span class="badge {{$product->estado == 'ACTIVO' ? 'badge-success' : 'badge-danger'}} text-uppercase">{{$product->estado}}</span></td>
                                 <td class="text-center">
@@ -70,9 +70,7 @@
         </div>
     </div>
    @include('livewire.product.form')
-</div>
-
-<script>
+   <script>
     document.addEventListener('DOMContentLoaded', function(){
          window.livewire.on('product-added', msg=>{
             $('#theModal').modal('hide');
@@ -116,3 +114,5 @@
         })
     }
 </script>
+</div>
+

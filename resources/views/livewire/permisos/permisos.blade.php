@@ -3,9 +3,9 @@
         <div class="col-sm-12">
             <div class="widget widget-chart-one">
                 <div class="widget-heading">
-                    <h4 class="card-title">
+                    <h6 class="card-title">
                         <b style="font-size: 18px;">{{$componentName}} | {{$pageTitle}}</b>
-                    </h4>
+                    </h6>
                     <li style="list-style: none;">
                         <a href="javascript:void(0)" class="tabmenu btn text-white btn-success" data-toggle="modal"
                             data-target="#theModal"><i class="fas fa-folder-plus"></i> Agregar</a>

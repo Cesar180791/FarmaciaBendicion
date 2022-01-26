@@ -3,9 +3,9 @@
         <div class="col-sm-12">
             <div class="widget widget-chart-one">
                 <div class="widget-heading">
-                    <h4 class="card-title">
+                    <h6 class="card-title">
                         <b style="font-size: 18px;">{{$componentName}}</b>
-                    </h4>
+                    </h6>
                 </div>
                 <div class="widget-content">
                     <div class="form-inline">
@@ -18,7 +18,7 @@
                             </select>
                         </div>
                         <button wire:click.prevent="SyncAll()" type="button"
-                            class="btn btn-success mbmobile inblock mr-5">Sincronizar Todos</button>
+                            class="btn btn-dark mbmobile inblock mr-5">Sincronizar Todos</button>
                         <button onclick="Revocar()" type="button" class="btn btn-warning mbmobile mr-5">Revocar Todos
                         </button>
                     </div>
@@ -27,18 +27,17 @@
 
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped mt-1">
-                                    <thead class="text-white" style="background: #1B4F72;">
+                                    <thead class="text-white" style="background: #3B3F5C;">
                                         <tr>
-                                            <th class="table-th text-whit text-center">ID</th>
-                                            <th class="table-th text-white text-center">Permiso</th>
+                                            <th class="table-th text-white text-center">ID</th>
+                                            <th class="table-th text-white text-center">AUTORIZACIÓN</th>
+                                            <th class="table-th text-white text-center">NOMBRE PERMISO</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($permisos as $permiso)
                                         <tr>
-                                            <td>
-                                                <h6 class="text-center">{{$permiso->id}}</h6>
-                                            </td>
+                                            <td class="text-center">{{$permiso->id}}</td>
                                             <td class="text-center">
                                                 <div class="n-check">
                                                     <label class="new-control new-checkbox checkbox-primary">
@@ -49,8 +48,10 @@
                                                             {{ $permiso->checked == 1 ? 'checked' : '' }}><br>
                                                         <span class="new-control-indicator"></span>
                                                     </label>
-                                                    <h6>{{$permiso->name}}</h6>
                                                 </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <P>{{$permiso->name}}</P>
                                             </td>
                                         </tr>
                                         @endforeach

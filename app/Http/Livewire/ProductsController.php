@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire; 
 
 use Livewire\Component;
 use App\Models\SubCategory;
@@ -75,7 +75,7 @@ class ProductsController extends Component
             'name'                      =>  'required|min:3|unique:products,name',
             'chemical_component'        =>  'required|min:3',
             'barCode'                   =>  'required',
-            'Numero_registro'           =>  'required|min:3|unique:products,Numero_registro',
+            'Numero_registro'           =>  'required|min:3',
             'laboratory'                =>  'required|min:3',
             'subCategoryId'             =>  'required|not_in:Seleccionar',
             'unidades_presentacion'     =>  'required'
@@ -90,7 +90,6 @@ class ProductsController extends Component
             'barCode.required'              =>  'Código de barra es Requerido',
             'Numero_registro.required'      =>  'El numero de registro del medicamento es requerido',
             'Numero_registro.min'           =>  'El numero de registro debe tener al menos 3 caracteres',
-            'Numero_registro.unique'        =>  'El numero de registro ingresado ya esta asociado a un medicamento registrado en el sistema',
             'laboratory.required'           =>  'El nombre del laboratorio es requerido',
             'laboratory.min'                =>  'El nombre del laboratorio debe tener al menos 3 caracteres',
             'subCategoryId.not_in'          =>  'Elige una SubCategoría diferente de "Seleccionar"',

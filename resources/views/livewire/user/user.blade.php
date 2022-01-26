@@ -3,12 +3,12 @@
       <div class="col-sm-12">
           <div class="widget widget-chart-one">
               <div class="widget-heading">
-                  <h4 class="card-title">
+                  <h6 class="card-title">
                       <b style="font-size: 18px;">{{$componentName}} | {{$pageTitle}}</b>
-                  </h4>
+                  </h6>
                     <ul class="tabs tab-pills"> 
                       <li style="list-style: none;">
-                          <a href="javascript:void(0)" class="tabmenu btn bg-dark" data-toggle="modal" data-target="#theModal">Agregar</a>
+                          <a href="javascript:void(0)" class="tabmenu btn btn-dark" data-toggle="modal" data-target="#theModal">Agregar</a>
                       </li>
                   </ul>
               </div>
@@ -16,7 +16,7 @@
               <div class="widget-content">
                   <div class="table-responsive">
                       <table class="table table-bordered table-striped mt-1">
-                          <thead class="text-white" style="background: #1B4F72;">
+                          <thead class="text-white" style="background: #3B3F5C;">
                               <tr>
                                   <th class="table-th text-white text-center">Nombre</th>
                                   <th class="table-th text-white text-center">Telefono</th>
@@ -30,14 +30,14 @@
                           <tbody>
                               @foreach($data as $r)
                               <tr>
-                                  <td class="text-center"><h6>{{$r->name}}</h6></td>
-                                  <td class="text-center"><h6>{{$r->phone}}</h6></td>
-                                  <td class="text-center"><h6>{{$r->email}}</h6></td>
-                                  <td class="text-center"><h6>{{$r->dui}}</h6></td>
+                                  <td class="text-center">{{$r->name}}</td>
+                                  <td class="text-center">{{$r->phone}}</td>
+                                  <td class="text-center">{{$r->email}}</td>
+                                  <td class="text-center">{{$r->dui}}</td>
                                   <!--<td class="text-center">
                                       <span class="badge {{$r->status == 'Active' ? 'badge-success' : 'badge-danger'}} text-uppercase">{{$r->status}}</span>
                                   </td>-->
-                                  <td><h6 class="text-center">{{$r->profile}}</h6></td>
+                                  <td class="text-center">{{$r->profile}}</td>
                                   <td class="text-center">
                                         <a href="javascript:void(0)" class="btn btn-dark mtmobile btn-sm" wire:click="Edit({{$r->id}})" title="Edit">
                                           <i class="fas fa-edit"></i>

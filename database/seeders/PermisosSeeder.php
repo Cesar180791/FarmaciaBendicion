@@ -42,5 +42,13 @@ class PermisosSeeder extends Seeder
             'name'=>'Permisos',
             'guard_name'=>'web',
         ]);
+        Permission::create([
+            'name'=>'Entradas_Salidas_Inventario',
+            'guard_name'=>'web',
+        ]);
+        Permission::create([
+            'name'=>'Inventario_Index',
+            'guard_name'=>'web',
+        ]);
     }
 }

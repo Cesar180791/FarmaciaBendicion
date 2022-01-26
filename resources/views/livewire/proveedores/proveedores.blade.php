@@ -3,13 +3,13 @@
         <div class="col-sm-12">
             <div class="widget widget-chart-one">
                 <div class="widget-heading">
-                    <h4 class="card-title">
+                    <h6 class="card-title">
                         <b style="font-size: 18px;">{{$componentName}} | {{$pageTitle}}</b>
 
-                    </h4>
+                    </h6>
                     <ul class="tabs tab-pills">
                         <li style="list-style: none;">
-                            <a href="javascript:void(0)" class="tabmenu btn bg-primary" data-toggle="modal"
+                            <a href="javascript:void(0)" class="tabmenu btn btn-dark" data-toggle="modal"
                                 data-target="#theModal">Agregar</a>
                         </li>
                     </ul>

@@ -120,7 +120,7 @@
 					</span>
 				</span>
 			</div>
-			<input type="text" wire:model.lazy="password" class="form-control">
+			<input type="password" wire:model.lazy="password" class="form-control">
 		</div>
 		@error('password') <span class="text-danger er">{{ $message }}</span> @enderror
 	</div>

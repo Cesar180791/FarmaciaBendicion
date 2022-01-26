@@ -27,7 +27,7 @@ class AsignarController extends Component
     public function render()
     {
         $permisos = Permission::select('name', 'id', DB::raw("0 as checked"))
-        ->orderBy('name' , 'asc')
+        ->orderBy('id' , 'asc')
         ->paginate($this->pagination);
 
         if ($this->role !='Seleccionar') {

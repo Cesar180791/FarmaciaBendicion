@@ -2,12 +2,12 @@
     <div class="col-sm-12">
         <div class="widget widget-chart-one">
             <div class="widget-heading">
-                <h4 class="card-title">
+                <h6 class="card-title">
                     <b style="font-size: 18px;">{{$componentName}} | {{$pageTitle}}</b>
-                </h4>
+                </h6>
                 <ul class="tabs tab-pills">
                     <li style="list-style: none;">
-                        <a href="javascript:void(0)" class="tabmenu btn bg-dark" data-toggle="modal" data-target="#theModal">Agregar</a>
+                        <a href="javascript:void(0)" class="tabmenu btn btn-dark" data-toggle="modal" data-target="#theModal">Agregar</a>
                     </li>
                 </ul>
             </div>
@@ -26,9 +26,9 @@
                         <tbody>
                             @foreach($data as $subCategory)
                             <tr>
-                                <td><h6>{{$subCategory->name}}</h6></td>
-                                <td><h6>{{$subCategory->description}}</h6></td>
-                                <td><h6>{{$subCategory->category}}</h6></td>
+                                <td>{{$subCategory->name}}</td>
+                                <td>{{$subCategory->description}}</td>
+                                <td>{{$subCategory->category}}</td>
                                 <td class="text-center">
                                     <a href="javascript:void(0)"
                                     wire:click.prevent="Edit({{$subCategory->id}})"
