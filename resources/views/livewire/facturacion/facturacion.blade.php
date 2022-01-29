@@ -217,6 +217,10 @@
             })
         });
 
+        window.livewire.on('print-factura', saleId=>{
+            window.open("print://" + saleId, '_blank')
+        });
+
 
     });
       function Confirm(id, eventName, text){

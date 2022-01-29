@@ -50,12 +50,12 @@ Route::middleware(['auth'])->group(function (){
         Route::get('permisos', PermisosController::class);
         Route::get('asignar', AsignarController::class);
         Route::get('proveedores', ProveedoresController::class);
-        Route::get('consulta-inventario', InventarioController::class);
         Route::get('compras', ComprasController::class);
         Route::get('clientes', ClientesController::class);
     });
 
     Route::group(['middleware' => ['role:Administrador||Cajero']], function () {
+        Route::get('consulta-inventario', InventarioController::class);
         Route::get('facturacion', FacturacionController::class);
     });
 });

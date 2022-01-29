@@ -38,7 +38,7 @@
                             @if ($product->precio_unidad != null)
                             <p>{{$product->existencia_unidad}}</p>
                             @else
-                            <p>No se vende por unidad</p>
+                            <p>N/A</p>
                             @endif
                            
                         </td>
@@ -69,7 +69,7 @@
                         </td>
                         @else
                         <td class="text-center">
-                            <p>Sin precio de unidad</p>
+                            <p>N/A</p>
                         </td>
                         @endif
                     </tr>

@@ -65,18 +65,37 @@ class InventarioController extends Component
         if (strlen($this->search) > 0)
             $products = Product::join('sub_categories as c','c.id','products.sub_category_id')
                             ->select('products.*','c.name as sub_category')
-                            ->where('products.name','like', '%' . $this->search . '%')
-                            ->orWhere('products.chemical_component','like', '%' . $this->search . '%')
-                            ->orWhere('products.laboratory','like', '%' . $this->search . '%')
-                            ->orWhere('products.Numero_registro','like', '%' . $this->search . '%')
-                            ->orWhere('products.barCode','like', '%' . $this->search . '%')
-                            ->orWhere('c.name','like', '%' . $this->search . '%')
+                            ->where([
+                                ['products.name','like', '%' . $this->search . '%'],
+                                ['estado','ACTIVO']
+                            ])
+                        ->orWhere([
+                                ['products.chemical_component','like', '%' . $this->search . '%'],
+                                ['estado','ACTIVO']
+                            ])
+                        ->orWhere([
+                                ['products.laboratory','like', '%' . $this->search . '%'],
+                                ['estado','ACTIVO'] 
+                            ])
+                        ->orWhere([
+                                ['products.Numero_registro','like', '%' . $this->search . '%'],
+                                ['estado','ACTIVO']
+                            ])
+                        ->orWhere([
+                                ['products.barCode','like', '%' . $this->search . '%'],
+                                ['estado','ACTIVO']
+                            ])
+                        ->orWhere([
+                                ['c.name','like', '%' . $this->search . '%'],
+                                ['estado','ACTIVO']
+                            ])
                             ->orderBy('products.id','desc')
                             ->paginate($this->pagination);
         else
              $products = Product::join('sub_categories as c','c.id','products.sub_category_id')
                             ->select('products.*','c.name as sub_category')
                             ->orderBy('products.id','desc')
+                            ->where('estado','ACTIVO')
                             ->paginate($this->pagination);
 
 

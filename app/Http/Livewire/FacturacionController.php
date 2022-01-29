@@ -72,7 +72,7 @@ class FacturacionController extends Component
          $this->lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
                         ->select('pro.*','pro.name as nombreProducto','pro.id as idProducto','lotes.*')
                         ->where([
-                            ['lotes.products_id', $this->idProduct],
+                            ['lotes.products_id', $this->idProduct], 
                             ['lotes.estado_lote', 'ACTIVO']
                             ]) 
                         ->orderBy('pro.id','desc')
@@ -458,7 +458,6 @@ class FacturacionController extends Component
             'NRC_cliente.min'           => 'El NRC del cliente debe tener al menos 10 caracteres',
             'NRC_cliente.unique'        => 'El NRC ingresado ya esta asociado a otro cliente',
             'gran_con_cliente.not_in'   => 'Selecciona si es gran contribuyente'
-            
         ];
 
         $this->validate($rules, $messages);
@@ -618,8 +617,7 @@ class FacturacionController extends Component
                 }
 
             }
-            $this->emit('sale-ok','Venta Registrada');
-            //$this->emit('print-ticket',$sale->id);
+
             DB::commit();
            
             Cart::clear();
@@ -628,6 +626,10 @@ class FacturacionController extends Component
 
             $this->total = Cart::getTotal();
             $this->itemsQuantity = Cart::getTotalQuantity();
+
+            $this->emit('sale-ok','Venta Registrada');
+            $this->emit('print-factura',$sale->id);
+            
 
             //$user = User::find(auth()->user()->id)->name;
            // $pdf = PDF::loadView('pdf.ticket', compact('sale','items','user'))->output();
