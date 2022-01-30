@@ -476,7 +476,7 @@ namespace App\Models{
  * @property string $status
  * @property int|null $clientes_id
  * @property int $tipos_transacciones_id
- * @property int $users_id
+ * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Sale newModelQuery()
@@ -493,7 +493,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereTiposTransaccionesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Sale whereUsersId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereUserId($value)
  */
 	class Sale extends \Eloquent {}
 }

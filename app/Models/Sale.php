@@ -10,6 +10,9 @@ class Sale extends Model
     use HasFactory;
 
     protected $fillable =[
+        'cliente_consumidor_final',
+        'direccion_consumidor_final',
+        'dui_consumidor_final',
         'total',
         'items',
         'cash',

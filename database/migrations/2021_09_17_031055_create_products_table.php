@@ -30,6 +30,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('sub_category_id')->constrained();
             $table->integer('existencia_caja')->default(0);
             $table->integer('existencia_unidad')->default(0);
+            $table->string('indicaciones',255)->nullable();
             $table->enum('estado',['ACTIVO','DESHABILITADO'])->default('ACTIVO');
             $table->timestamps();
         });

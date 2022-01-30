@@ -1,7 +1,7 @@
 <div>
     <div class="row layout-top-spacing">
         
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 layout-spacing offset-lg-3 offset-md-3" id="menu" wire:ignore.self>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 layout-spacing offset-lg-3" id="menu" wire:ignore.self>
             <div class="widget widget-three">
                 <div class="widget-heading">
                     <h5 class="text-center">Facturación</h5>
@@ -118,6 +118,10 @@
             @include('livewire.facturacion.partials.detalle_credito_fiscal') 
         </div>
 
+        <div class="col-xl-12 col-lg-9 col-md-12 col-sm-12 col-12 layout-spacing" id="descuento" wire:ignore.self>
+            @include('livewire.facturacion.partials.modal_descuento') 
+        </div>
+
 
     </div>
 </div>
@@ -129,6 +133,7 @@
         $('#detalle').hide();
         $('#total').hide();
         $('#clientes').hide();
+        $('#descuento').hide();
 
        
         $('#btn-regresar').on("click", function () {
@@ -154,6 +159,11 @@
         $('#menu').show();
         });
 
+        $('#cerrar-descuento').on("click", function () {
+            $('#descuento').hide();
+            $('#detalle').show();
+            $('#total').show();
+        });
         
 
         $('#btn-buscar').on("click", function () {
@@ -215,6 +225,26 @@
                 text: msg,
                 type: 'success',
             })
+        });
+
+        window.livewire.on('exceder-descuento', msg => {
+            swal({
+                title: 'Descuento Invalido',
+                text: msg,
+                type: 'warning',
+            })
+        });
+
+        window.livewire.on('abrir-interfaz-descuento', msg => {
+            $('#descuento').show();
+            $('#detalle').hide();
+            $('#total').hide();
+        });
+
+        window.livewire.on('descuento-aplicado', msg => {
+            $('#descuento').hide();
+            $('#detalle').show();
+            $('#total').show();
         });
 
         window.livewire.on('print-factura', saleId=>{

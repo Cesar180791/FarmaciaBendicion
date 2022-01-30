@@ -25,6 +25,7 @@ class Product extends Model
         'sub_category_id',
         'existencia_caja',
         'existencia_unidad',
+        'indicaciones',
         'estado', 
     ];
 

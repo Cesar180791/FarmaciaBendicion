@@ -18,7 +18,12 @@ class FacturacionController extends Component
 {
     use withPagination;
 
-    public $pageTitle2, $transaccionId, $search, $search2, $idProduct, $tipoPrecio, $lotes, $efectivo, $change, $itemsQuantity, $numero_factura, $clientes_id, $selected_id, $nombre_cliente , $telefono ,$NIT_cliente, $NRC_cliente, $gran_con_cliente;
+    public $pageTitle2, $transaccionId, $search, $search2, $idProduct, 
+            $tipoPrecio, $lotes, $efectivo, $change, $itemsQuantity, 
+            $numero_factura, $clientes_id, $selected_id, $nombre_cliente , 
+            $telefono ,$NIT_cliente, $NRC_cliente, $gran_con_cliente, 
+            $cliente_consumidor_final, $direccion_consumidor_final, 
+            $dui_consumidor_final, $lote, $producto, $precio, $id_lote,$descuento, $count = 0;
 
     private $pagination = 5, $pagination2 = 5;
 
@@ -58,6 +63,8 @@ class FacturacionController extends Component
              $this->change = ($this->efectivo - $this->total);
         }
         $this->itemsQuantity = Cart::getTotalQuantity();
+
+        $this->precio;
 
 
         if(strlen($this->search2) > 0)
@@ -185,7 +192,7 @@ class FacturacionController extends Component
                 }
             }
             if($this->tipoPrecio === 'MAYOREO'){
-                $precioVenta = $product->precio_mayoreo;
+               $precioVenta = $product->precio_mayoreo;
                 $cost =  $product->cost;
                 $iva_cost =  $product->iva_cost;
                 $final_cost =  $product->final_cost;
@@ -221,7 +228,8 @@ class FacturacionController extends Component
                     $buscar_lote->numero_lote,
                     $buscar_lote->caducidad_lote,
                     $product->id,
-                    $this->tipoPrecio
+                    $this->tipoPrecio,
+                    $descuento=0
                 ));
                 $this->total = Cart::getTotal();
                 $this->itemsQuantity = Cart::getTotalQuantity();
@@ -251,7 +259,7 @@ class FacturacionController extends Component
 
         if($exist){
             if($this->tipoPrecio === 'NORMAL'){
-                $precioVenta = $product->precio_caja;
+               // $precioVenta = $product->precio_caja;
                 $cost =  $product->cost;
                 $iva_cost =  $product->iva_cost;
                 $final_cost =  $product->final_cost;
@@ -262,7 +270,7 @@ class FacturacionController extends Component
                 }
             }
             if($this->tipoPrecio === 'MAYOREO'){
-                $precioVenta = $product->precio_mayoreo;
+               // $precioVenta = $product->precio_mayoreo;
                 $cost =  $product->cost;
                 $iva_cost =  $product->iva_cost;
                 $final_cost =  $product->final_cost;
@@ -273,7 +281,7 @@ class FacturacionController extends Component
                 }
             }
             if($this->tipoPrecio === 'UNIDAD'){
-                $precioVenta = $product->precio_unidad;
+               // $precioVenta = $product->precio_unidad;
                 $cost =  $product->cost / $product->unidades_presentacion;
                 $iva_cost =  $product->iva_cost / $product->unidades_presentacion;
                 $final_cost =  $product->final_cost / $product->unidades_presentacion;
@@ -295,7 +303,7 @@ class FacturacionController extends Component
         Cart::add(
             $lote->id,
             $product->name,
-            $precioVenta,
+            $exist->price,
             $cant,
             array(
                 $cost,
@@ -304,7 +312,8 @@ class FacturacionController extends Component
                 $lote->numero_lote,
                 $lote->caducidad_lote,
                 $product->id,
-                $this->tipoPrecio
+                $this->tipoPrecio,
+                $exist->attributes[7]
             ));
 
         $this->total = Cart::getTotal();
@@ -330,7 +339,8 @@ class FacturacionController extends Component
                 $item->attributes[3],
                 $item->attributes[4],
                 $item->attributes[5],
-                $item->attributes[6]
+                $item->attributes[6],
+                $item->attributes[7]
             ));
 
         $this->total = Cart::getTotal();
@@ -347,7 +357,7 @@ class FacturacionController extends Component
         
         if($exist){
             if($this->tipoPrecio === 'NORMAL'){
-                $precioVenta = $product->precio_caja;
+                //$precioVenta = $product->precio_caja;
                 $cost =  $product->cost;
                 $iva_cost =  $product->iva_cost;
                 $final_cost =  $product->final_cost;
@@ -358,7 +368,7 @@ class FacturacionController extends Component
                 }
             }
             if($this->tipoPrecio === 'MAYOREO'){
-                $precioVenta = $product->precio_mayoreo;
+               // $precioVenta = $product->precio_mayoreo;
                 $cost =  $product->cost;
                 $iva_cost =  $product->iva_cost;
                 $final_cost =  $product->final_cost;
@@ -369,7 +379,7 @@ class FacturacionController extends Component
                 }
             }
             if($this->tipoPrecio === 'UNIDAD'){
-                $precioVenta = $product->precio_unidad;
+               // $precioVenta = $product->precio_unidad;
                 $cost =  $product->cost / $product->unidades_presentacion;
                 $iva_cost =  $product->iva_cost / $product->unidades_presentacion;
                 $final_cost =  $product->final_cost / $product->unidades_presentacion;
@@ -394,8 +404,8 @@ class FacturacionController extends Component
            Cart::add(
                 $lote->id,
                 $product->name,
-                $precioVenta,
-               $cant,
+                $exist->price,
+                $cant,
                array(
                 $cost,
                 $iva_cost, 
@@ -403,7 +413,8 @@ class FacturacionController extends Component
                 $lote->numero_lote,
                 $lote->caducidad_lote,
                 $product->id,
-                $this->tipoPrecio
+                $this->tipoPrecio,
+                $exist->attributes[7]
                 ));
            $this->total = Cart::getTotal();
            $this->itemsQuantity = Cart::getTotalQuantity();
@@ -480,6 +491,117 @@ class FacturacionController extends Component
         $this->emit('facturacion');
     }
 
+    public function DescuentoProduct($loteId){
+        $exist = Cart::get($loteId);
+
+        $this->id_lote = $exist->id;
+        $this->lote = $exist->attributes[3];
+        $this->producto = $exist->name;
+        $this->precio = $exist->price;
+        $this->descuento = $exist->attributes[7];
+        
+        $this->emit('abrir-interfaz-descuento'); 
+    }
+
+    public function aplicarDescuento($id_lote, $descuento){
+        $exist = Cart::get($id_lote);
+
+        if($descuento > $exist->price){
+            $this->emit('exceder-descuento','El descuento es mayor al precio de venta');
+            return;
+        }
+
+        if($descuento == 0 || $descuento == null){
+            $this->restablecerPrecioVenta($exist->id);
+            return;
+        }
+
+        $nuevoPrecio = $exist->price - $descuento;
+
+        Cart::update($exist->id, array( array(
+            $exist->price = $nuevoPrecio,
+            $exist->attributes[7] = $descuento,
+        )));
+
+        $this->total = Cart::getTotal();
+        $this->itemsQuantity = Cart::getTotalQuantity();
+
+        $this->emit('descuento-aplicado');
+
+    }
+
+    public function restablecerPrecioVenta($IdLote){
+        $exist = Cart::get($IdLote);
+        $producto = Product::where('id', $exist->attributes[5])->first();
+
+        if($exist->attributes[6] === 'NORMAL'){
+           $restablecerPrecio = $producto->precio_caja; 
+        }
+        if($exist->attributes[6] === 'MAYOREO'){
+            $restablecerPrecio = $producto->precio_mayoreo; 
+         }
+         if($exist->attributes[6] === 'UNIDAD'){
+            $restablecerPrecio = $producto->precio_unidad; 
+         }
+
+        Cart::update($exist->id, array( array(
+            $exist->price = $restablecerPrecio,
+            $exist->attributes[7] = 0
+        )));
+
+        $this->emit('descuento-aplicado');
+        $this->total = Cart::getTotal();
+        $this->itemsQuantity = Cart::getTotalQuantity();
+    }
+
+    public function cambiarTipoPrecio($IdLote){
+        $exist = Cart::get($IdLote);
+        $producto = Product::where('id', $exist->attributes[5])->first();
+        $this->count+=1;
+
+        if($this->count == 1){
+            $precio = $producto->precio_caja;
+            $tipoPrecio = 'NORMAL';
+
+            Cart::update($exist->id, array( array(
+                $exist->price = $precio,
+                $exist->attributes[6] = $tipoPrecio,
+                $exist->attributes[7] = 0
+            )));
+            $this->total = Cart::getTotal();
+            $this->itemsQuantity = Cart::getTotalQuantity();
+            return;
+        }
+         if($this->count == 2){
+             $precio = $producto->precio_mayoreo;
+             $tipoPrecio = 'MAYOREO';
+
+
+             Cart::update($exist->id, array( array(
+                $exist->price = $precio,
+                $exist->attributes[6] = $tipoPrecio,
+                $exist->attributes[7] = 0
+            )));
+            $this->total = Cart::getTotal();
+            $this->itemsQuantity = Cart::getTotalQuantity();
+            return;
+        }
+        if($this->count == 3){
+             $precio = $producto->precio_unidad;
+             $tipoPrecio = 'UNIDAD';
+             $this->count = 0;
+
+             Cart::update($exist->id, array( array(
+                $exist->price = $precio,
+                $exist->attributes[6] = $tipoPrecio,
+                $exist->attributes[7] = 0
+            )));
+            $this->total = Cart::getTotal();
+            $this->itemsQuantity = Cart::getTotalQuantity();
+            return;
+        }        
+    }
+
      public function saveSale(){
      
         if($this->total <=0){
@@ -499,13 +621,56 @@ class FacturacionController extends Component
 
         try {
             if ($this->transaccionId === 1) {
+                if($this->total > 100){
+                    $rules = [
+                        'cliente_consumidor_final'    =>  'required|min:3|max:150',
+                        'direccion_consumidor_final'    =>  'required|min:3|max:150',
+                        'dui_consumidor_final'    =>  'required|min:10|max:10',
+                    ];
+            
+                    $messages = [
+                        'cliente_consumidor_final.required'   => 'Nombre cliente es requerido',    
+                        'cliente_consumidor_final.min'        => 'Nombre cliente debe tener al menos 3 caracteres',  
+                        'cliente_consumidor_final.max'        => 'Nombre cliente debe tener al max 150 caracteres',
+                        'direccion_consumidor_final.required'   => 'Dirección cliente es requerido',    
+                        'direccion_consumidor_final.min'        => 'Dirección cliente debe tener al menos 3 caracteres',  
+                        'direccion_consumidor_final.max'        => 'Dirección cliente debe tener al max 150 caracteres',   
+                        'dui_consumidor_final.required'   => 'Compra mayor a $100 Dui es requerido',    
+                        'dui_consumidor_final.min'        => 'DUI cliente debe tener al menos 10 caracteres',  
+                        'dui_consumidor_final.max'        => 'DUI cliente debe tener al max 10 caracteres',           
+                    ];
+                } else{
+
+                    $rules = [
+                        'cliente_consumidor_final'    =>  'required|min:3|max:150',
+                        'direccion_consumidor_final'    =>  'required|min:3|max:150',
+                        
+                    ];
+            
+                    $messages = [
+                        'cliente_consumidor_final.required'   => 'Nombre cliente es requerido',    
+                        'cliente_consumidor_final.min'        => 'Nombre cliente debe tener al menos 3 caracteres',  
+                        'cliente_consumidor_final.max'        => 'Nombre cliente debe tener al max 150 caracteres',
+                        'direccion_consumidor_final.required'   => 'Dirección cliente es requerido',    
+                        'direccion_consumidor_final.min'        => 'Dirección cliente debe tener al menos 3 caracteres',  
+                        'direccion_consumidor_final.max'        => 'Dirección cliente debe tener al max 150 caracteres',              
+                    ];
+
+                }
+
+                $this->validate($rules, $messages);
+            
+
                 $sale = Sale::create([
-                'total'                  => $this->total,
-                'items'                  => $this->itemsQuantity,
-                'cash'                   => $this->efectivo,
-                'change'                 => $this->change,
-                'tipos_transacciones_id' => $this->transaccionId,
-                'user_id'                => auth()->user()->id
+                    'cliente_consumidor_final'      =>  $this->cliente_consumidor_final,
+                    'direccion_consumidor_final'    =>  $this->direccion_consumidor_final,
+                    'dui_consumidor_final'          =>  $this->dui_consumidor_final,
+                    'total'                         =>  $this->total,
+                    'items'                         =>  $this->itemsQuantity,
+                    'cash'                          =>  $this->efectivo,
+                    'change'                        =>  $this->change,
+                    'tipos_transacciones_id'        =>  $this->transaccionId,
+                    'user_id'                       =>  auth()->user()->id
                 ]);
             }
             if ($this->transaccionId === 2) {
@@ -627,6 +792,8 @@ class FacturacionController extends Component
             $this->total = Cart::getTotal();
             $this->itemsQuantity = Cart::getTotalQuantity();
 
+            $this->resetUI();
+
             $this->emit('sale-ok','Venta Registrada');
             $this->emit('print-factura',$sale->id);
             
@@ -653,11 +820,15 @@ class FacturacionController extends Component
     
 
     public function resetUI(){
-        $this->nombre_cliente   =   ''; 
-        $this->telefono         =   ''; 
-        $this->NIT_cliente      =   '';
-        $this->NRC_cliente      =   '';
-        $this->gran_con_cliente =   'Seleccionar';
+        $this->cliente_consumidor_final     =   '';
+        $this->direccion_consumidor_final   =   '';
+        $this->dui_consumidor_final         =   '';
+        $this->numero_factura               =   '';
+        $this->nombre_cliente               =   ''; 
+        $this->telefono                     =   ''; 
+        $this->NIT_cliente                  =   '';
+        $this->NRC_cliente                  =   '';
+        $this->gran_con_cliente             =   'Seleccionar';
         $this->resetPage();
         $this->resetValidation();
     }
