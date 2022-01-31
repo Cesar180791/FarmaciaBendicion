@@ -312,7 +312,7 @@ class FacturacionController extends Component
                 $lote->numero_lote,
                 $lote->caducidad_lote,
                 $product->id,
-                $this->tipoPrecio,
+                $exist->attributes[6],
                 $exist->attributes[7]
             ));
 
@@ -356,7 +356,7 @@ class FacturacionController extends Component
         $exist = Cart::get($loteId);
         
         if($exist){
-            if($this->tipoPrecio === 'NORMAL'){
+            if($exist->attributes[6] === 'NORMAL'){
                 //$precioVenta = $product->precio_caja;
                 $cost =  $product->cost;
                 $iva_cost =  $product->iva_cost;
@@ -367,7 +367,7 @@ class FacturacionController extends Component
                     return;
                 }
             }
-            if($this->tipoPrecio === 'MAYOREO'){
+            if($exist->attributes[6] === 'MAYOREO'){
                // $precioVenta = $product->precio_mayoreo;
                 $cost =  $product->cost;
                 $iva_cost =  $product->iva_cost;
@@ -378,7 +378,7 @@ class FacturacionController extends Component
                     return;
                 }
             }
-            if($this->tipoPrecio === 'UNIDAD'){
+            if($exist->attributes[6] === 'UNIDAD'){
                // $precioVenta = $product->precio_unidad;
                 $cost =  $product->cost / $product->unidades_presentacion;
                 $iva_cost =  $product->iva_cost / $product->unidades_presentacion;
@@ -413,7 +413,7 @@ class FacturacionController extends Component
                 $lote->numero_lote,
                 $lote->caducidad_lote,
                 $product->id,
-                $this->tipoPrecio,
+                $exist->attributes[6],
                 $exist->attributes[7]
                 ));
            $this->total = Cart::getTotal();
@@ -554,50 +554,93 @@ class FacturacionController extends Component
         $this->itemsQuantity = Cart::getTotalQuantity();
     }
 
+
     public function cambiarTipoPrecio($IdLote){
         $exist = Cart::get($IdLote);
         $producto = Product::where('id', $exist->attributes[5])->first();
-        $this->count+=1;
+        
 
-        if($this->count == 1){
+        $this->removeItem($IdLote);
+
+        if($this->count == 0){
             $precio = $producto->precio_caja;
             $tipoPrecio = 'NORMAL';
 
-            Cart::update($exist->id, array( array(
-                $exist->price = $precio,
-                $exist->attributes[6] = $tipoPrecio,
-                $exist->attributes[7] = 0
-            )));
-            $this->total = Cart::getTotal();
+            Cart::add(
+                $exist->id,
+                $exist->name,
+                $precio,
+                1,
+                array(
+                    $exist->attributes[0],
+                    $exist->attributes[1], 
+                    $exist->attributes[2], 
+                    $exist->attributes[3],
+                    $exist->attributes[4],
+                    $exist->attributes[5],
+                    $tipoPrecio,
+                    0
+                ));
             $this->itemsQuantity = Cart::getTotalQuantity();
+            $this->total = Cart::getTotal();
+
+            $this->count++;
             return;
         }
-         if($this->count == 2){
+
+        if($this->count == 1){
              $precio = $producto->precio_mayoreo;
              $tipoPrecio = 'MAYOREO';
 
-
-             Cart::update($exist->id, array( array(
-                $exist->price = $precio,
-                $exist->attributes[6] = $tipoPrecio,
-                $exist->attributes[7] = 0
-            )));
-            $this->total = Cart::getTotal();
+             Cart::add(
+                $exist->id,
+                $exist->name,
+                $precio,
+                1,
+                array(
+                    $exist->attributes[0],
+                    $exist->attributes[1], 
+                    $exist->attributes[2], 
+                    $exist->attributes[3],
+                    $exist->attributes[4],
+                    $exist->attributes[5],
+                    $tipoPrecio,
+                    0
+                ));
             $this->itemsQuantity = Cart::getTotalQuantity();
+            $this->total = Cart::getTotal();
+            
+            if($producto->precio_unidad != null){
+                $this->count++;
+            }else{
+                $this->count=0;
+            }
             return;
         }
-        if($this->count == 3){
+        if($this->count == 2){
              $precio = $producto->precio_unidad;
              $tipoPrecio = 'UNIDAD';
              $this->count = 0;
 
-             Cart::update($exist->id, array( array(
-                $exist->price = $precio,
-                $exist->attributes[6] = $tipoPrecio,
-                $exist->attributes[7] = 0
-            )));
-            $this->total = Cart::getTotal();
+             Cart::add(
+                $exist->id,
+                $exist->name,
+                $precio,
+                1,
+                array(
+                    $exist->attributes[0],
+                    $exist->attributes[1], 
+                    $exist->attributes[2], 
+                    $exist->attributes[3],
+                    $exist->attributes[4],
+                    $exist->attributes[5],
+                    $tipoPrecio,
+                    0
+                ));
+
             $this->itemsQuantity = Cart::getTotalQuantity();
+            $this->total = Cart::getTotal();
+            
             return;
         }        
     }
