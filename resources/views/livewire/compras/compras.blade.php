@@ -16,9 +16,9 @@
             @include('livewire.compras.partials.crear_lote')
         </div>
     </div>
-</div>
 <script src="{{ asset('js/keypress.js') }}"></script>
 @include('livewire.compras.partials.shortcuts')
+@include('livewire.compras.partials.form')
 <link href="{{ asset('assets/css/tables/table-basic.css') }}" rel="stylesheet" type="text/css" />
 
 <script>
@@ -55,6 +55,8 @@
 
        
         window.livewire.on('ver-lotes', msg=>{
+            $('#theModal').modal('hide');
+            $('#detalle-compra').hide();
             $('#listar-productos').hide();
             $('#lotes').show();
         });
@@ -127,3 +129,4 @@
         })
     }
 </script>
+</div>

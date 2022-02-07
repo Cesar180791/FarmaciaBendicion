@@ -5,9 +5,10 @@
                 <div class="widget-heading">
                     <h6 class="card-title">
                         <b class="sizeEncabezado">{{$componentName}} | {{$pageTitle2}}</b>
-                    </h6>
+                    </h6> 
                 </div> 
                 <a class="btn btn-dark mbmobile mb-4" id="buscarbtn"><b>Buscar F1</b></a>
+                <a class="btn btn-dark mbmobile mb-4" data-toggle="modal" data-target="#theModal"><b>Nuevo Producto</b></a>
                 @if(count($cart)==0)
                 <div class="alert alert-danger">No hay productos agregados a la compra</div>
                 @else

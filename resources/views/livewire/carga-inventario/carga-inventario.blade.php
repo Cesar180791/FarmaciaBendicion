@@ -13,9 +13,9 @@
             @include('livewire.carga-inventario.partials.asignar_product_lote')
         </div>
     </div>
-</div>
 <script src="{{ asset('js/keypress.js') }}"></script>
 @include('livewire.carga-inventario.partials.shortcuts')
+@include('livewire.carga-inventario.partials.form')
 <link href="{{ asset('assets/css/tables/table-basic.css') }}" rel="stylesheet" type="text/css" />
 
 <script>
@@ -58,6 +58,8 @@
         });
 
         window.livewire.on('ver-lotes', msg=>{
+            $('#theModal').modal('hide');
+            $('#detalle').hide();
             $('#listar-productos').hide();
             $('#asignar-producto-lote').show();
         });
@@ -86,6 +88,11 @@
             $('#detalle').show();
         });
 
+        window.livewire.on('product-added', msg=>{
+            $('#listar-productos').hide();
+            $('#asignar-producto-lote').hide();
+            $('#detalle').show();
+        });
 
     });
 	  function Confirm(id, eventName, text){
@@ -107,3 +114,4 @@
         })
     }
 </script>
+</div>

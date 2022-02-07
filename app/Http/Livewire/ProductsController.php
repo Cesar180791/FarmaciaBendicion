@@ -208,6 +208,9 @@ class ProductsController extends Component
         $this->search=''; 
         $this->selected_id=0;
         $this->subCategoryId=0;
+        $this->precio_caja=0;
+        $this->precio_mayoreo=0;
+        $this->unidades_presentacion=1;
         $this->resetPage();
         $this->resetValidation();
     }

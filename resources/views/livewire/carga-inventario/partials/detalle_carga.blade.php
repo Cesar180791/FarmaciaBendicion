@@ -8,6 +8,7 @@
                     </h6>
                 </div>
                 <a class="btn btn-dark mbmobile mb-4" id="buscarbtn"><b>Buscar F1</b></a>
+                <a class="btn btn-dark mbmobile mb-4" data-toggle="modal" data-target="#theModal"><b>Nuevo Producto</b></a>
                 @if(count($cart)==0)
                 <div class="alert alert-danger">No hay Registros que mostrar</div>
                 @else

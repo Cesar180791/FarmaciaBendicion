@@ -2,11 +2,12 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component; 
+use Livewire\Component;  
 use App\Models\Product;
 use App\Models\Lotes;
 use App\Models\Cargas; 
 use App\Models\Detalle_cargas; 
+use App\Models\SubCategory;
 use Livewire\withPagination;
 use Darryldecode\Cart\Facades\CartFacade as Cart; 
 use DB;
@@ -14,7 +15,8 @@ use DB;
 class CargaInventarioController extends Component
 {
     use withPagination;
-    public $search, $search2, $itemsQuantity, $total, $descripcion_carga, $loteId, $producto ,$numero_lote, $caducidad_lote, $idProducto, $idBuscarProducto, $existencia_lote_unidad;
+    public $search, $search2, $itemsQuantity, $total, $descripcion_carga, $loteId, $producto ,$numero_lote, $caducidad_lote, $idProducto, $idBuscarProducto, $existencia_lote_unidad,$selected_id,
+    $Numero_registro, $laboratory, $chemical_component, $name, $barCode, $cost, $price, $subCategoryId, $precio_caja, $precio_mayoreo, $precio_unidad, $unidades_presentacion;
     private $pagination = 5, $pagination2 = 5;
 
     public function mount(){
@@ -25,6 +27,8 @@ class CargaInventarioController extends Component
         $this->pageTitle3 = 'lote';
         $this->pageTitle4 = 'Selecciona lote para cargar producto';
         $this->componentName = 'Cargas';
+
+        $this->subCategoryId = 'Seleccionar';
         
         $this->proveedor='Seleccionar';
         $this->total = Cart::getTotal();
@@ -47,6 +51,18 @@ class CargaInventarioController extends Component
 
     public function render()
     {  
+        if ($this->precio_caja == null) {
+            $this->precio_caja=0;
+        }
+        if ($this->precio_mayoreo == null) {
+            $this->precio_mayoreo=0;
+        }
+
+        if ($this->unidades_presentacion == null || $this->unidades_presentacion == 0) {
+            $this->unidades_presentacion=1;
+        }
+
+
         //id de lote se almacena en $idBuscarProducto y cambia mediante la funcion asignarIdBusquedaProducto()
         if (strlen($this->search2) > 0)
         $this->lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
@@ -96,6 +112,7 @@ class CargaInventarioController extends Component
         return view('livewire.carga-inventario.carga-inventario',[
             'lotes'         =>  $this->lotes,
             'products'      =>  $products,
+            'sub_categories'    =>  SubCategory::orderBy('name','asc')->get(),
             'cart'          =>  Cart::getContent()->sortBy('id'),
             
         ])
@@ -107,6 +124,54 @@ class CargaInventarioController extends Component
         'removeItem',
         'lote-registrado' => '$refresh'
     ]; 
+
+    public function Store(){
+
+        $rules =[
+            'name'                      =>  'required|min:3|unique:products,name',
+            'chemical_component'        =>  'required|min:3',
+            'barCode'                   =>  'required',
+            'Numero_registro'           =>  'required|min:3',
+            'laboratory'                =>  'required|min:3',
+            'subCategoryId'             =>  'required|not_in:Seleccionar',
+            'unidades_presentacion'     =>  'required'
+        ];
+
+        $messages=[
+            'name.required'                 =>  'Nombre del producto es Requerido',
+            'name.min'                      =>  'El nombre del producto debe tener al menos 3 caracteres',
+            'name.unique'                   =>  'El nombre del producto ya existe en el sistema',
+            'chemical_component.required'   =>  'El componente quimico es requerido',
+            'chemical_component.min'        =>  'El componente quimico debe tener al menos 3 caracteres',
+            'barCode.required'              =>  'Código de barra es Requerido',
+            'Numero_registro.required'      =>  'El numero de registro del medicamento es requerido',
+            'Numero_registro.min'           =>  'El numero de registro debe tener al menos 3 caracteres',
+            'laboratory.required'           =>  'El nombre del laboratorio es requerido',
+            'laboratory.min'                =>  'El nombre del laboratorio debe tener al menos 3 caracteres',
+            'subCategoryId.not_in'          =>  'Elige una SubCategoría diferente de "Seleccionar"',
+            'unidades_presentacion'         =>  'Unidades por presentacion es requerido'
+        ];
+
+         $this->validate($rules, $messages);
+
+          $producto = Product::create([
+            'name'                  =>  $this->name,
+            'chemical_component'    =>  $this->chemical_component,
+            'barCode'               =>  $this->barCode,
+            'Numero_registro'       =>  $this->Numero_registro,
+            'laboratory'            =>  $this->laboratory,
+            'unidades_presentacion' =>  $this->unidades_presentacion,
+            'precio_caja'           =>  $this->precio_caja,
+            'precio_mayoreo'        =>  $this->precio_mayoreo,
+            'precio_unidad'         =>  $this->precio_unidad,
+            'sub_category_id'       =>  $this->subCategoryId
+         ]);
+
+         $this->resetUI();
+         $this->asignarIdBusquedaProducto($producto->id);
+         $this->emit('ver-lotes','Producto registrado');
+    }
+
 
     public function nuevoLote(Product $idProduct){
         $this->producto = $idProduct->name;
@@ -513,6 +578,17 @@ class CargaInventarioController extends Component
         $this->caducidad_lote = '';   
         $this->loteId = '';
         $this->existencia_lote_unidad = '';
+
+        $this->Numero_registro = ''; 
+        $this->laboratory=''; 
+        $this->chemical_component=''; 
+        $this->name=''; 
+        $this->barCode=''; 
+        $this->selected_id=0;
+        $this->subCategoryId=0;
+        $this->precio_caja=0;
+        $this->precio_mayoreo=0;
+        $this->unidades_presentacion=1;
         $this->resetPage();
         $this->resetValidation();
     }

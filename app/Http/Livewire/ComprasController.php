@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Proveedores;
 use App\Models\PurchaseDetail;
 use App\Models\PoliticasGarantias;
+use App\Models\SubCategory;
 use App\Models\Lotes;
 use Livewire\withPagination;
 use Darryldecode\Cart\Facades\CartFacade as Cart; 
@@ -17,11 +18,19 @@ class ComprasController extends Component
 {
     use withPagination;
 
-    public $proveedores_id, $search, $search2, $fecha_compra, $factura, $descripcion_lote, $total, $itemsQuantity, $pageTitle2, $pageTitle3, $idBuscarProducto, $idProducto,$producto,$loteId, $numero_lote, $caducidad_lote, $politicas_garantias_id, $existencia_lote_unidad;
+    public $proveedores_id, $search, $search2, $fecha_compra, $factura, 
+    $descripcion_lote, $total, $itemsQuantity, $pageTitle2, $pageTitle3, 
+    $idBuscarProducto, $idProducto,$producto,$loteId, $numero_lote, 
+    $caducidad_lote, $politicas_garantias_id, $existencia_lote_unidad,
+    $Numero_registro, $laboratory, $chemical_component, $name, $barCode,
+    $cost, $price, $subCategoryId, $precio_caja, $precio_mayoreo, $precio_unidad, 
+    $unidades_presentacion,$selected_id;
+
 
     private $pagination = 5, $paginate2 = 5;
 
     public function mount(){
+        $this->subCategoryId = 'Seleccionar';
         $this->proveedores_id = "Seleccionar";
         $this->politicas_garantias_id = "Seleccionar";
         $this->pageTitle = 'Datos Generales';
@@ -48,6 +57,18 @@ class ComprasController extends Component
 
     public function render()
     {
+        if ($this->precio_caja == null) {
+            $this->precio_caja=0;
+        }
+        if ($this->precio_mayoreo == null) {
+            $this->precio_mayoreo=0;
+        }
+
+        if ($this->unidades_presentacion == null || $this->unidades_presentacion == 0) {
+            $this->unidades_presentacion=1;
+        }
+
+
         //id de lote se almacena en $idBuscarProducto y cambia mediante la funcion asignarIdBusquedaProducto()
         if (strlen($this->search2) > 0)
         $lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
@@ -97,6 +118,7 @@ class ComprasController extends Component
         return view('livewire.compras.compras',[
             'products'      =>  $products,
             'lotes'         =>  $lotes,
+            'sub_categories'    =>  SubCategory::orderBy('name','asc')->get(),
             'cart'          =>  Cart::getContent()->sortBy('id'),
             'proveedores'   =>  Proveedores::orderBy('nombre_proveedor', 'asc')->where('estado_proveedor', 'ACTIVO')->get(),
             'politicas'     =>  PoliticasGarantias::orderBy('id', 'asc')->get()
@@ -107,8 +129,54 @@ class ComprasController extends Component
     protected $listeners = [ 
         'removeItem',
         'lote-registrado' => '$refresh'
-    ]; 
+    ];
 
+    public function Store(){
+
+        $rules =[
+            'name'                      =>  'required|min:3|unique:products,name',
+            'chemical_component'        =>  'required|min:3',
+            'barCode'                   =>  'required',
+            'Numero_registro'           =>  'required|min:3',
+            'laboratory'                =>  'required|min:3',
+            'subCategoryId'             =>  'required|not_in:Seleccionar',
+            'unidades_presentacion'     =>  'required'
+        ];
+
+        $messages=[
+            'name.required'                 =>  'Nombre del producto es Requerido',
+            'name.min'                      =>  'El nombre del producto debe tener al menos 3 caracteres',
+            'name.unique'                   =>  'El nombre del producto ya existe en el sistema',
+            'chemical_component.required'   =>  'El componente quimico es requerido',
+            'chemical_component.min'        =>  'El componente quimico debe tener al menos 3 caracteres',
+            'barCode.required'              =>  'Código de barra es Requerido',
+            'Numero_registro.required'      =>  'El numero de registro del medicamento es requerido',
+            'Numero_registro.min'           =>  'El numero de registro debe tener al menos 3 caracteres',
+            'laboratory.required'           =>  'El nombre del laboratorio es requerido',
+            'laboratory.min'                =>  'El nombre del laboratorio debe tener al menos 3 caracteres',
+            'subCategoryId.not_in'          =>  'Elige una SubCategoría diferente de "Seleccionar"',
+            'unidades_presentacion'         =>  'Unidades por presentacion es requerido'
+        ];
+
+         $this->validate($rules, $messages);
+
+          $producto = Product::create([
+            'name'                  =>  $this->name,
+            'chemical_component'    =>  $this->chemical_component,
+            'barCode'               =>  $this->barCode,
+            'Numero_registro'       =>  $this->Numero_registro,
+            'laboratory'            =>  $this->laboratory,
+            'unidades_presentacion' =>  $this->unidades_presentacion,
+            'precio_caja'           =>  $this->precio_caja,
+            'precio_mayoreo'        =>  $this->precio_mayoreo,
+            'precio_unidad'         =>  $this->precio_unidad,
+            'sub_category_id'       =>  $this->subCategoryId
+         ]);
+
+         $this->resetUI();
+         $this->asignarIdBusquedaProducto($producto->id);
+         $this->emit('ver-lotes','Producto registrado');
+    }
 
     public function asignarIdBusquedaProducto($idProduct){
         $this->idBuscarProducto = $idProduct;
@@ -540,6 +608,18 @@ class ComprasController extends Component
         $this->numero_lote = ''; 
         $this->caducidad_lote = '';   
         $this->loteId = '';
+
+
+        $this->Numero_registro = ''; 
+        $this->laboratory=''; 
+        $this->chemical_component=''; 
+        $this->name=''; 
+        $this->barCode=''; 
+        $this->selected_id=0;
+        $this->subCategoryId=0;
+        $this->precio_caja=0;
+        $this->precio_mayoreo=0;
+        $this->unidades_presentacion=1;
         $this->resetPage();
         $this->resetValidation();
     }
