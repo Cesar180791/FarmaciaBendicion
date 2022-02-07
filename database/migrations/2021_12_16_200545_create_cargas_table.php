@@ -17,7 +17,7 @@ class CreateCargasTable extends Migration
             $table->id();
             $table->decimal('total_carga',10,4);
             $table->integer('total_item_carga');
-            $table->longText('descripcion_carga');
+            $table->longText('descripcion_carga')->nullable();
             $table->foreignId('users_id')->constrained();
             $table->timestamps();
         });

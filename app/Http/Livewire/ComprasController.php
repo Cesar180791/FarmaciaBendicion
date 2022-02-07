@@ -464,7 +464,7 @@ class ComprasController extends Component
 
     public function validacionCabecera(){
         $rules =[
-            'descripcion_lote'          =>  'required|min:5',
+            //'descripcion_lote'          =>  'required|min:5',
             'politicas_garantias_id'    =>  'required|not_in:Seleccionar',
             'factura'                   =>  'required|min:3|unique:purchases,factura',
             'fecha_compra'              =>  'required',
@@ -472,8 +472,8 @@ class ComprasController extends Component
         ];
 
         $messages=[
-            'descripcion_lote.required'         =>  'La descripcion de la compra es requerida',
-            'descripcion_lote.min'              =>  'La descripcion de la compra debe tener al menos 5 caracteres',
+            //'descripcion_lote.required'         =>  'La descripcion de la compra es requerida',
+            //'descripcion_lote.min'              =>  'La descripcion de la compra debe tener al menos 5 caracteres',
             'politicas_garantias_id.not_in'     =>  'Politica de garantia sobre compra requerida',
             'factura.required'                  =>  'El numero de factura es requerido',
             'factura.min'                       =>  'El numero de factura debe tener al menos 3 caracteres',

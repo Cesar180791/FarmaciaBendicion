@@ -455,6 +455,7 @@ class CargaInventarioController extends Component
     public function EjecutarCarga(){
         DB::beginTransaction();
         try {
+            /*
             $rules =[
                 'descripcion_carga' =>  "required|min:3",
             ];
@@ -464,7 +465,7 @@ class CargaInventarioController extends Component
                 'descripcion_carga.min' =>  'La descripción de la carga debe tener al menos 3 caracteres',
             ];
     
-             $this->validate($rules, $messages);
+             $this->validate($rules, $messages);*/
 
 
 
