@@ -248,7 +248,9 @@
         });
 
         window.livewire.on('print-factura', saleId=>{
-            window.open("print://" + saleId, '_blank')
+            ruta = "{{ url('print/factura/consumidor-final') }}" + '/' + saleId
+            ventana = window.open(ruta,  "_blank", "width=100, height=100")
+            //ventana.close()
         });
 
 

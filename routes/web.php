@@ -17,6 +17,8 @@ use App\Http\Livewire\ProveedoresController;
 use App\Http\Livewire\ClientesController;
 use App\Http\Livewire\FacturacionController;
 
+use App\Http\Controllers\PrinterFacturasController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +59,9 @@ Route::middleware(['auth'])->group(function (){
     Route::group(['middleware' => ['role:Administrador||Cajero']], function () {
         Route::get('consulta-inventario', InventarioController::class);
         Route::get('facturacion', FacturacionController::class);
+
+                //rutas de facturas
+        Route::get('print/factura/consumidor-final/{id}', [PrinterFacturasController::class,'facturaConsumidorFinal']);
     });
 });
 
