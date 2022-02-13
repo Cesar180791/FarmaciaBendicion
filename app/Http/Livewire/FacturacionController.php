@@ -41,7 +41,7 @@ class FacturacionController extends Component
 
 
     public function paginationView(){
-        return 'vendor.livewire.bootstrap';
+        return 'vendor.livewire.bootstrap'; 
     }
 
     public function updatingSearch(){
@@ -56,6 +56,8 @@ class FacturacionController extends Component
 
     public function render()
     {
+        //$this->cliente_consumidor_final = 'Clientes Varios';
+        //$this->direccion_consumidor_final = 'San Miguel';
         if ($this->efectivo == null) {
             $this->efectivo=0;
         }
@@ -674,23 +676,24 @@ class FacturacionController extends Component
             if ($this->transaccionId === 1) {
                 if($this->total > 100){
                     $rules = [
-                        'cliente_consumidor_final'    =>  'required|min:3|max:150',
-                        'direccion_consumidor_final'    =>  'required|min:3|max:150',
+                        //'cliente_consumidor_final'    =>  'required|min:3|max:150',
+                        //'direccion_consumidor_final'    =>  'required|min:3|max:150',
                         'dui_consumidor_final'    =>  'required|min:10|max:10',
                     ];
             
                     $messages = [
-                        'cliente_consumidor_final.required'   => 'Nombre cliente es requerido',    
-                        'cliente_consumidor_final.min'        => 'Nombre cliente debe tener al menos 3 caracteres',  
-                        'cliente_consumidor_final.max'        => 'Nombre cliente debe tener al max 150 caracteres',
-                        'direccion_consumidor_final.required'   => 'Dirección cliente es requerido',    
-                        'direccion_consumidor_final.min'        => 'Dirección cliente debe tener al menos 3 caracteres',  
-                        'direccion_consumidor_final.max'        => 'Dirección cliente debe tener al max 150 caracteres',   
-                        'dui_consumidor_final.required'   => 'Compra mayor a $100 Dui es requerido',    
-                        'dui_consumidor_final.min'        => 'DUI cliente debe tener al menos 10 caracteres',  
-                        'dui_consumidor_final.max'        => 'DUI cliente debe tener al max 10 caracteres',           
+                        //'cliente_consumidor_final.required'     => 'Nombre cliente es requerido',    
+                        //'cliente_consumidor_final.min'          => 'Nombre cliente debe tener al menos 3 caracteres',  
+                        //'cliente_consumidor_final.max'          => 'Nombre cliente debe tener al max 150 caracteres',
+                        //'direccion_consumidor_final.required'   => 'Dirección cliente es requerido',    
+                        //'direccion_consumidor_final.min'        => 'Dirección cliente debe tener al menos 3 caracteres',  
+                        //'direccion_consumidor_final.max'        => 'Dirección cliente debe tener al max 150 caracteres',   
+                        'dui_consumidor_final.required'         => 'Compra mayor a $100 Dui es requerido',    
+                        'dui_consumidor_final.min'              => 'DUI cliente debe tener al menos 10 caracteres',  
+                        'dui_consumidor_final.max'              => 'DUI cliente debe tener al max 10 caracteres',           
                     ];
-                } else{
+                    $this->validate($rules, $messages);
+                } /*else{
 
                     $rules = [
                         'cliente_consumidor_final'    =>  'required|min:3|max:150',
@@ -707,9 +710,17 @@ class FacturacionController extends Component
                         'direccion_consumidor_final.max'        => 'Dirección cliente debe tener al max 150 caracteres',              
                     ];
 
+                }*/
+
+               
+
+                if($this->cliente_consumidor_final == null){
+                    $this->cliente_consumidor_final = 'Clientes Varios';
                 }
 
-                $this->validate($rules, $messages);
+                if($this->direccion_consumidor_final == null){
+                    $this->direccion_consumidor_final = 'San Miguel';
+                }
             
 
                 $sale = Sale::create([
