@@ -8,7 +8,8 @@
                 </h6>
                 <ul class="tabs tab-pills ml-auto">
                     <li style="list-style: none;">
-                        <a href="javascript:void(0)" class="tabmenu btn btn-dark text-white mb-1" id="cerrar-descuento" wire:ignore.self><b><i class="fas fa-arrow-left"></i></b></a>
+                        <a href="javascript:void(0)" class="tabmenu btn btn-dark text-white mb-1" id="cerrar-descuento"
+                            wire:ignore.self><b><i class="fas fa-arrow-left"></i></b></a>
                     </li>
                 </ul>
             </div>
@@ -80,7 +81,5 @@
 
             </div>
         </div>
-
     </div>
-</div>
 </div>

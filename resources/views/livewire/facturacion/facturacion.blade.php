@@ -1,6 +1,6 @@
 <div>
     <div class="row layout-top-spacing">
-        
+
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 layout-spacing offset-lg-3" id="menu" wire:ignore.self>
             <div class="widget widget-three">
                 <div class="widget-heading">
@@ -11,7 +11,8 @@
                     <div class="order-summary">
 
                         @foreach ($transacciones as $transaccion)
-                        <div wire:click.prevent="validarTipoTransaccion({{$transaccion->id}})" class="btn btn-block summary-list {{$transaccion->tipo_transaccion == 'CONSUMIDOR FINAL' ? 'summary-income' : 'summary-profit'}}">
+                        <div wire:click.prevent="validarTipoTransaccion({{$transaccion->id}})"
+                            class="btn btn-block summary-list {{$transaccion->tipo_transaccion == 'CONSUMIDOR FINAL' ? 'summary-income' : 'summary-profit'}}">
                             <div class="summery-info">
                                 <div class="w-icon">
                                     @if ($transaccion->tipo_transaccion == 'CONSUMIDOR FINAL')
@@ -102,175 +103,211 @@
         </div>
 
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" id="lote" wire:ignore.self>
-            @include('livewire.facturacion.partials.seleccionar_lote_venta') 
+            @include('livewire.facturacion.partials.seleccionar_lote_venta')
         </div>
 
         <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 layout-spacing" id="detalle" wire:ignore.self>
-            @include('livewire.facturacion.partials.detalle_sale') 
+            @include('livewire.facturacion.partials.detalle_sale')
         </div>
 
         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 layout-spacing" id="total" wire:ignore.self>
-            @include('livewire.facturacion.partials.denomination') 
-            @include('livewire.facturacion.partials.total') 
+            @include('livewire.facturacion.partials.denomination')
+            @include('livewire.facturacion.partials.total')
         </div>
 
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" id="clientes" wire:ignore.self>
-            @include('livewire.facturacion.partials.detalle_credito_fiscal') 
+            @include('livewire.facturacion.partials.detalle_credito_fiscal')
         </div>
 
         <div class="col-xl-12 col-lg-9 col-md-12 col-sm-12 col-12 layout-spacing" id="descuento" wire:ignore.self>
-            @include('livewire.facturacion.partials.modal_descuento') 
+            @include('livewire.facturacion.partials.modal_descuento')
         </div>
 
-
     </div>
-</div>
+    <style>
+        .my-custom-scrollbar {
+            position: relative;
+            height: auto;
+            width: auto;
+            overflow: auto;
+        }
 
-<script>
-    document.addEventListener('DOMContentLoaded', function(){
-        $('#buscar').hide();
-        $('#lote').hide();
-        $('#detalle').hide();
-        $('#total').hide();
-        $('#clientes').hide();
-        $('#descuento').hide();
+        .table-wrapper-scroll-y {
+            display: block;
+        }
 
-       
-        $('#btn-regresar').on("click", function () {
-        $('#menu').show(); 
-        $('#total').hide();
-        $('#detalle').hide();
-        $('#clientes').hide();
-        });
+        .size {
+            width: 100px;
+        }
 
-        $('#btn-regresar2').on("click", function () {
-        $('#total').show();
-        $('#detalle').show();
-        $('#buscar').hide();
-        });
+        .size-product {
+            width: 250px;
+        }
 
-        $('#btn-regresar3').on("click", function () {
-        $('#lote').hide();
-        $('#buscar').show();
-        });
-
-        $('#btn-regresar4').on("click", function () {
-        $('#clientes').hide();
-        $('#menu').show();
-        });
-
-        $('#cerrar-descuento').on("click", function () {
-            $('#descuento').hide();
-            $('#detalle').show();
-            $('#total').show();
-        });
-        
-
-        $('#btn-buscar').on("click", function () {
-        $('#total').hide();
-        $('#detalle').hide();
-        $('#buscar').show();
-        });
-
-        
-
-        window.livewire.on('ver-lotes', msg=>{
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
             $('#buscar').hide();
-            $('#lote').show();
-        });
-
-        window.livewire.on('facturacion', msg=>{
-            $('#detalle').show();
-            $('#total').show();
-            $('#menu').hide();
-            $('#clientes').hide();
-        });
-
-        window.livewire.on('credito-fiscal', msg=>{
-            $('#menu').hide();
-            $('#clientes').show();
-        });
-
-       
-
-        window.livewire.on('no-stock', msg=>{
-            swal({
-               title: 'Error',
-               text: msg,
-               type: 'error',
-           })
-        });
-
-        window.livewire.on('add-ok', msg=>{
-            $('#detalle').show();
-            $('#total').show();
             $('#lote').hide();
-        });
-
-        window.livewire.on('sale-ok', msg=>{
-            swal({
-               title: 'Facturado',
-               text: msg,
-               type: 'success',
-           })
             $('#detalle').hide();
             $('#total').hide();
-            $('#menu').show();
-        });
-
-        window.livewire.on('cliente-added', msg => {
-            $('#theModal').modal('hide');
-            swal({
-                title: 'Agregado!',
-                text: msg,
-                type: 'success',
-            })
-        });
-
-        window.livewire.on('exceder-descuento', msg => {
-            swal({
-                title: 'Descuento Invalido',
-                text: msg,
-                type: 'warning',
-            })
-        });
-
-        window.livewire.on('abrir-interfaz-descuento', msg => {
-            $('#descuento').show();
-            $('#detalle').hide();
-            $('#total').hide();
-        });
-
-        window.livewire.on('descuento-aplicado', msg => {
+            $('#clientes').hide();
             $('#descuento').hide();
-            $('#detalle').show();
-            $('#total').show();
+
+
+            $('#btn-regresar').on("click", function () {
+                $('#menu').show();
+                $('#total').hide();
+                $('#detalle').hide();
+                $('#clientes').hide();
+            });
+
+            $('#btn-regresar2').on("click", function () {
+                $('#total').show();
+                $('#detalle').show();
+                $('#buscar').hide();
+            });
+
+            $('#btn-regresar3').on("click", function () {
+                $('#lote').hide();
+                $('#buscar').show();
+            });
+
+            $('#btn-regresar4').on("click", function () {
+                $('#clientes').hide();
+                $('#menu').show();
+            });
+
+            $('#cerrar-descuento').on("click", function () {
+                $('#descuento').hide();
+                $('#detalle').show();
+                $('#total').show();
+            });
+
+            $('#btn-buscar').on("click", function () {
+                $('#total').hide();
+                $('#detalle').hide();
+                $('#buscar').show();
+            });
+
+            window.livewire.on('ver-lotes', msg => {
+                $('#buscar').hide();
+                $('#lote').show();
+            });
+
+            window.livewire.on('facturacion', msg => {
+                $('#detalle').show();
+                $('#total').show();
+                $('#menu').hide();
+                $('#clientes').hide();
+            });
+
+            window.livewire.on('credito-fiscal', msg => {
+                $('#menu').hide();
+                $('#clientes').show();
+            });
+
+            window.livewire.on('no-stock', msg => {
+                swal({
+                    title: 'Error',
+                    text: msg,
+                    type: 'error',
+                })
+            });
+
+            window.livewire.on('add-ok', msg => {
+                $('#detalle').show();
+                $('#total').show();
+                $('#lote').hide();
+            });
+
+            window.livewire.on('sale-ok', msg => {
+                swal({
+                    title: 'Facturado',
+                    text: msg,
+                    type: 'success',
+                })
+                $('#detalle').hide();
+                $('#total').hide();
+                $('#menu').show();
+            });
+
+            window.livewire.on('cliente-added', msg => {
+                $('#theModal').modal('hide');
+                swal({
+                    title: 'Agregado!',
+                    text: msg,
+                    type: 'success',
+                })
+            });
+
+            window.livewire.on('exceder-descuento', msg => {
+                swal({
+                    title: 'Descuento Invalido',
+                    text: msg,
+                    type: 'warning',
+                })
+            });
+
+            window.livewire.on('abrir-interfaz-descuento', msg => {
+                $('#descuento').show();
+                $('#detalle').hide();
+                $('#total').hide();
+            });
+
+            window.livewire.on('descuento-aplicado', msg => {
+                $('#descuento').hide();
+                $('#detalle').show();
+                $('#total').show();
+            });
+
+            window.livewire.on('show-modal', msg => {
+                $('#theModal').modal('show');
+            });
+            window.livewire.on('cliente-added', msg => {
+                $('#theModal').modal('hide');
+                swal({
+                    title: 'Agregado!',
+                    text: msg,
+                    type: 'success',
+                })
+            });
+            window.livewire.on('cliente-update', msg => {
+                $('#theModal').modal('hide');
+                swal({
+                    title: 'Actualizado!',
+                    text: msg,
+                    type: 'success',
+                })
+            });
+
+            window.livewire.on('print-factura', saleId => {
+                ruta = "{{ url('print/factura/consumidor-final') }}" + '/' + saleId
+                ventana = window.open(ruta, "_blank", "width=100, height=100")
+                ventana.close()
+            });
+
+
         });
 
-        window.livewire.on('print-factura', saleId=>{
-            ruta = "{{ url('print/factura/consumidor-final') }}" + '/' + saleId
-            ventana = window.open(ruta,  "_blank", "width=100, height=100")
-            ventana.close()
-        });
+        function Confirm(id, eventName, text) {
+            swal({
+                title: 'Confirmar',
+                text: text,
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cerrar',
+                cancelButtonColor: '#fff',
+                confirmButtonColor: '#3B3F5C',
+                confirmButtonText: 'Aceptar'
 
+            }).then(function (result) {
+                if (result.value) {
+                    window.livewire.emit(eventName, id)
+                    swal.close()
+                }
+            })
+        }
 
-    });
-      function Confirm(id, eventName, text){
-        swal({
-            title: 'Confirmar',
-            text: text,
-            type: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#fff',
-            confirmButtonColor: '#3B3F5C',
-            confirmButtonText: 'Aceptar'
-
-        }).then(function(result){
-           if (result.value) {
-            window.livewire.emit(eventName, id)
-            swal.close() 
-           } 
-        })
-    }
-</script>
+    </script>
+</div>

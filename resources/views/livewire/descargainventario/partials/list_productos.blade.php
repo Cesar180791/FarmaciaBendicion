@@ -40,7 +40,7 @@
                             <p>{{$product->existencia_caja}}</p>
                         </td>
                         <td class="text-center">
-                            @if ($product->existencia_unidad > 0)
+                            @if ($product->precio_unidad != null)
                             <p>{{$product->existencia_unidad}}</p>
                             @else
                             <p>N/A</p>
@@ -71,7 +71,7 @@
                         <td class="text-center">
                             <p>${{number_format($product->precio_mayoreo,4)}}</p>
                         </td>
-                        @if ($product->precio_unidad > 0)
+                        @if ($product->precio_unidad != null)
                         <td class="text-center">
                             <p>${{number_format($product->precio_unidad,4)}}</p>
                         </td>

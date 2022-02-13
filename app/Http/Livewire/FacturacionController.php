@@ -872,6 +872,7 @@ class FacturacionController extends Component
         $this->NIT_cliente                  =   '';
         $this->NRC_cliente                  =   '';
         $this->gran_con_cliente             =   'Seleccionar';
+        $this->selected_id                  =   0;
         $this->resetPage();
         $this->resetValidation();
     }

@@ -271,7 +271,7 @@ class CargaInventarioController extends Component
             Cart::add(
                 $buscar_lote->id,
                 $product->name,
-                0,
+                $product->final_cost,
                 $cant,
                 array(
                     $product->cost,
@@ -586,9 +586,10 @@ class CargaInventarioController extends Component
         $this->name=''; 
         $this->barCode=''; 
         $this->selected_id=0;
-        $this->subCategoryId=0;
+        $this->subCategoryId = 'Seleccionar';
         $this->precio_caja=0;
         $this->precio_mayoreo=0;
+        $this->precio_unidad = null;
         $this->unidades_presentacion=1;
         $this->resetPage();
         $this->resetValidation();

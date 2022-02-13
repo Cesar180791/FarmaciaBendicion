@@ -207,9 +207,10 @@ class ProductsController extends Component
         $this->barCode=''; 
         $this->search=''; 
         $this->selected_id=0;
-        $this->subCategoryId=0;
+        $this->subCategoryId = 'Seleccionar';
         $this->precio_caja=0;
         $this->precio_mayoreo=0;
+        $this->precio_unidad = null;
         $this->unidades_presentacion=1;
         $this->resetPage();
         $this->resetValidation();

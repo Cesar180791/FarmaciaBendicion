@@ -70,7 +70,7 @@
 
                     @endif
                     <div class="col-sm-12 col-md-6 mt-2">
-                        <a class="btn btn-danger mbmobile mb-4 ml-auto" id="btn-regresar"><b><i
+                        <a wire:click.prevent="resetUI()" class="btn btn-danger mbmobile mb-4 ml-auto" id="btn-regresar"><b><i
                                     class="fas fa-arrow-left"></i></b></a>
                         <a class="btn btn-dark mbmobile mb-4 ml-2" id="btn-buscar"><b><i class="fas fa-search-plus"></i>
                                 Buscar</b></a>
@@ -237,24 +237,3 @@
         </div>
     </div>
 </div>
-<style>
-    .my-custom-scrollbar {
-        position: relative;
-        height: auto;
-        width: auto;
-        overflow: auto;
-    }
-
-    .table-wrapper-scroll-y {
-        display: block;
-    }
-
-    .size {
-        width: 100px;
-    }
-
-    .size-product {
-        width: 250px;
-    }
-
-</style>
