@@ -52,7 +52,6 @@
         </div>
         @include('livewire.permisos.form')
     </div>
-</div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         window.livewire.on('show-modal', msg => {
@@ -93,3 +92,4 @@
     }
 
 </script>
+</div>

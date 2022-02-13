@@ -18,6 +18,9 @@ class ProcuctSeeder extends Seeder
             'name'=>'ACETAMINOFEN MK 120MG/5ML JARABE NIÑOS 60ML',
             'chemical_component'=>'Acetaminofen',
             'laboratory'=>'Laboratorios MK',
+            'cost'=>0,
+            'iva_cost'=>0,
+            'final_cost'=>0,
             'barCode' =>'1457851225',
             'Numero_registro'=>'2547474747',
             'sub_category_id'=>1
@@ -26,6 +29,9 @@ class ProcuctSeeder extends Seeder
             'name'=>'ACETAMINOFEN FORTE X 16 TABLETAS 500MG',
             'chemical_component'=>'Acetaminofen',
             'laboratory'=>'Laboratorios MK',
+            'cost'=>0,
+            'iva_cost'=>0,
+            'final_cost'=>0,
             'barCode' =>'1457851225',
             'Numero_registro'=>'4545455454',
             'sub_category_id'=>1
@@ -34,6 +40,9 @@ class ProcuctSeeder extends Seeder
             'name'=>'ACETOSIL INFANTIL JARABE FRASCO 60ML(Acetaminofen)',
             'chemical_component'=>'Acetaminofen',
             'laboratory'=>'Laboratorios Suizos',
+            'cost'=>0,
+            'iva_cost'=>0,
+            'final_cost'=>0,
             'barCode' =>'1457851225',
             'Numero_registro'=>'454545474',
             'sub_category_id'=>1
@@ -42,6 +51,9 @@ class ProcuctSeeder extends Seeder
             'name'=>'PANADOL EXTRA FUERTE 500MGX50 SOBRES X 2 TABLETAS',
             'chemical_component'=>'Acetaminofen',
             'laboratory'=>'GSK',
+            'cost'=>0,
+            'iva_cost'=>0,
+            'final_cost'=>0,
             'barCode' =>'1457851225',
             'Numero_registro'=>'4545545454',
             'sub_category_id'=>1
@@ -50,6 +62,9 @@ class ProcuctSeeder extends Seeder
             'name'=>'CIPROFLOXACINA ECOMED 500MG X 1 TABLETA',
             'chemical_component'=>'Ciprofloxacina',
             'laboratory'=>'Ecomed',
+            'cost'=>0,
+            'iva_cost'=>0,
+            'final_cost'=>0,
             'barCode' =>'147877474747',
             'Numero_registro'=>'4587478747',
             'sub_category_id'=>4
@@ -58,6 +73,9 @@ class ProcuctSeeder extends Seeder
             'name'=>'CIPROFLOXACINA MK 500MG X 30 TABLETAS',
             'chemical_component'=>'Ciprofloxacina',
             'laboratory'=>'Laboratorios MK',
+            'cost'=>0,
+            'iva_cost'=>0,
+            'final_cost'=>0,
             'barCode' =>'147877474747',
             'Numero_registro'=>'4587478747',
             'sub_category_id'=>4
@@ -66,6 +84,9 @@ class ProcuctSeeder extends Seeder
             'name'=>'DICLOFENAC MEDIKEN 50MG X 50 TABLETAS',
             'chemical_component'=>'Diclofenaco Sodico',
             'laboratory'=>'Mediken',
+            'cost'=>0,
+            'iva_cost'=>0,
+            'final_cost'=>0,
             'barCode' =>'5454785485487',
             'Numero_registro'=>'545757474',
             'sub_category_id'=>4

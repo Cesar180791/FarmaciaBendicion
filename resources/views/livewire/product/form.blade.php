@@ -94,7 +94,51 @@
         @error('unidades_presentacion') <span class="text-danger er">{{ $message }}</span> @enderror
     </div>
 
-    <div class="col-sm-12 col-md-6 mt-3">
+    <div class="col-sm-12 col-md-4 mt-3">
+        <label>Precio Costo (Sin IVA) </label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <span class="fas fa-edit">
+
+                    </span>
+                </span>
+            </div>
+            <input type="number" wire:model.lazy="cost" class="form-control"
+                placeholder="Ingrese el Código de barras">
+        </div>
+        @error('cost') <span class="text-danger er">{{ $message }}</span> @enderror
+    </div>
+
+    <div class="col-sm-12 col-md-4 mt-3">
+        <label>IVA </label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <span class="fas fa-edit">
+
+                    </span>
+                </span>
+            </div>
+            <label class="form-control">{{$iva_cost}}
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-4 mt-3">
+        <label>Costo + IVA </label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <span class="fas fa-edit">
+
+                    </span>
+                </span>
+            </div>
+            <label class="form-control">{{$final_cost}}
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-4 mt-3">
         <label>Precio Caja </label>
         <div class="input-group">
             <div class="input-group-prepend">
@@ -110,7 +154,7 @@
         @error('precio_caja') <span class="text-danger er">{{ $message }}</span> @enderror
     </div>
 
-    <div class="col-sm-12 col-md-6 mt-3">
+    <div class="col-sm-12 col-md-4 mt-3">
         <label>Precio Mayoreo </label>
         <div class="input-group">
             <div class="input-group-prepend">
@@ -126,7 +170,7 @@
         @error('precio_mayoreo') <span class="text-danger er">{{ $message }}</span> @enderror
     </div>
 
-    <div class="col-sm-12 col-md-6 mt-3">
+<div class="col-sm-12 col-md-4 mt-3">
         <label>Precio Unidad </label>
         <div class="input-group">
             <div class="input-group-prepend">
@@ -142,7 +186,7 @@
         @error('precio_unidad') <span class="text-danger er">{{ $message }}</span> @enderror
     </div>
 
-    <div class="col-sm-12 col-md-6 mt-3">
+    <div class="col-sm-12 col-md-12 mt-3">
         <label>Seleccione Sub-Categoría</label>
         <div class="form-group">
             <select wire:model='subCategoryId' class="form-control">

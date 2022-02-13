@@ -12,8 +12,9 @@ class ProductsController extends Component
 {
     use withPagination;
 
-    public $Numero_registro, $laboratory, $chemical_component, $name, $barCode, $cost, $price, $search, $selected_id, $pageTitle, 
+    public $Numero_registro, $laboratory, $chemical_component, $name, $barCode, $cost, $iva_cost, $final_cost, $price, $search, $selected_id, $pageTitle, 
             $componentName , $subCategoryId, $precio_caja, $precio_mayoreo, $precio_unidad, $unidades_presentacion;
+
     private $pagination = 5;
 
       public function mount(){
@@ -28,6 +29,16 @@ class ProductsController extends Component
 
     public function render()
     {
+        if ($this->cost == null) {
+            $this->cost = 0;
+            $this->iva_cost = 0;
+            $this->final_cost = 0;
+        }
+        if ($this->cost > 0){
+            $this->iva_cost = $this->cost * 0.13;
+            $this->final_cost = $this->cost + $this->iva_cost;
+        }
+
         if ($this->precio_caja == null) {
             $this->precio_caja=0;
         }
@@ -103,6 +114,9 @@ class ProductsController extends Component
             'barCode'               =>  $this->barCode,
             'Numero_registro'       =>  $this->Numero_registro,
             'laboratory'            =>  $this->laboratory,
+            'cost'                  =>  $this->cost,
+            'iva_cost'              =>  $this->iva_cost,
+            'final_cost'            =>  $this->final_cost,
             'unidades_presentacion' =>  $this->unidades_presentacion,
             'precio_caja'           =>  $this->precio_caja,
             'precio_mayoreo'        =>  $this->precio_mayoreo,
@@ -122,6 +136,9 @@ class ProductsController extends Component
         $this->barCode                  =   $producto->barCode;
         $this->Numero_registro          =   $producto->Numero_registro;
         $this->laboratory               =   $producto->laboratory;
+        $this->cost                     =   $producto->cost;
+        $this->iva_cost                 =   $producto->iva_cost;
+        $this->final_cost               =   $producto->final_cost;
         $this->unidades_presentacion    =   $producto->unidades_presentacion;
         $this->precio_caja              =   $producto->precio_caja;
         $this->precio_mayoreo           =   $producto->precio_mayoreo;
@@ -136,7 +153,7 @@ class ProductsController extends Component
             'name'                  =>  "required|min:3|unique:products,name,{$this->selected_id}",
             'chemical_component'    =>  'required|min:3',
             'barCode'               =>  'required',
-            'Numero_registro'       =>  "required|min:3|unique:products,Numero_registro,{$this->selected_id}",
+            'Numero_registro'       =>  "required|min:3",
             'laboratory'            =>  'required|min:3',
             'subCategoryId'         =>  'required|not_in:Seleccionar',
             'unidades_presentacion' =>  'required'
@@ -151,7 +168,6 @@ class ProductsController extends Component
             'barCode.required'              =>  'Código de barra es Requerido',
             'Numero_registro.required'      =>  'El numero de registro del medicamento es requerido',
             'Numero_registro.min'           =>  'El numero de registro debe tener al menos 3 caracteres',
-            'Numero_registro.unique'        =>  'El numero de registro ingresado ya esta asociado a un medicamento registrado en el sistema',
             'laboratory.required'           =>  'El nombre del laboratorio es requerido',
             'laboratory.min'                =>  'El nombre del laboratorio debe tener al menos 3 caracteres',
             'subCategoryId.not_in'          =>  'Elige una SubCategoría diferente de "Seleccionar"',
@@ -171,6 +187,9 @@ class ProductsController extends Component
             'barCode'               =>  $this->barCode,
             'Numero_registro'       =>  $this->Numero_registro,
             'laboratory'            =>  $this->laboratory,
+            'cost'                  =>  $this->cost,
+            'iva_cost'              =>  $this->iva_cost,
+            'final_cost'            =>  $this->final_cost,
             'unidades_presentacion' =>  $this->unidades_presentacion,
             'precio_caja'           =>  $this->precio_caja,
             'precio_mayoreo'        =>  $this->precio_mayoreo,
@@ -202,6 +221,7 @@ class ProductsController extends Component
     public function resetUI(){
         $this->Numero_registro = ''; 
         $this->laboratory=''; 
+        $this->cost = 0;
         $this->chemical_component=''; 
         $this->name=''; 
         $this->barCode=''; 
@@ -213,6 +233,6 @@ class ProductsController extends Component
         $this->precio_unidad = null;
         $this->unidades_presentacion=1;
         $this->resetPage();
-        $this->resetValidation();
+        $this->resetValidation(); 
     }
 }

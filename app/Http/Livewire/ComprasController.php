@@ -57,6 +57,16 @@ class ComprasController extends Component
 
     public function render()
     {
+        if ($this->cost == null) {
+            $this->cost = 0;
+            $this->iva_cost = 0;
+            $this->final_cost = 0;
+        }
+        if ($this->cost > 0){
+            $this->iva_cost = $this->cost * 0.13;
+            $this->final_cost = $this->cost + $this->iva_cost;
+        }
+
         if ($this->precio_caja == null) {
             $this->precio_caja=0;
         }
@@ -166,6 +176,9 @@ class ComprasController extends Component
             'barCode'               =>  $this->barCode,
             'Numero_registro'       =>  $this->Numero_registro,
             'laboratory'            =>  $this->laboratory,
+            'cost'                  =>  $this->cost,
+            'iva_cost'              =>  $this->iva_cost,
+            'final_cost'            =>  $this->final_cost,
             'unidades_presentacion' =>  $this->unidades_presentacion,
             'precio_caja'           =>  $this->precio_caja,
             'precio_mayoreo'        =>  $this->precio_mayoreo,
@@ -612,6 +625,7 @@ class ComprasController extends Component
 
         $this->Numero_registro = ''; 
         $this->laboratory=''; 
+        $this->cost = 0;
         $this->chemical_component=''; 
         $this->name=''; 
         $this->barCode=''; 

@@ -16,7 +16,7 @@ class CargaInventarioController extends Component
 {
     use withPagination;
     public $search, $search2, $itemsQuantity, $total, $descripcion_carga, $loteId, $producto ,$numero_lote, $caducidad_lote, $idProducto, $idBuscarProducto, $existencia_lote_unidad,$selected_id,
-    $Numero_registro, $laboratory, $chemical_component, $name, $barCode, $cost, $price, $subCategoryId, $precio_caja, $precio_mayoreo, $precio_unidad, $unidades_presentacion;
+    $Numero_registro, $laboratory, $chemical_component, $name, $barCode, $cost, $iva_cost, $final_cost, $price, $subCategoryId, $precio_caja, $precio_mayoreo, $precio_unidad, $unidades_presentacion;
     private $pagination = 5, $pagination2 = 5;
 
     public function mount(){
@@ -51,6 +51,16 @@ class CargaInventarioController extends Component
 
     public function render()
     {  
+        if ($this->cost == null) {
+            $this->cost = 0;
+            $this->iva_cost = 0;
+            $this->final_cost = 0;
+        }
+        if ($this->cost > 0){
+            $this->iva_cost = $this->cost * 0.13;
+            $this->final_cost = $this->cost + $this->iva_cost;
+        }
+
         if ($this->precio_caja == null) {
             $this->precio_caja=0;
         }
@@ -160,6 +170,9 @@ class CargaInventarioController extends Component
             'barCode'               =>  $this->barCode,
             'Numero_registro'       =>  $this->Numero_registro,
             'laboratory'            =>  $this->laboratory,
+            'cost'                  =>  $this->cost,
+            'iva_cost'              =>  $this->iva_cost,
+            'final_cost'            =>  $this->final_cost,
             'unidades_presentacion' =>  $this->unidades_presentacion,
             'precio_caja'           =>  $this->precio_caja,
             'precio_mayoreo'        =>  $this->precio_mayoreo,
@@ -582,6 +595,7 @@ class CargaInventarioController extends Component
 
         $this->Numero_registro = ''; 
         $this->laboratory=''; 
+        $this->cost = 0;
         $this->chemical_component=''; 
         $this->name=''; 
         $this->barCode=''; 

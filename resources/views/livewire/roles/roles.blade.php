@@ -54,54 +54,54 @@
         </div>
         @include('livewire.roles.form')
     </div>
-</div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        window.livewire.on('show-modal', msg => {
-            $('#theModal').modal('show');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            window.livewire.on('show-modal', msg => {
+                $('#theModal').modal('show');
+            });
+
+            window.livewire.on('role-added', msg => {
+                $('#theModal').modal('hide');
+            });
+            window.livewire.on('role-update', msg => {
+                $('#theModal').modal('hide');
+            });
+            window.livewire.on('hide-modal', msg => {
+                $('#theModal').modal('hide');
+            });
+            window.livewire.on('role-deleted', msg => {
+                swal({
+                    title: 'Exito',
+                    text: msg,
+                    type: 'success',
+                })
+            });
+            window.livewire.on('role-error', msg => {
+                swal({
+                    title: 'Cuidado',
+                    text: msg,
+                    type: 'warning',
+                })
+            });
         });
 
-        window.livewire.on('role-added', msg => {
-            $('#theModal').modal('hide');
-        });
-        window.livewire.on('role-update', msg => {
-            $('#theModal').modal('hide');
-        });
-        window.livewire.on('hide-modal', msg => {
-            $('#theModal').modal('hide');
-        });
-        window.livewire.on('role-deleted', msg => {
+        function Confirm(id) {
             swal({
-                title: 'Exito',
-                text: msg,
-                type: 'success',
-            })
-        });
-        window.livewire.on('role-error', msg => {
-            swal({
-                title: 'Cuidado',
-                text: msg,
+                title: 'Confirmar',
+                text: '¿Confirmas eliminar el rol?',
                 type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cerrar',
+                cancelButtonColor: '#fff',
+                confirmButtonColor: '#3B3F5C',
+                confirmButtonText: 'Aceptar'
+
+            }).then(function (result) {
+                if (result.value) {
+                    window.livewire.emit('deleteRow', id)
+                }
             })
-        });
-    });
+        }
 
-    function Confirm(id) {
-        swal({
-            title: 'Confirmar',
-            text: '¿Confirmas eliminar el rol?',
-            type: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#fff',
-            confirmButtonColor: '#3B3F5C',
-            confirmButtonText: 'Aceptar'
-
-        }).then(function (result) {
-            if (result.value) {
-                window.livewire.emit('deleteRow', id)
-            }
-        })
-    }
-
-</script>
+    </script>
+</div>

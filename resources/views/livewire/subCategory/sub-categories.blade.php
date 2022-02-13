@@ -7,7 +7,8 @@
                 </h6>
                 <ul class="tabs tab-pills">
                     <li style="list-style: none;">
-                        <a href="javascript:void(0)" class="tabmenu btn btn-dark" data-toggle="modal" data-target="#theModal">Agregar</a>
+                        <a href="javascript:void(0)" class="tabmenu btn btn-dark" data-toggle="modal"
+                            data-target="#theModal">Agregar</a>
                     </li>
                 </ul>
             </div>
@@ -30,14 +31,13 @@
                                 <td>{{$subCategory->description}}</td>
                                 <td>{{$subCategory->category}}</td>
                                 <td class="text-center">
-                                    <a href="javascript:void(0)"
-                                    wire:click.prevent="Edit({{$subCategory->id}})"
-                                    class="btn btn-dark mtmobile" title="Edit">
+                                    <a href="javascript:void(0)" wire:click.prevent="Edit({{$subCategory->id}})"
+                                        class="btn btn-dark mtmobile" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <a href="javascript:void(0)" class="btn btn-danger"
-                                    onclick="Confirm('{{$subCategory->id}}','{{$subCategory->products->count()}}')" 
-                                    title="Delete">
+                                        onclick="Confirm('{{$subCategory->id}}','{{$subCategory->products->count()}}')"
+                                        title="Delete">
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </td>
@@ -51,52 +51,53 @@
         </div>
     </div>
     @include('livewire.subCategory.form')
-</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            window.livewire.on('subCategory-added', msg => {
+                $('#theModal').modal('hide');
+            });
+            window.livewire.on('subCategory-update', msg => {
+                $('#theModal').modal('hide');
+            });
+            window.livewire.on('subCategory-deleted', msg => {
+                //notificacion
+            });
+            window.livewire.on('show-modal', msg => {
+                $('#theModal').modal('show');
+            });
+            window.livewire.on('modal-hide', msg => {
+                $('#theModal').modal('hide');
+            });
+            window.livewire.on('hidden.bs.modal', msg => {
+                $('.er').css('display', 'none')
+            });
+        });
 
-<script>
-    document.addEventListener('DOMContentLoaded', function(){
-        window.livewire.on('subCategory-added', msg=>{
-            $('#theModal').modal('hide');
-        });
-        window.livewire.on('subCategory-update', msg=>{
-            $('#theModal').modal('hide');
-        });
-         window.livewire.on('subCategory-deleted', msg=>{
-            //notificacion
-        });
-         window.livewire.on('show-modal', msg=>{
-            $('#theModal').modal('show');
-        });
-         window.livewire.on('modal-hide', msg=>{
-            $('#theModal').modal('hide');
-        });
-         window.livewire.on('hidden.bs.modal', msg=>{
-            $('.er').css('display','none')
-        });
-    });
-
-       function Confirm(id, products){
-        if (products >0){
+        function Confirm(id, products) {
+            if (products > 0) {
+                swal({
+                    type: 'error',
+                    text: 'No se puede eliminar la Sub-Categoría por que tiene Productos asignados'
+                })
+                return;
+            }
             swal({
-                type: 'error',
-                 text: 'No se puede eliminar la Sub-Categoría por que tiene Productos asignados'})
-            return;
-        }
-        swal({
-            title: 'Confirmar',
-            text: '¿Confirmas eliminar el registro?',
-            type: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#fff',
-            confirmButtonColor: '#3B3F5C',
-            confirmButtonText: 'Aceptar'
+                title: 'Confirmar',
+                text: '¿Confirmas eliminar el registro?',
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cerrar',
+                cancelButtonColor: '#fff',
+                confirmButtonColor: '#3B3F5C',
+                confirmButtonText: 'Aceptar'
 
-        }).then(function(result){
-           if (result.value) {
-            window.livewire.emit('deleteRow', id)
-            swal.close() 
-           } 
-        })
-    }
-</script>
+            }).then(function (result) {
+                if (result.value) {
+                    window.livewire.emit('deleteRow', id)
+                    swal.close()
+                }
+            })
+        }
+
+    </script>
+</div>

@@ -564,7 +564,7 @@ class FacturacionController extends Component
 
         if($this->count == 0){
             $precio = $producto->precio_caja;
-            $tipoPrecio = 'NORMAL';
+            $this->tipoPrecio = 'NORMAL';
 
             Cart::add(
                 $exist->id,
@@ -578,7 +578,7 @@ class FacturacionController extends Component
                     $exist->attributes[3],
                     $exist->attributes[4],
                     $exist->attributes[5],
-                    $tipoPrecio,
+                    $this->tipoPrecio,
                     0
                 ));
             $this->itemsQuantity = Cart::getTotalQuantity();
@@ -590,7 +590,7 @@ class FacturacionController extends Component
 
         if($this->count == 1){
              $precio = $producto->precio_mayoreo;
-             $tipoPrecio = 'MAYOREO';
+             $this->tipoPrecio = 'MAYOREO';
 
              Cart::add(
                 $exist->id,
@@ -604,7 +604,7 @@ class FacturacionController extends Component
                     $exist->attributes[3],
                     $exist->attributes[4],
                     $exist->attributes[5],
-                    $tipoPrecio,
+                    $this->tipoPrecio,
                     0
                 ));
             $this->itemsQuantity = Cart::getTotalQuantity();
@@ -619,7 +619,7 @@ class FacturacionController extends Component
         }
         if($this->count == 2){
              $precio = $producto->precio_unidad;
-             $tipoPrecio = 'UNIDAD';
+             $this->tipoPrecio = 'UNIDAD';
              $this->count = 0;
 
              Cart::add(
@@ -634,7 +634,7 @@ class FacturacionController extends Component
                     $exist->attributes[3],
                     $exist->attributes[4],
                     $exist->attributes[5],
-                    $tipoPrecio,
+                    $this->tipoPrecio,
                     0
                 ));
 
@@ -792,11 +792,6 @@ class FacturacionController extends Component
                             }
 
                             $actualizarLote->save();
-
-                            if($actualizarLote->existencia_lote === 0 && $actualizarLote->existencia_lote_unidad === 0){
-                                $actualizarLote->estado_lote = 'DESHABILITADO';
-                                $actualizarLote->save();
-                            }
 
                         }else{
                             //restar caja y añadir unidades a stock unidades producto

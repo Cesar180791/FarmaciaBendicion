@@ -104,58 +104,57 @@
         </div>
         @include('livewire.proveedores.form')
     </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        window.livewire.on('show-modal', msg => {
-            $('#theModal').modal('show');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            window.livewire.on('show-modal', msg => {
+                $('#theModal').modal('show');
+            });
+            window.livewire.on('proveedor-added', msg => {
+                $('#theModal').modal('hide');
+                swal({
+                    title: 'Agregado!',
+                    text: msg,
+                    type: 'success',
+                })
+            });
+            window.livewire.on('proveedor-update', msg => {
+                $('#theModal').modal('hide');
+                swal({
+                    title: 'Actualizado!',
+                    text: msg,
+                    type: 'success',
+                })
+            });
+            window.livewire.on('category-delete', msg => {
+                swal({
+                    title: 'Eliminado!',
+                    text: msg,
+                    type: 'success',
+                })
+            });
         });
-        window.livewire.on('proveedor-added', msg => {
-            $('#theModal').modal('hide');
+
+        function Confirm(id, eventName, text) {
             swal({
-                title: 'Agregado!',
-                text: msg,
-                type: 'success',
-            })
-        });
-        window.livewire.on('proveedor-update', msg => {
-            $('#theModal').modal('hide');
-            swal({
-                title: 'Actualizado!',
-                text: msg,
-                type: 'success',
-            })
-        });
-        window.livewire.on('category-delete', msg => {
-            swal({
-                title: 'Eliminado!',
-                text: msg,
-                type: 'success',
-            })
-        });
-    });
+                title: 'Confirmar',
+                text: text,
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cerrar',
+                cancelButtonColor: '#fff',
+                confirmButtonColor: '#3B3F5C',
+                confirmButtonText: 'Aceptar'
 
-    function Confirm(id, eventName, text) {
-        swal({
-            title: 'Confirmar',
-            text: text,
-            type: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#fff',
-            confirmButtonColor: '#3B3F5C',
-            confirmButtonText: 'Aceptar'
+            }).then(function (result) {
+                if (result.value) {
+                    window.livewire.emit(eventName, id)
+                    swal.close()
+                }
+            })
+        }
 
-        }).then(function (result) {
-            if (result.value) {
-                window.livewire.emit(eventName, id)
-                swal.close()
-            }
-        })
-    }
-
-    /*function Confirm(id){
+        /*function Confirm(id){
          swal({ 
              title: 'Confirmar',
              text: '¿Confirmas eliminar el registro?',
@@ -174,4 +173,5 @@
          })
      }*/
 
-</script>
+    </script>
+</div>

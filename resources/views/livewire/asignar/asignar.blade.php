@@ -64,59 +64,58 @@
                 </div>
             </div>
         </div>
-        Include Form
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            window.livewire.on('sync-error', msg => {
+                swal({
+                    title: 'Error',
+                    text: msg,
+                    type: 'error',
+                })
+
+            });
+
+            window.livewire.on('permi', msg => {
+                swal({
+                    title: 'Exito',
+                    text: msg,
+                    type: 'success',
+                })
+            });
+            window.livewire.on('sync-all', msg => {
+                swal({
+                    title: 'Exito',
+                    text: msg,
+                    type: 'success',
+                })
+            });
+            window.livewire.on('remove-all', msg => {
+                swal({
+                    title: 'Exito',
+                    text: msg,
+                    type: 'success',
+                })
+            });
+        });
+
+        function Revocar() {
+            swal({
+                title: 'Confirmar',
+                text: '¿Confirmas revocar todos los permisos?',
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cerrar',
+                cancelButtonColor: '#fff',
+                confirmButtonColor: '#3B3F5C',
+                confirmButtonText: 'Aceptar'
+
+            }).then(function (result) {
+                if (result.value) {
+                    window.livewire.emit('revokeall')
+                }
+            })
+        }
+
+    </script>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        window.livewire.on('sync-error', msg => {
-            swal({
-                title: 'Error',
-                text: msg,
-                type: 'error',
-            })
-
-        });
-
-        window.livewire.on('permi', msg => {
-            swal({
-                title: 'Exito',
-                text: msg,
-                type: 'success',
-            })
-        });
-        window.livewire.on('sync-all', msg => {
-            swal({
-                title: 'Exito',
-                text: msg,
-                type: 'success',
-            })
-        });
-        window.livewire.on('remove-all', msg => {
-            swal({
-                title: 'Exito',
-                text: msg,
-                type: 'success',
-            })
-        });
-    });
-
-    function Revocar() {
-        swal({
-            title: 'Confirmar',
-            text: '¿Confirmas revocar todos los permisos?',
-            type: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#fff',
-            confirmButtonColor: '#3B3F5C',
-            confirmButtonText: 'Aceptar'
-
-        }).then(function (result) {
-            if (result.value) {
-                window.livewire.emit('revokeall')
-            }
-        })
-    }
-
-</script>

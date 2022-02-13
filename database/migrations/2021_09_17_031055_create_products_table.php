@@ -20,9 +20,9 @@ class CreateProductsTable extends Migration
             $table->string('barCode',25)->nullable();
             $table->string('Numero_registro',25);
             $table->string('laboratory');
-            $table->decimal('cost',10,4)->default(0);
-            $table->decimal('iva_cost',10,4)->default(0);
-            $table->decimal('final_cost',10,4)->default(0);
+            $table->decimal('cost',10,4);
+            $table->decimal('iva_cost',10,4);
+            $table->decimal('final_cost',10,4);
             $table->integer('unidades_presentacion')->default(0);
             $table->decimal('precio_caja',10,4)->default(0);
             $table->decimal('precio_mayoreo',10,4)->default(0);
