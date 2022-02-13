@@ -250,7 +250,7 @@
         window.livewire.on('print-factura', saleId=>{
             ruta = "{{ url('print/factura/consumidor-final') }}" + '/' + saleId
             ventana = window.open(ruta,  "_blank", "width=100, height=100")
-            //ventana.close()
+            ventana.close()
         });
 
 

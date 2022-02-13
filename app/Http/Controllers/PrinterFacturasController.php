@@ -15,16 +15,16 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Clientes;
 use Carbon\Carbon;
+use Luecano\NumeroALetras\NumeroALetras;
 
 class PrinterFacturasController extends Controller
 {
-    public $new='';
+    public $new='', $printer;
 
 
+    ///FUNCION PARA AJUSTAR ESPACIOS VACIOS
     function addSpaces($string='', $validarEspacios = 0)
     {
-        
-
         if(strlen($string) <= $validarEspacios)
         {
             $spaces = $validarEspacios - strlen($string);
@@ -42,176 +42,138 @@ class PrinterFacturasController extends Controller
         return $string;
     }
 
+    //FUNCION PARA SALTO DE LINEA DE TOTAL EN LETRAS
+    public function saltoLineaTotalLetras($string='',$validarEspacios = 0){
+        if(strlen($string) <= $validarEspacios)
+        {
+            $spaces = $validarEspacios - strlen($string);
+
+            for($index1 = 1; $index1 <= $spaces; $index1++)
+            {
+                $string = $string . ' ';
+            }
+        }else{
+            $cadena = wordwrap($string, $validarEspacios,"\n",TRUE);
+            $string = $cadena;
+        }
+        return $string;
+    }
 
 
-
-    //imprimir factura consumidor final
+    //FUNCION PARA GENERAR FACTURA CONSUMIDOR FINAL
 
     public function facturaConsumidorFinal($id)
     {
         
         $nombre_impresora = "EPSON"; //impresora a utilizar
         $connector = new WindowsPrintConnector($nombre_impresora); //nombre de la impresora donde se conectara
-        $printer  = new Printer($connector);
+        $this->printer  = new Printer($connector);
 
         //obtener info
 
         $venta = Sale::find($id);
-
-       // $detalle = [];
-
         $detalle = SaleDetails::join('lotes as l','l.id','sale_details.lotes_id')
                                 ->join('products as p', 'p.id','l.products_id')
                                 ->select('l.products_id', 'sale_details.precio_venta_mas_iva','sale_details.quantity as cantidad','p.name')
                                 ->where('sale_details.sale_id',$id)
                                 ->get();
 
-                                
-    
-        //dd($ventaAgravada);
-        $printer->setJustification(Printer::JUSTIFY_LEFT);
-        $printer -> setEmphasis(true);
-
-        $printer -> setEmphasis(true);
-        $printer -> setLineSpacing(22.5);
-        $printer -> setFont ( Printer :: FONT_B );
+        //impresion de factura consumidor final
+        $this->printer->setJustification(Printer::JUSTIFY_LEFT);
+        $this->printer -> setEmphasis(true);
+        $this->printer -> setLineSpacing(22.5);
+        $this->printer -> setFont ( Printer :: FONT_B );
         //9 saltos de linea
-        $printer -> text("\n\n\n\n\n\n\n\n\n");
-        //9 espacios
-        $printer -> text("         ");
-        $printer -> text($this->addSpaces($venta->cliente_consumidor_final,31));
-        //8 espacios
-        $printer -> text("        ");
-        $printer -> text($this->addSpaces($venta->dui_consumidor_final,9));
-        //5 espacios
-        $printer -> text("     ");
-        $printer -> text($this->addSpaces(date('Y-m-d'),10));
+        $this->printer -> text("\n\n\n\n\n\n\n\n\n");
+        //9 espacios nombre del cliente
+        $this->printer -> text("         ");
+        $this->printer -> text($this->addSpaces($venta->cliente_consumidor_final,31));
+        //8 espacios dui del cliente
+        $this->printer -> text("        ");
+        $this->printer -> text($this->addSpaces($venta->dui_consumidor_final,9));
+        //5 espacios fecha de venta
+        $this->printer -> text("     ");
+        $this->printer -> text($this->addSpaces(date('Y-m-d'),10));
         //1 salto de linea
-        $printer -> text("\n");
-        //11 espacios
-        $printer -> text("           ");
-        $printer -> text($this->addSpaces($venta->direccion_consumidor_final,40));
+        $this->printer -> text("\n");
+        //11 espacios direccion del cliente
+        $this->printer -> text("           ");
+        $this->printer -> text($this->addSpaces($venta->direccion_consumidor_final,40));
         //4 saltos
-        $printer -> text("\n\n\n\n");
+        $this->printer -> text("\n\n\n\n");
 
         ///Listar Detalle
         foreach($detalle as $d){
-            
             //4 espacio
-            $printer -> text("    ");
+            $this->printer -> text("    ");
+            //listar cantidad
+            $this->printer -> text($this->addSpaces($d->cantidad,4));
+            //1 espacio nombre del producto
+            $this->printer -> text(" ");
+            $this->printer -> text($this->addSpaces($d->name,41));
+            //3 espacios precio unitario
+            $this->printer -> text("   $");
+            $this->printer -> text($this->addSpaces(number_format($d->precio_venta_mas_iva,2),6));
 
-            //listar productos
-
-            $printer -> text($this->addSpaces($d->cantidad,5));
-            //1 espacio
-            $printer -> text(" ");
-            $printer -> text($this->addSpaces($d->name,41));
-            //3 espacios
-            $printer -> text("   $");
-            $printer -> text($this->addSpaces(number_format($d->precio_venta_mas_iva,2),6));
-
-            //6 espacios
+            //6 espacios venta agravada
             $ventaAgrabada = $d->cantidad * $d->precio_venta_mas_iva;
-            $printer -> text("      $");
-            $printer -> text($this->addSpaces(number_format($ventaAgrabada,2),7));
-            $printer -> text("\n\n");
-        }
-        
-
-       // $printer -> setLineSpacing(22);
-       /* $printer -> setFont ( Printer :: FONT_B );  
-        for ($i = 0; $i < 43; $i++) {
-            $printer -> setLineSpacing(22);
-            $printer -> text(" ABCDEFGHIJKLMNOPQRSTUVWXYZ-ABCDEFGHIJKLMNOPQRSTUVWXYZ-ABCDEFGHI-ABCDEFGHIJKL\n"); //85ESPACIOS
+            $this->printer -> text("      $");
+            $this->printer -> text($this->addSpaces(number_format($ventaAgrabada,2),7));
+            //dos saltos de linea
+            $this->printer -> text("\n\n"); 
+            
         }
 
-        /*$printer -> setEmphasis(true);
-        //$printer -> setLineSpacing(22);
-        $printer -> setFont ( Printer :: FONT_B );
-        $printer -> text("\n\n\n\n\n\n\n");
-        $printer -> text($this->addSpaces($venta->cliente_consumidor_final,31));
-        $printer -> text("        ");
-        $printer -> text($this->addSpaces($venta->dui_consumidor_final,9));
-        $printer -> text("     ");
-        $printer -> text($this->addSpaces(date('Y-m-d'),10));
-        $printer -> text("\n");
-        $printer -> text($this->addSpaces($venta->direccion_consumidor_final,40));
-
-        //12 saltos de linea
-       /* $printer -> text("\n\n\n\n\n\n\n\n\n\n\n\n");
-
-        //6 espacios vacios para nombre 24 espacios para dui en la misma linea 5 espacios para fecha
-        $printer -> text("      cesar morales                         $venta->dui_consumidor_final     09-02-2022\n\n");
-        $printer -> text("       $venta->direccion_consumidor_final\n\n\n\n\n\n"); //6 espacios vacios
-        $printer -> text(" 23   Acetaminofen\n\n\n"); //6 espacios vacios
-      /*
-         for ($i = 0; $i < 43; $i++) {
-            $printer -> setLineSpacing(22);
-            $printer -> text("ABCDEFGHIJKLMNOPQRSTUVWXYZ-ABCDEFGHIJKLMNOPQRSTUVWXYZ-ABCDEFGHI\n"); //60ESPACIOS
+        ///IF QUE CALCULA LOS SALTOS DE LINEA QUE DARA DESPUES DEL DETALLE DE LA FACTURA
+        if(count($detalle) == 1 )
+        {
+            //10 saltos de linea
+            $this->printer -> text("\n\n\n\n\n\n\n\n\n\n");   
+            $this->total($venta->total);
         }
-
-
-/*
-                $printer -> setEmphasis(true);
-        $printer -> text("Line spacing\n");
-        $printer -> setEmphasis(false);
-        foreach(array(16, 32, 64, 128, 255) as $spacing) {
-            $printer -> setLineSpacing($spacing);
-            $printer -> text("Spacing $spacing: The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.\n");
+        if(count($detalle) == 2 )
+        {
+            //8 saltos de linea
+            $this->printer -> text("\n\n\n\n\n\n\n\n");  
+            $this->total($venta->total); 
         }
-        $printer -> setLineSpacing(); // Back to default
-     
-        /* Stuff around with left margin 
-        $printer->setEmphasis(true);
-        $printer->text("Left margin\n");
-        $printer->setEmphasis(false);
-        $printer->text("Default left\n");
-        foreach (array(1, 2, 4, 8, 16, 32, 64, 128, 256, 512) as $margin) {
-            $printer->setPrintLeftMargin($margin);
-            $printer->text("left margin {$margin}\n");
+        if(count($detalle) == 3 )
+        {
+            //6 saltos de linea
+            $this->printer -> text("\n\n\n\n\n\n"); 
+            $this->total($venta->total);  
         }
-  
-        $printer->setPrintLeftMargin(0);
-
-        $printer->setEmphasis(true);
-        $printer->text("Page width\n");
-        $printer->setEmphasis(false);
-        $printer->setJustification(Printer::JUSTIFY_RIGHT);
-        $printer->text("Default width\n");
-        foreach (array(512, 256, 128, 64) as $width) {
-            $printer->setPrintWidth($width);
-            $printer->text("page width {$width}\n");
-        }*/
-
-      /* Underline 
-        for ($i = 0; $i < 25; $i++) {
-            $printer -> text("************************************************************\n"); //60ESPACIOS
+        if(count($detalle) == 4 )
+        {
+            //4 saltos de linea
+            $this->printer -> text("\n\n\n\n");   
+            $this->total($venta->total);
         }
-       // $printer -> setUnderline(0); // Reset
-        $printer -> cut();*/
-   
+        if(count($detalle) == 5 )
+        {
+            //dos saltos de linea
+            $this->printer -> text("\n\n");   
+            $this->total($venta->total);
+        }
+        if(count($detalle) == 6 )
+        {
+            //sin salto de linea
+            $this->total($venta->total);
+        }
+        $this->printer->close();
+    }
 
+    ///FUNCION QUE CONVIERTE EL TOTAL EN LETRAS Y IMPRIME EL PIE DE LA FACTURA
+    public function total($numero){
+            $formatter = new NumeroALetras();
+            $total = $formatter->toInvoice($numero, 2);
+            $this->printer -> text("       ");
 
-        $printer->close();
-
-        /*$printer->setJustification(Printer::JUSTIFY_CENTER);
-
-        $printer->setTextSize(2, 2);
-
-        $printer->text('Cajero: ' . auth()->user()->name . ' venta numero: ' . $id . "\n");
-
-        $printer->setTextSize(1, 1);
-
-        $printer -> text("Hello World!\n");
-
-        $printer->feed(5);
-
-        $printer -> close();
-/*
-        $printer->feed();
-
-        $printer->pulse();
-
-        $printer->close();*/
+            $this->printer -> text($this->saltoLineaTotalLetras($total,41));
+            $this->printer -> text("                 $");
+            $this->printer -> text($this->addSpaces(number_format($numero,2),7));
+            $this->printer -> text("\n\n\n\n\n\n\n");
+            $this->printer -> text("                                                                  ");
+            $this->printer -> text($this->addSpaces(number_format($numero,2),7));
     }
 }
