@@ -281,11 +281,26 @@
                 })
             });
 
-            window.livewire.on('print-factura', saleId => {
+            window.livewire.on('print-factura-consumidor-final', saleId => {
                 ruta = "{{ url('print/factura/consumidor-final') }}" + '/' + saleId
                 ventana = window.open(ruta, "_blank", "width=100, height=100")
                 ventana.close()
             });
+
+            window.livewire.on('print-factura-credito-fiscal', saleId => {
+                //ruta = "{{ url('print/factura/consumidor-final') }}" + '/' + saleId
+                //ventana = window.open(ruta, "_blank", "width=100, height=100")
+                //ventana.close()
+            });
+
+            window.livewire.on('maximo-producto-factura', msg => {
+                swal({
+                    title: 'Advertencia',
+                    text: msg,
+                    type: 'warning',
+                })
+            });
+           
 
 
         });

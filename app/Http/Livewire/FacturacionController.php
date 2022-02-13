@@ -23,7 +23,8 @@ class FacturacionController extends Component
             $numero_factura, $clientes_id, $selected_id, $nombre_cliente , 
             $telefono ,$NIT_cliente, $NRC_cliente, $gran_con_cliente, 
             $cliente_consumidor_final, $direccion_consumidor_final, 
-            $dui_consumidor_final, $lote, $producto, $precio, $id_lote,$descuento, $count = 0;
+            $dui_consumidor_final, $lote, $producto, $precio, 
+            $id_lote,$descuento, $count = 0, $limitar_cant_producto=0;
 
     private $pagination = 5, $pagination2 = 5;
 
@@ -168,7 +169,7 @@ class FacturacionController extends Component
     }
 
     public function addItem($id, $id_lote, $cant = 1){
-
+        
         $product = Product::where('id', $id)->first();
         $buscar_lote = Lotes::where('id', $id_lote)->first();
 
@@ -179,6 +180,11 @@ class FacturacionController extends Component
                 $this->increaseQty($product->id,$buscar_lote->id);
                 return;
             }
+           
+            if( $this->limitar_cant_producto == 7){
+            $this->emit('maximo-producto-factura','El maximo de producto por factura es de 6, por favor imprima la factura');
+            return;
+        }
 
             if($this->tipoPrecio === 'NORMAL'){
                 $precioVenta = $product->precio_caja;
@@ -234,6 +240,7 @@ class FacturacionController extends Component
                 $this->total = Cart::getTotal();
                 $this->itemsQuantity = Cart::getTotalQuantity();
                 $this->emit('add-ok');
+                $this->limitar_cant_producto++;
         }
     }
 
@@ -399,6 +406,7 @@ class FacturacionController extends Component
         }
         
         $this->removeItem($loteId);
+        $this->limitar_cant_producto--;
 
         if ($cant > 0) {
            Cart::add(
@@ -833,9 +841,15 @@ class FacturacionController extends Component
             $this->resetUI();
 
             $this->emit('sale-ok','Venta Registrada');
-            $this->emit('print-factura',$sale->id);
-            
 
+            if($sale->tipos_transacciones_id == 1){
+                $this->emit('print-factura-consumidor-final',$sale->id);
+            }
+
+            if($sale->tipos_transacciones_id == 2){
+                $this->emit('print-factura-credito-fiscal',$sale->id);
+            }
+            
             //$user = User::find(auth()->user()->id)->name;
            // $pdf = PDF::loadView('pdf.ticket', compact('sale','items','user'))->output();
 
@@ -868,6 +882,7 @@ class FacturacionController extends Component
         $this->NRC_cliente                  =   '';
         $this->gran_con_cliente             =   'Seleccionar';
         $this->selected_id                  =   0;
+        $this->limitar_cant_producto        =   0;
         $this->resetPage();
         $this->resetValidation();
     }
