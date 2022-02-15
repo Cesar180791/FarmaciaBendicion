@@ -58,6 +58,7 @@ class FacturacionController extends Component
     {
         //$this->cliente_consumidor_final = 'Clientes Varios';
         //$this->direccion_consumidor_final = 'San Miguel';
+
         if ($this->efectivo == null) {
             $this->efectivo=0;
         }
@@ -67,7 +68,7 @@ class FacturacionController extends Component
         }
         $this->itemsQuantity = Cart::getTotalQuantity();
 
-        $this->precio;
+        //$this->precio;
 
 
         if(strlen($this->search2) > 0)
@@ -178,16 +179,16 @@ class FacturacionController extends Component
         if($product == null){
             $this->emit('producto-no-encontrado','El producto no esta registrado');
         } else {
-            if ($this->InCart($buscar_lote->id)) {
+            if( $this->limitar_cant_producto == 6){
+                $this->emit('maximo-producto-factura','El maximo de producto por factura es de 6, por favor imprima la factura');
+                return;
+            }
+            
+            if($this->InCart($buscar_lote->id)) {
                 $this->increaseQty($product->id,$buscar_lote->id);
                 return;
             }
-           
-            if( $this->limitar_cant_producto == 7){
-            $this->emit('maximo-producto-factura','El maximo de producto por factura es de 6, por favor imprima la factura');
-            return;
-        }
-
+            
             if($this->tipoPrecio === 'NORMAL'){
                 $precioVenta = $product->precio_caja;
                 $cost =  $product->cost;
@@ -195,7 +196,7 @@ class FacturacionController extends Component
                 $final_cost =  $product->final_cost;
 
                 if ($buscar_lote->existencia_lote <1 ) {
-                    $this->emit('no-stock', 'Existencias Insuficientes');
+                    $this->emit('no-stock', 'Existencias Insuficientes para: ' .$product->name. ' lote N°: '. $buscar_lote->numero_lote);
                     return;
                 }
             }
@@ -206,7 +207,7 @@ class FacturacionController extends Component
                 $final_cost =  $product->final_cost;
 
                 if ($buscar_lote->existencia_lote <1 ) {
-                    $this->emit('no-stock', 'Existencias Insuficientes');
+                    $this->emit('no-stock', 'Existencias Insuficientes para: '.$product->name.' lote N°: '. $buscar_lote->numero_lote);
                     return;
                 }
             }
@@ -246,6 +247,7 @@ class FacturacionController extends Component
         }
     }
 
+
     public function InCart($loteId){
         $exist = Cart::get($loteId);
         if ($exist) 
@@ -258,7 +260,7 @@ class FacturacionController extends Component
      
         $title ='';
         $product = Product::find($productId);
-        $lote = Lotes::find($id_lote);
+        $buscar_lote = Lotes::find($id_lote);
         $exist = Cart::get($id_lote);
         if ($exist)
            $title = 'Cantidad Actualizada';
@@ -273,8 +275,8 @@ class FacturacionController extends Component
                 $iva_cost =  $product->iva_cost;
                 $final_cost =  $product->final_cost;
 
-                if($lote->existencia_lote <($cant + $exist->quantity)){
-                    $this->emit('no-stock', 'Stock insuficiente');
+                if($buscar_lote->existencia_lote <($cant + $exist->quantity)){
+                    $this->emit('no-stock', 'Existencias Insuficientes para: ' .$product->name. ' lote N°: '. $buscar_lote->numero_lote);
                     return;
                 }
             }
@@ -284,8 +286,8 @@ class FacturacionController extends Component
                 $iva_cost =  $product->iva_cost;
                 $final_cost =  $product->final_cost;
 
-                if($lote->existencia_lote <($cant + $exist->quantity)){
-                    $this->emit('no-stock', 'Stock insuficiente');
+                if($buscar_lote->existencia_lote <($cant + $exist->quantity)){
+                    $this->emit('no-stock', 'Existencias Insuficientes para: ' .$product->name. ' lote N°: '. $buscar_lote->numero_lote);
                     return;
                 }
             }
@@ -295,22 +297,21 @@ class FacturacionController extends Component
                 $iva_cost =  $product->iva_cost / $product->unidades_presentacion;
                 $final_cost =  $product->final_cost / $product->unidades_presentacion;
 
-                if($lote->existencia_lote_unidad <($cant + $exist->quantity)){
-                    if($lote->existencia_lote < 0){
+                if($buscar_lote->existencia_lote_unidad <($cant + $exist->quantity)){
+                    if($buscar_lote->existencia_lote < 0){
                         $this->emit('no-stock', 'Stock insuficiente');
                         return;
                     }
-                    if(($product->unidades_presentacion * $lote->existencia_lote + $lote->existencia_lote_unidad) < ($cant + $exist->quantity)){
+                    if(($product->unidades_presentacion * $buscar_lote->existencia_lote + $buscar_lote->existencia_lote_unidad) < ($cant + $exist->quantity)){
                         $this->emit('no-stock', 'Stock insuficiente');
                         return;
                     }
-
                 }
             }
         }
 
         Cart::add(
-            $lote->id,
+            $buscar_lote->id,
             $product->name,
             $exist->price,
             $cant,
@@ -318,8 +319,8 @@ class FacturacionController extends Component
                 $cost,
                 $iva_cost, 
                 $final_cost, 
-                $lote->numero_lote,
-                $lote->caducidad_lote,
+                $buscar_lote->numero_lote,
+                $buscar_lote->caducidad_lote,
                 $product->id,
                 $exist->attributes[6],
                 $exist->attributes[7]
@@ -329,28 +330,32 @@ class FacturacionController extends Component
         $this->itemsQuantity = Cart::getTotalQuantity();
     }
 
+    //por el momento no se usa
     public function decreaseQty($loteId){
         $item = Cart::get($loteId);
-        Cart::remove($loteId);
+       
 
-        $newQty = ($item->quantity)-1;
+        if($item->quantity > 1){
+           Cart::remove($loteId);
+            $newQty = ($item->quantity)-1;
 
-        if($newQty > 0)
-            Cart::add(
-            $item->id,
-            $item->name,
-            $item->price,
-            $newQty,
-            array(
-                $item->attributes[0],
-                $item->attributes[1], 
-                $item->attributes[2], 
-                $item->attributes[3],
-                $item->attributes[4],
-                $item->attributes[5],
-                $item->attributes[6],
-                $item->attributes[7]
-            ));
+            if($newQty > 0)
+                Cart::add(
+                $item->id,
+                $item->name,
+                $item->price,
+                $newQty,
+                array(
+                    $item->attributes[0],
+                    $item->attributes[1], 
+                    $item->attributes[2], 
+                    $item->attributes[3],
+                    $item->attributes[4],
+                    $item->attributes[5],
+                    $item->attributes[6],
+                    $item->attributes[7]
+                ));
+        }
 
         $this->total = Cart::getTotal();
         $this->itemsQuantity = Cart::getTotalQuantity();
@@ -358,11 +363,15 @@ class FacturacionController extends Component
     }
 
 
-    public function updateCant($loteId, $cant = 1, $productId){
+    public function updateCant($loteId, $cant, $productId){
 
         $product = Product::find($productId);
-        $lote = Lotes::find($loteId);
+        $buscar_lote = Lotes::find($loteId);
         $exist = Cart::get($loteId);
+
+        if($cant == 0 || $cant == null){
+            $cant = 1;
+        }
         
         if($exist){
             if($exist->attributes[6] === 'NORMAL'){
@@ -371,8 +380,8 @@ class FacturacionController extends Component
                 $iva_cost =  $product->iva_cost;
                 $final_cost =  $product->final_cost;
 
-                if($lote->existencia_lote < $cant){
-                    $this->emit('no-stock', 'Stock insuficiente');
+                if($buscar_lote->existencia_lote < $cant){
+                    $this->emit('no-stock',  'Existencias Insuficientes para: ' .$product->name. ' lote N°: '. $buscar_lote->numero_lote);
                     return;
                 }
             }
@@ -382,8 +391,8 @@ class FacturacionController extends Component
                 $iva_cost =  $product->iva_cost;
                 $final_cost =  $product->final_cost;
 
-                if($lote->existencia_lote < $cant){
-                    $this->emit('no-stock', 'Stock insuficiente');
+                if($buscar_lote->existencia_lote < $cant){
+                    $this->emit('no-stock',  'Existencias Insuficientes para: ' .$product->name. ' lote N°: '. $buscar_lote->numero_lote);
                     return;
                 }
             }
@@ -393,12 +402,12 @@ class FacturacionController extends Component
                 $iva_cost =  $product->iva_cost / $product->unidades_presentacion;
                 $final_cost =  $product->final_cost / $product->unidades_presentacion;
 
-                if($lote->existencia_lote_unidad < $cant){
-                    if($lote->existencia_lote < 0){
+                if($buscar_lote->existencia_lote_unidad < $cant){
+                    if($buscar_lote->existencia_lote < 0){
                         $this->emit('no-stock', 'Stock insuficiente');
                         return;
                     }
-                    if(($product->unidades_presentacion * $lote->existencia_lote + $lote->existencia_lote_unidad) < $cant){
+                    if(($product->unidades_presentacion * $buscar_lote->existencia_lote + $buscar_lote->existencia_lote_unidad) < $cant){
                         $this->emit('no-stock', 'Stock insuficiente');
                         return;
                     }
@@ -408,11 +417,11 @@ class FacturacionController extends Component
         }
         
         $this->removeItem($loteId);
-        $this->limitar_cant_producto--;
+        $this->limitar_cant_producto++;
 
         if ($cant > 0) {
            Cart::add(
-                $lote->id,
+                $buscar_lote->id,
                 $product->name,
                 $exist->price,
                 $cant,
@@ -420,8 +429,8 @@ class FacturacionController extends Component
                 $cost,
                 $iva_cost, 
                 $final_cost, 
-                $lote->numero_lote,
-                $lote->caducidad_lote,
+                $buscar_lote->numero_lote,
+                $buscar_lote->caducidad_lote,
                 $product->id,
                 $exist->attributes[6],
                 $exist->attributes[7]
@@ -436,6 +445,7 @@ class FacturacionController extends Component
         Cart::remove($productId);
         $this->total = Cart::getTotal();
         $this->itemsQuantity = Cart::getTotalQuantity();
+        $this->limitar_cant_producto-=1;
        // $this->emit('add-ok','Producto eliminado');
     }
 
@@ -571,6 +581,7 @@ class FacturacionController extends Component
         
 
         $this->removeItem($IdLote);
+        $this->limitar_cant_producto++;
 
         if($this->count == 0){
             $precio = $producto->precio_caja;
@@ -721,6 +732,7 @@ class FacturacionController extends Component
                 if($this->direccion_consumidor_final == null){
                     $this->direccion_consumidor_final = 'San Miguel';
                 }
+                
             
 
                 $sale = Sale::create([
@@ -860,6 +872,7 @@ class FacturacionController extends Component
             if($sale->tipos_transacciones_id == 2){
                 $this->emit('print-factura-credito-fiscal',$sale->id);
             }
+            $this->limitar_cant_producto = 0;
             
             //$user = User::find(auth()->user()->id)->name;
            // $pdf = PDF::loadView('pdf.ticket', compact('sale','items','user'))->output();
@@ -893,7 +906,6 @@ class FacturacionController extends Component
         $this->NRC_cliente                  =   '';
         $this->gran_con_cliente             =   'Seleccionar';
         $this->selected_id                  =   0;
-        $this->limitar_cant_producto        =   0;
         $this->resetPage();
         $this->resetValidation();
     }
