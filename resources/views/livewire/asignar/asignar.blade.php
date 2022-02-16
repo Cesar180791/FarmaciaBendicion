@@ -4,7 +4,7 @@
             <div class="widget widget-chart-one">
                 <div class="widget-heading">
                     <h6 class="card-title">
-                        <b style="font-size: 18px;">{{$componentName}}</b>
+                        <b>{{$componentName}}</b>
                     </h6>
                 </div>
                 <div class="widget-content">
@@ -18,8 +18,8 @@
                             </select>
                         </div>
                         <button wire:click.prevent="SyncAll()" type="button"
-                            class="btn btn-dark mbmobile inblock mr-5">Sincronizar Todos</button>
-                        <button onclick="Revocar()" type="button" class="btn btn-warning mbmobile mr-5">Revocar Todos
+                            class="btn fondoNegro text-white mbmobile inblock mr-5"><b><i class="fas fa-check-circle"></i> Sincronizar Todos</b></button>
+                        <button onclick="Revocar()" type="button" class="btn btn-warning mbmobile mr-5"><b><i class="fas fa-ban"></i> Revocar Todos</b>
                         </button>
                     </div>
                     <div class="row mt-3">
@@ -27,7 +27,7 @@
 
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped mt-1">
-                                    <thead class="text-white" style="background: #3B3F5C;">
+                                    <thead class="text-white fondoNegro">
                                         <tr>
                                             <th class="table-th text-white text-center">ID</th>
                                             <th class="table-th text-white text-center">AUTORIZACIÓN</th>

@@ -1,11 +1,11 @@
 <div class="widget widget-chart-one">
     <div class="widget-heading">
         <h6 class="card-title">
-            <b class="sizeEncabezado">{{$componentName}} | {{$pageTitle}}</b>
+            <b>{{$componentName}} | {{$pageTitle}}</b>
         </h6>
         <ul class="tabs tab-pills">
             <li style="list-style: none;">
-                <a href="javascript:void(0)" id="regresar" class="tabmenu btn btn-dark text-white"><b>Regresar</b></a>
+                <a href="javascript:void(0)" id="regresar" class="tabmenu btn btn-danger text-white"><b>Regresar</b></a>
             </li>
         </ul> 
     </div>
@@ -16,7 +16,7 @@
     <div class="widget-content">
         <div class="table-responsive">
             <table class="table table-bordered table-striped mt-1">
-                <thead class="text-white" style="background: #3B3F5C">
+                <thead class="text-white fondoNegro">
                     <tr>
                         <th class="table-th text-white text-center">Stock</th>
                         <th class="table-th text-white text-center">Stock unidades</th>

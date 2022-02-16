@@ -7,14 +7,14 @@
                         <b class="sizeEncabezado">{{$componentName}} | {{$pageTitle2}}</b>
                     </h6> 
                 </div> 
-                <a class="btn btn-dark mbmobile mb-4" id="buscarbtn"><b>Buscar F1</b></a>
-                <a class="btn btn-dark mbmobile mb-4" data-toggle="modal" data-target="#theModal"><b>Nuevo Producto</b></a>
+                <a class="btn fondoNegro text-white mbmobile mb-4" id="buscarbtn"><b>Buscar F1</b></a>
+                <a class="btn fondoNegro text-white mbmobile mb-4" data-toggle="modal" data-target="#theModal"><b>Nuevo Producto</b></a>
                 @if(count($cart)==0)
                 <div class="alert alert-danger">No hay productos agregados a la compra</div>
                 @else
                 <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
                     <table class="table table-bordered table-striped mt-1">
-                        <thead class="text-white" style="background: #3B3F5C">
+                        <thead class="text-white fondoNegro">
                             <tr>
                                 <th class="table-th text-center text-white">
                                     <div class="size">Acciones</div>
@@ -141,7 +141,7 @@
 
                 <ul class="tabs tab-pills mt-3">
                     <li style="list-style: none;">
-                        <a href="javascript:void(0)" wire:click="validarCampos" class="float-right tabmenu btn btn-dark"
+                        <a href="javascript:void(0)" wire:click="validarCampos" class="float-right tabmenu btn fondoNegro text-white"
                             id=""><b>Siguiente <i class="fas fa-arrow-right"></i></b></a>
                     </li>
                 </ul>

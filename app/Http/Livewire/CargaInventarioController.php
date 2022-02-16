@@ -20,7 +20,7 @@ class CargaInventarioController extends Component
     private $pagination = 5, $pagination2 = 5;
 
     public function mount(){
-        //Cart::clear();
+        Cart::clear();
         $this->lotes=[];
         $this->pageTitle = 'Selecciona producto a cargar';
         $this->pageTitle2 = 'Detalle';

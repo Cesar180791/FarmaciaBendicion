@@ -1,13 +1,11 @@
 @include('common.modalHead')
 <div class="row">
     <div class="col-sm-12 col-md-6 mt-3">
-        <label>Nombre de el cliente</label>
+        <p><b>Nombre de el cliente</b></p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-user"></i>
                 </span>
             </div>
             <input type="text" wire:model.lazy="nombre_cliente" class="form-control"
@@ -17,13 +15,11 @@
     </div>
 
     <div class="col-sm-12 col-md-6 mt-3">
-        <label>Telefono del cliente</label>
+        <p><b>Teléfono del cliente</b></p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-phone"></i>
                 </span>
             </div>
             <input type="text" wire:model.lazy="telefono" class="form-control" placeholder="Telefono del proveedor">
@@ -32,13 +28,11 @@
     </div>
 
     <div class="col-sm-12 col-md-6 mt-3">
-        <label>NIT</label>
+        <p><b>NIT</b></p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-address-card"></i>
                 </span>
             </div>
             <input type="text" wire:model.lazy="NIT_cliente" class="form-control" placeholder="Direccion del proveedor">
@@ -47,13 +41,11 @@
     </div>
 
     <div class="col-sm-12 col-md-6 mt-3">
-        <label>NRC</label>
+        <p><b>NRC</b></p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-registered"></i>
                 </span>
             </div>
             <input type="text" wire:model.lazy="NRC_cliente" class="form-control" placeholder="Direccion del proveedor">
@@ -62,7 +54,7 @@
     </div>
 
     <div class="col-sm-12 col-md-6 mt-3">
-		<label>¿El proveedor es gran contribuyente?</label>
+		<p><b>¿El proveedor es gran contribuyente?</b></p>
 		<div class="form-group">
 			<select wire:model='gran_con_cliente' class="form-control">
 				<option value="Seleccionar" disabled>Seleccionar</option>

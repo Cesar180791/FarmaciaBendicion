@@ -4,18 +4,18 @@
             <div class="widget widget-chart-one">
                 <div class="widget-heading">
                     <h6 class="card-title">
-                        <b style="font-size: 18px;">{{$componentName}} | {{$pageTitle}}</b>
+                        <b>{{$componentName}} | {{$pageTitle}}</b>
                     </h6>
                     <li style="list-style: none;">
-                        <a href="javascript:void(0)" class="tabmenu btn text-white btn-success" data-toggle="modal"
-                            data-target="#theModal"><i class="fas fa-folder-plus"></i> Agregar</a>
+                        <a href="javascript:void(0)" class="tabmenu btn text-white fondoNegro" data-toggle="modal"
+                            data-target="#theModal"><i class="fas fa-folder-plus"></i><b> Agregar</b></a>
                     </li>
                 </div>
                 @include('common.searchbox')
                 <div class="widget-content">
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped mt-1">
-                            <thead class="text-white" style="background: #1B4F72;">
+                            <thead class="text-white fondoNegro">
                                 <tr>
                                     <th class="table-th text-white text-center">ID</th>
                                     <th class="table-th text-white text-center">Permisos</th>
@@ -32,7 +32,7 @@
                                         <h6>{{$permiso->name}}</h6>
                                     </td>
                                     <td class="text-center">
-                                        <a href="javascript:void(0)" class="btn btn-dark mtmobile btn-sm"
+                                        <a href="javascript:void(0)" class="btn fondoNegro text-white mtmobile btn-sm"
                                             wire:click="Edit({{$permiso->id}})" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>

@@ -16,7 +16,7 @@
             <div class="col-lg-4 col-md-4 col-sm-12">
                 <div class="input-group mb-4">
                     <div class="input-group-prepend">
-                        <span class="input-group-text input-gp bg-dark">
+                        <span class="input-group-text input-gp fondoNegro text-white">
                             <i class="fas fa-search"></i>
                         </span>
                     </div>
@@ -29,7 +29,7 @@
         @else
         <div class="table-responsive">
             <table class="table table-bordered table-striped mt-1">
-                <thead class="text-white" style="background: #3B3F5C">
+                <thead class="text-white fondoNegro">
                     <tr>
                         <th class="table-th text-white text-center">Numero de lote</th>
                         <th width="30%" class="table-th text-white">Producto</th>

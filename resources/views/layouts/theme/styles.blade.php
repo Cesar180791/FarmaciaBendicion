@@ -46,6 +46,14 @@
         background-color: #3b3f5c;
         border-color: #3b3f5c;
     }
+
+    .sidebar-theme #compactSidebar {
+    background: #191e3a!important;
+    }
+
+    .fondoNegro {
+    background: #191e3a!important;
+    }
     @media (max-width: 480px)
     {
         .mtmobile{

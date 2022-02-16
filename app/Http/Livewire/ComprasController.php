@@ -30,6 +30,7 @@ class ComprasController extends Component
     private $pagination = 5, $paginate2 = 5;
 
     public function mount(){
+        Cart::clear();
         $this->subCategoryId = 'Seleccionar';
         $this->proveedores_id = "Seleccionar";
         $this->politicas_garantias_id = "Seleccionar";

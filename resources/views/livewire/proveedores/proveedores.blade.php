@@ -4,13 +4,13 @@
             <div class="widget widget-chart-one">
                 <div class="widget-heading">
                     <h6 class="card-title">
-                        <b style="font-size: 18px;">{{$componentName}} | {{$pageTitle}}</b>
+                        <b>{{$componentName}} | {{$pageTitle}}</b>
 
                     </h6>
                     <ul class="tabs tab-pills">
                         <li style="list-style: none;">
-                            <a href="javascript:void(0)" class="tabmenu btn btn-dark" data-toggle="modal"
-                                data-target="#theModal">Agregar</a>
+                            <a href="javascript:void(0)" class="tabmenu btn fondoNegro text-white" data-toggle="modal"
+                                data-target="#theModal"><b>Agregar</b></a>
                         </li>
                     </ul>
                 </div>
@@ -18,7 +18,7 @@
                 <div class="widget-content">
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped mt-1">
-                            <thead class="text-white" style="background: #3B3F5C">
+                            <thead class="text-white fondoNegro">
                                 <tr>
                                     <th class="table-th text-white">Proveedor</th>
                                     <th class="table-th text-white">Vendedor</th>

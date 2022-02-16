@@ -1,14 +1,12 @@
 @include('common.modalHead')
 <div class="row">
 	<div class="col-sm-12">
-		<label>Nombre de la Sub-Categoría</label>
+		<p><b>Nombre de la Sub-Categoría</b></p>
 		<div class="input-group">
 			<div class="input-group-prepend">
-				<span class="input-group-text">
-					<span class="fas fa-edit">
-
-					</span>
-				</span>
+				<span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-dolly-flatbed"></i>
+                </span>
 			</div>
 			<input type="text" wire:model.lazy="name" class="form-control" placeholder="Nombre de la Sub Categoría">
 		</div>
@@ -16,14 +14,12 @@
 	</div>
 
 		<div class="col-sm-12 mt-3">
-			<label>Descripción de la Categoría</label>
+			<p><b>Descripción de la Sub-Categoría</b></p>
 		<div class="input-group">
 			<div class="input-group-prepend">
-				<span class="input-group-text">
-					<span class="fas fa-edit">
-
-					</span>
-				</span>
+				<span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-truck-loading"></i>
+                </span>
 			</div>
 			<input type="text" wire:model.lazy="description" class="form-control" placeholder="Descripcion de la Sub Categoría">
 		</div>
@@ -31,7 +27,7 @@
 	</div>
 
 	<div class="col-sm-12 mt-3">
-		<label>Seleccione Categoría</label>
+		<p><b>Seleccione Categoría</b></p>
 		<div class="form-group">
 			<select wire:model='categoryid' class="form-control">
 				<option value="Seleccionar" disabled>Seleccionar</option>

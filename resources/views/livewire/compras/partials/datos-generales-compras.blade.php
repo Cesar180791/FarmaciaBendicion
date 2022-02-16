@@ -9,7 +9,7 @@
         <div class="row">
 
             <div class="col-sm-12 col-md-6 mt-3">
-                <label>Proveedor</label>
+                <p><b>Proveedor</b></p>
                 <div class="form-group">
                     <select wire:model='proveedores_id' class="form-control">
                         <option value="Seleccionar" disabled>Seleccionar</option>
@@ -22,7 +22,7 @@
             </div>
 
             <div class="col-sm-12 col-md-6 mt-3">
-                <label>Politica de Garantia</label>
+                <p><b>Politica de Garantia</b></p>
                 <div class="form-group">
                     <select wire:model='politicas_garantias_id' class="form-control">
                         <option value="Seleccionar" disabled>Seleccionar</option>
@@ -35,13 +35,11 @@
             </div>
 
             <div class="col-sm-12 col-md-6 mt-3">
-                <label>Numero de factura </label>
+                <p><b>Numero de factura </b></p>
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <span class="fas fa-file-invoice-dollar">
-                                
-                            </span>
+                        <span class="input-group-text input-gp fondoNegro text-white">
+                            <i class="fas fa-file-invoice"></i>
                         </span>
                     </div>
                     <input type="text" wire:model.lazy="factura" class="form-control"
@@ -51,13 +49,11 @@
             </div>
 
             <div class="col-sm-12 col-md-6 mt-3">
-                <label>Fecha de compra</label>
+                <p><b>Fecha de compra</b></p>
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <span class="far fa-calendar-check">
-                              
-                            </span>
+                        <span class="input-group-text input-gp fondoNegro text-white">
+                            <i class="fas fa-calendar-alt"></i>
                         </span>
                     </div>
                     <input type="date" wire:model.lazy="fecha_compra" class="form-control" placeholder="Ingrese Nombre del rubro">
@@ -66,7 +62,7 @@
             </div>
 
             <div class="col-sm-12 col-md-12 mt-3">
-                <label>Descripcion de la compra</label>
+                <p><b>Descripcion de la compra</b></p>
                 <div class="input-group">
                     <textarea name="descripcion_lote" wire:model.lazy="descripcion_lote" class="ckeditor form-control"
                         id="my-editor" cols="20" rows="5"></textarea>

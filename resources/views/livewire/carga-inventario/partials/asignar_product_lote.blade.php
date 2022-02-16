@@ -1,13 +1,13 @@
 <div class="widget widget-chart-one">
     <div class="widget-heading">
         <h6 class="card-title">
-            <b class="sizeEncabezado">{{$componentName}} | {{$pageTitle4}}</b>
+            <b>{{$componentName}} | {{$pageTitle4}}</b>
         </h6>
         <ul class="tabs tab-pills">
             <li style="list-style: none;">
                 <a href="javascript:void(0)" id="regresar2" class="tabmenu btn btn-danger text-white mt-1"><b><i
                             class="fas fa-arrow-left"></i></b></a>
-                <a href="javascript:void(0)" class="tabmenu btn btn-dark text-white mt-1"
+                <a href="javascript:void(0)" class="tabmenu btn fondoNegro text-white mt-1"
                     wire:click.prevent="nuevoLote({{$idProducto}})"><b>Crear lote</b></a>
             </li>
         </ul>
@@ -18,7 +18,7 @@
             <div class="col-lg-4 col-md-4 col-sm-12">
                 <div class="input-group mb-4">
                     <div class="input-group-prepend">
-                        <span class="input-group-text input-gp bg-dark">
+                        <span class="input-group-text input-gp fondoNegro text-white">
                             <i class="fas fa-search"></i>
                         </span>
                     </div>
@@ -31,7 +31,7 @@
         @else
         <div class="table-responsive">
             <table class="table table-bordered table-striped mt-1">
-                <thead class="text-white" style="background: #3B3F5C">
+                <thead class="text-white fondoNegro">
                     <tr>
                         <th class="table-th text-white">Numero de lote</th>
                         <th width="30%" class="table-th text-white">Producto</th>

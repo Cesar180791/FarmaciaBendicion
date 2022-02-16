@@ -143,7 +143,6 @@
         .size-product {
             width: 250px;
         }
-
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {

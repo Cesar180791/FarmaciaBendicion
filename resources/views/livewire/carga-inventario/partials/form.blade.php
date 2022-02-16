@@ -1,13 +1,11 @@
 @include('common.modalHead')
 <div class="row">
     <div class="col-sm-12 col-md-6 mt-3">
-        <label>Nombre del Producto</label>
+        <p><b>Nombre del Producto</b><p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-notes-medical"></i>
                 </span>
             </div>
             <input type="text" wire:model.lazy="name" class="form-control" placeholder="Ingrese Nombre del producto">
@@ -16,45 +14,39 @@
     </div>
 
     <div class="col-sm-12 col-md-6 mt-3">
-        <label>Componente Quimico </label>
+        <p><b>Componente Quimico </b><p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-vial"></i>
                 </span>
             </div>
             <input type="text" wire:model.lazy="chemical_component" class="form-control"
-                placeholder="Ingrese el Código de barras">
+                placeholder="Ingrese el Componente quimico">
         </div>
         @error('chemical_component') <span class="text-danger er">{{ $message }}</span> @enderror
     </div>
 
     <div class="col-sm-12 col-md-6 mt-3">
-        <label>Laboratorio </label>
+        <p><b>Laboratorio </b><p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-clinic-medical"></i>
                 </span>
             </div>
             <input type="text" wire:model.lazy="laboratory" class="form-control"
-                placeholder="Ingrese el Código de barras">
+                placeholder="Ingrese el laboratorio">
         </div>
         @error('laboratory') <span class="text-danger er">{{ $message }}</span> @enderror
     </div>
 
     <div class="col-sm-12 col-md-6 mt-3">
-        <label>Código de Barras </label>
+        <p><b>Código de Barras </b><p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-barcode"></i>
                 </span>
             </div>
             <input type="text" wire:model.lazy="barCode" class="form-control" placeholder="Ingrese el Código de barras">
@@ -63,29 +55,25 @@
     </div>
 
     <div class="col-sm-12 col-md-6 mt-3">
-        <label>Numero de Registro </label>
+        <p><b>Numero de Registro </b><p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="far fa-registered"></i>
                 </span>
             </div>
             <input type="text" wire:model.lazy="Numero_registro" class="form-control"
-                placeholder="Ingrese el Código de barras">
+                placeholder="Ingrese el Numero de Registro">
         </div>
         @error('Numero_registro') <span class="text-danger er">{{ $message }}</span> @enderror
     </div>
 
     <div class="col-sm-12 col-md-6 mt-3">
-        <label>Unidades Presentación </label>
+        <p><b>Unidades Presentación </b><p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-pills"></i>
                 </span>
             </div>
             <input type="number" wire:model.lazy="unidades_presentacion" class="form-control"
@@ -95,13 +83,11 @@
     </div>
 
     <div class="col-sm-12 col-md-4 mt-3">
-        <label>Precio Costo (Sin IVA) </label>
+        <p><b>Precio Costo (Sin IVA) </b><p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-dollar-sign"></i>
                 </span>
             </div>
             <input type="number" wire:model.lazy="cost" class="form-control"
@@ -111,13 +97,11 @@
     </div>
 
     <div class="col-sm-12 col-md-4 mt-3">
-        <label>IVA </label>
+        <p><b>IVA </b><p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-dollar-sign"></i>
                 </span>
             </div>
             <label class="form-control">{{$iva_cost}}
@@ -125,27 +109,23 @@
     </div>
 
     <div class="col-sm-12 col-md-4 mt-3">
-        <label>Costo + IVA </label>
+        <p><b>Costo + IVA </b><p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-dollar-sign"></i>
                 </span>
             </div>
             <label class="form-control">{{$final_cost}}
         </div>
     </div>
 
-    <div class="col-sm-12 col-md-6 mt-3">
-        <label>Precio Caja </label>
+    <div class="col-sm-12 col-md-4 mt-3">
+        <p><b>Precio Caja </b><p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-dollar-sign"></i>
                 </span>
             </div>
             <input type="number" wire:model.lazy="precio_caja" class="form-control"
@@ -154,14 +134,12 @@
         @error('precio_caja') <span class="text-danger er">{{ $message }}</span> @enderror
     </div>
 
-    <div class="col-sm-12 col-md-6 mt-3">
-        <label>Precio Mayoreo </label>
+    <div class="col-sm-12 col-md-4 mt-3">
+        <p><b>Precio Mayoreo </b><p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-dollar-sign"></i>
                 </span>
             </div>
             <input type="number" wire:model.lazy="precio_mayoreo" class="form-control"
@@ -170,14 +148,12 @@
         @error('precio_mayoreo') <span class="text-danger er">{{ $message }}</span> @enderror
     </div>
 
-    <div class="col-sm-12 col-md-6 mt-3">
-        <label>Precio Unidad </label>
+<div class="col-sm-12 col-md-4 mt-3">
+        <p><b>Precio Unidad </b><p>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit">
-
-                    </span>
+                <span class="input-group-text input-gp fondoNegro text-white">
+                    <i class="fas fa-dollar-sign"></i>
                 </span>
             </div>
             <input type="number" wire:model.lazy="precio_unidad" class="form-control"
@@ -186,8 +162,8 @@
         @error('precio_unidad') <span class="text-danger er">{{ $message }}</span> @enderror
     </div>
 
-    <div class="col-sm-12 col-md-6 mt-3">
-        <label>Seleccione Sub-Categoría</label>
+    <div class="col-sm-12 col-md-12 mt-3">
+        <p><b>Seleccione Sub-Categoría</b><p>
         <div class="form-group">
             <select wire:model='subCategoryId' class="form-control">
                 <option value="Seleccionar" disabled>Seleccionar</option>
