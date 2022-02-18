@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <title>Sistema Farmacia la Bendicion</title>
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico"/>
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/mangonegro.ico') }}"/>
     <!-- BEGIN GLOBAL STYLES -->
     @include('layouts.theme.styles')
     <!-- END GLOBAL STYLES -->
