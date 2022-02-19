@@ -78,12 +78,12 @@ class DescargainventarioController extends Component
                         ->orWhere('products.Numero_registro','like', '%' . $this->search . '%')
                         ->orWhere('products.barCode','like', '%' . $this->search . '%')
                         ->orWhere('c.name','like', '%' . $this->search . '%')
-                        ->orderBy('products.id','desc')
+                        ->orderBy('products.name','asc')
                         ->paginate($this->pagination);
         else
          $products = Product::join('sub_categories as c','c.id','products.sub_category_id')
                         ->select('products.*','c.name as sub_category')
-                        ->orderBy('products.id','desc')
+                        ->orderBy('products.name','asc')
                         ->paginate($this->pagination);
 
         return view('livewire.descargainventario.descargainventario',[

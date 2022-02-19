@@ -89,12 +89,12 @@ class InventarioController extends Component
                                 ['c.name','like', '%' . $this->search . '%'],
                                 ['estado','ACTIVO']
                             ])
-                            ->orderBy('products.id','desc')
+                            ->orderBy('products.name','asc')
                             ->paginate($this->pagination);
         else
              $products = Product::join('sub_categories as c','c.id','products.sub_category_id')
                             ->select('products.*','c.name as sub_category')
-                            ->orderBy('products.id','desc')
+                            ->orderBy('products.name','asc')
                             ->where('estado','ACTIVO')
                             ->paginate($this->pagination);
 
