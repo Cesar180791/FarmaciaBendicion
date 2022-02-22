@@ -207,13 +207,12 @@ class ComprasController extends Component
 
     public function crearLote(){
         $rules = [
-            'numero_lote'       =>  'required|unique:lotes,numero_lote|min:3',
+            'numero_lote'       =>  'required|min:3',
             'caducidad_lote'    =>  'required|date'
         ];
 
         $messages = [
             'numero_lote.required'      =>  'Numero de lote requerido',
-            'numero_lote.unique'        =>  'Ya existe el numero de lote',
             'numero_lote.min'           =>  'El numero de lte debe tener al menos 3 caracteres',
             'caducidad_lote.required'   =>  'La fecha de vencimiento del lote es requerida',
             'caducidad_lote.date'       =>  'Ingrese una fecha valida'
@@ -252,13 +251,12 @@ class ComprasController extends Component
 
     public function actualizarLote(){
         $rules = [
-            'numero_lote'       =>  "required|unique:lotes,numero_lote,{$this->loteId}|min:3",
+            'numero_lote'       =>  "required|min:3",
             'caducidad_lote'    =>  'required|date'
         ];
 
         $messages = [
             'numero_lote.required'      =>  'Numero de lote requerido',
-            'numero_lote.unique'        =>  'Ya existe el numero de lote',
             'numero_lote.min'           =>  'El numero de lte debe tener al menos 3 caracteres',
             'caducidad_lote.required'   =>  'La fecha de vencimiento del lote es requerida',
             'caducidad_lote.date'       =>  'Ingrese una fecha valida'

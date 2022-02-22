@@ -160,6 +160,9 @@ class PrinterFacturasController extends Controller
             //sin salto de linea
             $this->total($venta->total);
         }
+		$this->printer -> text("\n\n");
+		$this->printer -> text("       ");
+		$this->printer -> text(auth()->user()->name . " Cambio: $". $venta->change);
         $this->printer->close();
     }
 
