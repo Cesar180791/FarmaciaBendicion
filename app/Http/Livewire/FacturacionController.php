@@ -11,7 +11,8 @@ use App\Models\Sale;
 use App\Models\SaleDetails;
 use App\Models\Denomination;
 use Livewire\withPagination;
-use Darryldecode\Cart\Facades\CartFacade as Cart; 
+use Darryldecode\Cart\Facades\CartFacade as Cart;
+use Carbon\Carbon;
 use DB;
 
 class FacturacionController extends Component
@@ -24,12 +25,17 @@ class FacturacionController extends Component
             $telefono ,$NIT_cliente, $NRC_cliente, $gran_con_cliente, 
             $cliente_consumidor_final, $direccion_consumidor_final, 
             $dui_consumidor_final, $lote, $producto, $precio, 
-            $id_lote,$descuento, $count = 0, $limitar_cant_producto=0;
+            $id_lote,$descuento, $count = 0, $limitar_cant_producto=0, 
+            $data, $details,$countDetails,$sumDetails, $imprimirfacturaModal;
 
     private $pagination = 5, $pagination2 = 5;
 
     public function mount(){
         Cart::clear();
+        $this->data = [];
+        $this->details = [];
+        $this->countDetails=0;
+        $this->sumDetails=0;
         $this->pageTitle5 = 'Clientes';
         $this->pageTitle4 = 'Seleccionar Lote';
         $this->pageTitle = 'Productos';       
@@ -56,9 +62,6 @@ class FacturacionController extends Component
 
     public function render()
     {
-        //$this->cliente_consumidor_final = 'Clientes Varios';
-        //$this->direccion_consumidor_final = 'San Miguel';
-
         if ($this->efectivo == null) {
             $this->efectivo=0;
         }
@@ -68,7 +71,14 @@ class FacturacionController extends Component
         }
         $this->itemsQuantity = Cart::getTotalQuantity();
 
-        //$this->precio;
+        /**inicio mostrar ventas del dia para reimpresion de facturas */
+        $this->SalesDay();
+
+
+
+
+
+        /**fin mostrar ventas del dia para reimpresion de facturas */        
 
 
         if(strlen($this->search2) > 0)
@@ -245,6 +255,7 @@ class FacturacionController extends Component
                 $this->emit('add-ok');
                 $this->limitar_cant_producto++;
         }
+        $this->search = '';
     }
 
 
@@ -577,13 +588,17 @@ class FacturacionController extends Component
 
     public function cambiarTipoPrecio($IdLote){
         $exist = Cart::get($IdLote);
+        $lotes = Lotes::where('id',$IdLote)->first();
         $producto = Product::where('id', $exist->attributes[5])->first();
-        
-
-        $this->removeItem($IdLote);
-        $this->limitar_cant_producto++;
 
         if($this->count == 0){
+            if($lotes->existencia_lote < 1){
+                $this->emit('no-stock', 'Stock insuficiente');
+                return;
+            }
+            $this->removeItem($IdLote);
+            $this->limitar_cant_producto++;
+
             $precio = $producto->precio_caja;
             $this->tipoPrecio = 'NORMAL';
 
@@ -610,8 +625,15 @@ class FacturacionController extends Component
         }
 
         if($this->count == 1){
-             $precio = $producto->precio_mayoreo;
-             $this->tipoPrecio = 'MAYOREO';
+            if($lotes->existencia_lote < 1){
+                $this->emit('no-stock', 'Stock insuficiente');
+                return;
+            }
+
+            $this->removeItem($IdLote);
+            $this->limitar_cant_producto++;
+            $precio = $producto->precio_mayoreo;
+            $this->tipoPrecio = 'MAYOREO';
 
              Cart::add(
                 $exist->id,
@@ -639,6 +661,10 @@ class FacturacionController extends Component
             return;
         }
         if($this->count == 2){
+
+            $this->removeItem($IdLote);
+            $this->limitar_cant_producto++;
+
              $precio = $producto->precio_unidad;
              $this->tipoPrecio = 'UNIDAD';
              $this->count = 0;
@@ -722,9 +748,6 @@ class FacturacionController extends Component
                     ];
 
                 }*/
-
-               
-
                 if($this->cliente_consumidor_final == null){
                     $this->cliente_consumidor_final = 'Clientes Varios';
                 }
@@ -732,9 +755,6 @@ class FacturacionController extends Component
                 if($this->direccion_consumidor_final == null){
                     $this->direccion_consumidor_final = 'San Miguel';
                 }
-                
-            
-
                 $sale = Sale::create([
                     'cliente_consumidor_final'      =>  $this->cliente_consumidor_final,
                     'direccion_consumidor_final'    =>  $this->direccion_consumidor_final,
@@ -849,7 +869,6 @@ class FacturacionController extends Component
                     }
                      //Fin  actualizar la cantidad de producto
                 }
-
             }
 
             DB::commit();
@@ -873,28 +892,12 @@ class FacturacionController extends Component
                 $this->emit('print-factura-credito-fiscal',$sale->id);
             }
             $this->limitar_cant_producto = 0;
-            
-            //$user = User::find(auth()->user()->id)->name;
-           // $pdf = PDF::loadView('pdf.ticket', compact('sale','items','user'))->output();
-
-        
-/*
-            if ($this->efectivo == 0) {
-            $this->emit('refrescar','Carrito Vacio');
-            return response()->streamDownload(
-                fn () =>
-                    print($pdf),
-                        "filename.pdf"
-                    ); 
-           
-            }*/
         } catch (Exception $e) {
             DB::rollback();
              $this->emit('sale-error',$e->getMessage());
         }
     }
     
-
     public function resetUI(){
         $this->cliente_consumidor_final     =   '';
         $this->direccion_consumidor_final   =   '';
@@ -906,7 +909,42 @@ class FacturacionController extends Component
         $this->NRC_cliente                  =   '';
         $this->gran_con_cliente             =   'Seleccionar';
         $this->selected_id                  =   0;
+        $this->search                       =   0;
         $this->resetPage();
         $this->resetValidation();
     }
+
+    public function SalesDay(){
+        $from = Carbon::parse(Carbon::now())->format('Y-m-d') . ' 00:00:00';
+        $to = Carbon::parse(Carbon::now())->format('Y-m-d') . ' 23:59:59';
+
+        $this->data = Sale::join('tipos_transacciones as tt','tt.id','sales.tipos_transacciones_id')
+        ->select('sales.*','tt.tipo_transaccion')
+        ->whereBetween('sales.created_at',[$from,$to])
+        ->where('user_id',auth()->user()->id)
+        ->orderBy('sales.id','desc')
+        ->get();
+
+    }
+
+    public function verDetalle($idVenta){
+        $this->details = SaleDetails::join('lotes as l','l.id','sale_details.lotes_id')
+                                ->join('products as p', 'p.id','l.products_id')
+                                ->select('l.products_id','sale_details.id' ,'sale_details.precio_venta_mas_iva','sale_details.quantity as cantidad','p.name')
+                                ->where('sale_details.sale_id',$idVenta)
+                                ->get();
+
+                                $this->countDetails = $this->details->sum('cantidad');
+
+                                $suma = $this->details->sum(function($item){
+                                    return $item->cantidad * $item->precio_venta_mas_iva;
+                                });
+                                $this->sumDetails = $suma;
+
+                                $this->imprimirfacturaModal = $idVenta;
+                                $this->emit('show-modal-detalle');
+    }
+
+
+
 }

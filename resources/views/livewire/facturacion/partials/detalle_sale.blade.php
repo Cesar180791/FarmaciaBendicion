@@ -96,13 +96,13 @@
                                     <div class="size-product">Producto</div>
                                 </th>
                                 <th class="table-th text-center text-white">
-                                    <div class="size">Precio</div>
+                                    <div class="size">Precio U</div>
+                                </th>
+                                <th class="table-th text-white text-center">
+                                    <div class="size">Total</div>
                                 </th>
                                 <th class="table-th text-white text-center">
                                     <div class="size">Lote</div>
-                                </th>
-                                <th class="table-th text-white text-center">
-                                    <div class="size">Vencimiento</div>
                                 </th>
                             </tr>
                         </thead>
@@ -203,11 +203,12 @@
                                     ${{number_format($item->price,4)}}
                                 </td>
                                 <td class="text-center">
-                                    <p>{{$item->attributes[3]}}</p>
+                                    <p>${{number_format($item->price * $item->quantity,4)}}</p>
                                 </td>
                                 <td class="text-center">
-                                    <p>{{$item->attributes[4]}}</p>
+                                    <p>{{$item->attributes[3]}}</p>
                                 </td>
+                              
                             </tr>
                             @endforeach
                         </tbody>

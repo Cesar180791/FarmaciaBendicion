@@ -41,6 +41,24 @@
                         </div>
                         @endforeach
 
+                        <div class="btn btn-block summary-list summary-income" id="ventas-dia">
+                            <div class="summery-info">
+                                <div class="w-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-user">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </div>
+                                <div class="w-summary-details">
+                                    <div class="w-summary-info">
+                                        <h6>MIS VENTAS DEL DÍA.<br>USUARIO: {{auth()->user()->name}}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- <div class="btn btn-block summary-list summary-profit">
 
                             <div class="summery-info">
@@ -119,11 +137,17 @@
             @include('livewire.facturacion.partials.detalle_credito_fiscal')
         </div>
 
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" id="facturas-dia" wire:ignore.self>
+            @include('livewire.facturacion.partials.facturas_dia')
+        </div>
+
         <div class="col-xl-12 col-lg-9 col-md-12 col-sm-12 col-12 layout-spacing" id="descuento" wire:ignore.self>
             @include('livewire.facturacion.partials.modal_descuento')
         </div>
 
+        @include('livewire.facturacion.partials.ver_productos_factura_modal')
     </div>
+    
     <style>
         .my-custom-scrollbar {
             position: relative;
@@ -152,6 +176,7 @@
             $('#total').hide();
             $('#clientes').hide();
             $('#descuento').hide();
+            $('#facturas-dia').hide();
 
 
             $('#btn-regresar').on("click", function () {
@@ -170,6 +195,11 @@
             $('#btn-regresar3').on("click", function () {
                 $('#lote').hide();
                 $('#buscar').show();
+            });
+
+            $('#ventas-dia').on("click", function () {
+                $('#menu').hide();
+                $('#facturas-dia').show();
             });
 
             $('#btn-regresar4').on("click", function () {
@@ -263,6 +293,11 @@
             window.livewire.on('show-modal', msg => {
                 $('#theModal').modal('show');
             });
+
+            window.livewire.on('show-modal-detalle', msg => {
+                $('#theModalDetalle').modal('show');
+            });
+
             window.livewire.on('cliente-added', msg => {
                 $('#theModal').modal('hide');
                 swal({
@@ -284,6 +319,7 @@
                 ruta = "{{ url('print/factura/consumidor-final') }}" + '/' + saleId
                 ventana = window.open(ruta, "_blank", "width=100, height=100")
                 ventana.close()
+                $('#theModalDetalle').modal('hide');
             });
 
             window.livewire.on('print-factura-credito-fiscal', saleId => {

@@ -93,7 +93,7 @@ class PrinterFacturasController extends Controller
         $this->printer -> text($this->addSpaces($venta->dui_consumidor_final,9));
         //5 espacios fecha de venta
         $this->printer -> text("     ");
-        $this->printer -> text($this->addSpaces(date('Y-m-d'),10));
+        $this->printer -> text($this->addSpaces(Carbon::parse($venta->created_at)->format('Y-m-d'),10));
         //1 salto de linea
         $this->printer -> text("\n");
         //11 espacios direccion del cliente
