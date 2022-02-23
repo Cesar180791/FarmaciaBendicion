@@ -7,6 +7,10 @@
                         <b class="sizeEncabezado">{{$componentName}} | Ventas fecha
                             {{\Carbon\Carbon::parse(now())->format('M d Y')}} | Usuario: {{auth()->user()->name}}</b>
                     </h6>
+					<div class="col-sm-12 col-md-6 mt-2">
+                        <a class="btn btn-danger mbmobile mb-4 ml-auto" id="btn-regresar-menu"><b><i
+                                    class="fas fa-arrow-left"></i></b></a>
+                    </div>
                 </div>
 
                 @if(count($data)==0)

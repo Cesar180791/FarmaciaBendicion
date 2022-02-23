@@ -201,6 +201,11 @@
                 $('#menu').hide();
                 $('#facturas-dia').show();
             });
+			
+			$('#btn-regresar-menu').on("click", function () {
+                $('#menu').show();
+                $('#facturas-dia').hide();
+            });
 
             $('#btn-regresar4').on("click", function () {
                 $('#clientes').hide();
