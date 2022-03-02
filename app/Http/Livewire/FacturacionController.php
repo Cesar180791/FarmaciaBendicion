@@ -909,7 +909,7 @@ class FacturacionController extends Component
         $this->NRC_cliente                  =   '';
         $this->gran_con_cliente             =   'Seleccionar';
         $this->selected_id                  =   0;
-        $this->search                       =   0;
+        $this->search                       =   '';
         $this->resetPage();
         $this->resetValidation();
     }
