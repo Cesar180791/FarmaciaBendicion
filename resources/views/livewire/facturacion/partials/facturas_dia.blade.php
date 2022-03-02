@@ -7,8 +7,8 @@
                         <b class="sizeEncabezado">{{$componentName}} | Ventas fecha
                             {{\Carbon\Carbon::parse(now())->format('M d Y')}} | Usuario: {{auth()->user()->name}}</b>
                     </h6>
-					<div class="col-sm-12 col-md-6 mt-2">
-                        <a class="btn btn-danger mbmobile mb-4 ml-auto" id="btn-regresar-menu"><b><i
+                    <div class="col-sm-12">
+                        <a class="btn btn-danger mbmobile" id="btn-regresar-menu"><b><i
                                     class="fas fa-arrow-left"></i></b></a>
                     </div>
                 </div>
@@ -17,6 +17,12 @@
                 <div class="alert alert-danger">No hay Ventas registradas este Día para usuario:
                     {{auth()->user()->name}}</div>
                 @else
+
+                <div class="d-flex">
+                    <h6 class="text-center text-success ml-auto"><b>Ventas del Día ${{number_format($data->sum('total'),4)}}</b></h6>
+                </div>
+
+               
 
                 <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
                     <table class="table table-bordered table-striped mt-1">
@@ -27,8 +33,9 @@
                                 <th class="table-th text-white text-center">Total</th>
                                 <th class="table-th text-white text-center">Recibido</th>
                                 <th class="table-th text-white text-center">Cambio</th>
-                                <th class="table-th text-white text-center">Fecha</th>
                                 <th class="table-th text-white text-center">Tipo</th>
+                                <th class="table-th text-white text-center">N° Factura</th>
+                                <th class="table-th text-white text-center">Fecha</th>
                                 <th class="table-th text-white text-center">Acciones</th>
                             </tr>
                         </thead>
@@ -51,11 +58,14 @@
                                     <p>${{number_format($d->change,4)}}</p>
                                 </td>
                                 <td class="text-center">
-                                    <p>{{\Carbon\Carbon::parse($d->created_at)->format('M d, Y h:i A')}}</p>
-                                </td>
-                                <td class="text-center">
                                     <p>{{$d->tipo_transaccion}} <br> {{$d->cliente_consumidor_final}} <br>
                                         {{$d->direccion_consumidor_final}}</p>
+                                </td>
+                                <td class="text-center">
+                                    <p>{{$d->numero_factura}}</p>
+                                </td>
+                                <td class="text-center">
+                                    <p>{{\Carbon\Carbon::parse($d->created_at)->format('M d, Y h:i A')}}</p>
                                 </td>
                                 <td class="text-center">
                                     <a href="javascript:void(0)"
@@ -87,11 +97,13 @@
                             </tr>
                             @endforeach
                         </tbody>
+                        <tfoot>
+                            <td colspan="2"><h6 class="text-center"><b>Total de ventas Diarias</b></h6></td>
+                            <td><h6 class="text-center">${{number_format($data->sum('total'),4)}}</h6></td>
+                        </tfoot>
                     </table>
                 </div>
                 @endif
-
-
             </div>
         </div>
     </div>

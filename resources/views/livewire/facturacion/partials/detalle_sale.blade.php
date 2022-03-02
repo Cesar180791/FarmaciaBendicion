@@ -11,7 +11,7 @@
 
                     @if($transaccionId === 2)
 
-                    <div class="col-sm-12 col-md-5 mt-2">
+                    <div class="col-sm-12 col-md-4 mt-2">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text input-gp bg-dark">
@@ -28,7 +28,7 @@
 
                     @if($transaccionId === 1)
 
-                    <div class="col-sm-12 col-md-6 mt-2">
+                    <div class="col-sm-12 col-md-4 mt-2">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text input-gp bg-dark">
@@ -41,7 +41,7 @@
                         @error('cliente_consumidor_final') <span class="text-danger er">{{ $message }}</span> @enderror
                     </div>
 
-                    <div class="col-sm-12 col-md-6 mt-2">
+                    <div class="col-sm-12 col-md-4 mt-2">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text input-gp bg-dark">
@@ -54,8 +54,8 @@
                         @error('direccion_consumidor_final') <span class="text-danger er">{{ $message }}</span>
                         @enderror
                     </div>
-
-                    <div class="col-sm-12 col-md-6 mt-2">
+                   
+                    <div class="col-sm-12 col-md-4 mt-2">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text input-gp bg-dark">
@@ -68,13 +68,30 @@
                         @error('dui_consumidor_final') <span class="text-danger er">{{ $message }}</span> @enderror
                     </div>
 
+                    <div class="col-sm-12 col-md-4 mt-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text input-gp bg-dark">
+                                    <i class="fas fa-file-invoice-dollar"></i>
+                                </span>
+                            </div>
+                            <input type="text" wire:model.lazy="numero_factura" class="form-control"
+                                placeholder="Numero Factura Consumidor Final">
+                        </div>
+                        @error('numero_factura') <span class="text-danger er">{{ $message }}</span> @enderror
+                    </div>
+
                     @endif
-                    <div class="col-sm-12 col-md-6 mt-2">
-                        <a wire:click.prevent="resetUI()" class="btn btn-danger mbmobile mb-4 ml-auto" id="btn-regresar"><b><i
+                    <div class="col-sm-12 col-md-2 mt-2 d-flex">
+                        <a wire:click.prevent="resetUI()" class="btn btn-danger mbmobile mb-4 btn-block" id="btn-regresar"><b><i
                                     class="fas fa-arrow-left"></i></b></a>
-                        <a class="btn btn-dark mbmobile mb-4 ml-2" id="btn-buscar"><b><i class="fas fa-search-plus"></i>
+                    </div>
+
+                    <div class="col-sm-12 col-md-2 mt-2 d-flex">
+                        <a class="btn btn-dark mbmobile mb-4 btn-block" id="btn-buscar"><b><i class="fas fa-search-plus"></i>
                                 Buscar</b></a>
                     </div>
+                   
 
 
                 </div>

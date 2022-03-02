@@ -716,6 +716,7 @@ class FacturacionController extends Component
                         //'cliente_consumidor_final'    =>  'required|min:3|max:150',
                         //'direccion_consumidor_final'    =>  'required|min:3|max:150',
                         'dui_consumidor_final'    =>  'required|min:10|max:10',
+                        'numero_factura'    =>  'required|min:3',
                     ];
             
                     $messages = [
@@ -727,27 +728,24 @@ class FacturacionController extends Component
                         //'direccion_consumidor_final.max'        => 'Dirección cliente debe tener al max 150 caracteres',   
                         'dui_consumidor_final.required'         => 'Compra mayor a $100 Dui es requerido',    
                         'dui_consumidor_final.min'              => 'DUI cliente debe tener al menos 10 caracteres',  
-                        'dui_consumidor_final.max'              => 'DUI cliente debe tener al max 10 caracteres',           
+                        'dui_consumidor_final.max'              => 'DUI cliente debe tener al max 10 caracteres',
+                        'numero_factura.required'   => 'Numero de factura es requerido',    
+                        'numero_factura.min'        => 'El numero de factura debe tener al menos 3 caracteres',           
                     ];
                     $this->validate($rules, $messages);
-                } /*else{
+                } else{
 
                     $rules = [
-                        'cliente_consumidor_final'    =>  'required|min:3|max:150',
-                        'direccion_consumidor_final'    =>  'required|min:3|max:150',
-                        
+                        'numero_factura'    =>  'required|min:3',
                     ];
             
                     $messages = [
-                        'cliente_consumidor_final.required'   => 'Nombre cliente es requerido',    
-                        'cliente_consumidor_final.min'        => 'Nombre cliente debe tener al menos 3 caracteres',  
-                        'cliente_consumidor_final.max'        => 'Nombre cliente debe tener al max 150 caracteres',
-                        'direccion_consumidor_final.required'   => 'Dirección cliente es requerido',    
-                        'direccion_consumidor_final.min'        => 'Dirección cliente debe tener al menos 3 caracteres',  
-                        'direccion_consumidor_final.max'        => 'Dirección cliente debe tener al max 150 caracteres',              
+                        'numero_factura.required'   => 'Numero de factura es requerido',    
+                        'numero_factura.min'        => 'El numero de factura debe tener al menos 3 caracteres',           
                     ];
+                    $this->validate($rules, $messages);
+                }
 
-                }*/
                 if($this->cliente_consumidor_final == null){
                     $this->cliente_consumidor_final = 'Clientes Varios';
                 }
@@ -763,6 +761,7 @@ class FacturacionController extends Component
                     'items'                         =>  $this->itemsQuantity,
                     'cash'                          =>  $this->efectivo,
                     'change'                        =>  $this->change,
+                    'numero_factura'                =>  $this->numero_factura,
                     'tipos_transacciones_id'        =>  $this->transaccionId,
                     'user_id'                       =>  auth()->user()->id
                 ]);
