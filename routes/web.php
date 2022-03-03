@@ -19,6 +19,7 @@ use App\Http\Livewire\FacturacionController;
 use App\Http\Livewire\ReporteLotes;
 
 use App\Http\Controllers\PrinterFacturasController;
+use App\Http\Controllers\ExportController;
 
 
 /*
@@ -56,6 +57,13 @@ Route::middleware(['auth'])->group(function (){
         Route::get('compras', ComprasController::class);
         Route::get('clientes', ClientesController::class);
         Route::get('lotes-productos', ReporteLotes::class);
+
+        //Generar Reporte Excel
+        //Route::get('reporte-lotes/excel/{f1}/{f2}', [ExportController::class,'reporteLotesExcel']);
+        Route::get('reporte-lotes/excel/{search}', [ExportController::class,'reporteLotesExcel']);
+        Route::get('reporte-lotes/excel/', [ExportController::class,'reporteLotesExcel']);
+
+
     });
 
     Route::group(['middleware' => ['role:Administrador||Cajero']], function () {
@@ -66,8 +74,4 @@ Route::middleware(['auth'])->group(function (){
         Route::get('print/factura/consumidor-final/{id}', [PrinterFacturasController::class,'facturaConsumidorFinal']);
     });
 });
-
-
-
-
 

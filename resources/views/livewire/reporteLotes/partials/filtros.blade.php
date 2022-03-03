@@ -31,7 +31,7 @@
         <button wire:click="resetFiltros" class="btn fondoNegro btn-block text-white"><b><i class="fa-solid fa-filter"></i> Reset Filtros</b></button>
 
         <a class="btn btn-success btn-block {{count($data) < 1 ? 'disabled' : '' }}"
-        href="" target="_blank"><b><i class="fa-solid fa-file-excel"></i> Exportar Excel</b></a>
+        href="{{ url('reporte-lotes/excel' . '/' . $search . '/' . $dateFrom . '/' . $dateTo) }}" target="_blank"><b><i class="fa-solid fa-file-excel"></i> Exportar Excel</b></a>
 
     </div>
 

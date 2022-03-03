@@ -1,5 +1,5 @@
 <div>
-    <div class="row sales layout-top-spacing">
+    <div class="row sales">
         <div class="col-sm-12">
             <div class="widget">
                 <div class="widget-heading">

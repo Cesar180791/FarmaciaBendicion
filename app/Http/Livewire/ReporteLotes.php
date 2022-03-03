@@ -69,7 +69,7 @@ class ReporteLotes extends Component
             ->paginate($this->pagination);
         }else{
             $data = Lotes::join('products as p','p.id','lotes.products_id')
-            ->select('lotes.numero_lote','lotes.caducidad_lote','lotes.existencia_lote','lotes.existencia_lote_unidad','p.name')
+            ->select('lotes.numero_lote','lotes.caducidad_lote','lotes.existencia_lote','lotes.existencia_lote_unidad','p.name','p.chemical_component','p.laboratory')
             ->where('lotes.estado_lote','ACTIVO')
             ->orderBy('lotes.caducidad_lote','asc')
             ->paginate($this->pagination);
@@ -80,7 +80,7 @@ class ReporteLotes extends Component
             $to = Carbon::parse($this->dateTo)->format('Y-m-d');
 
             $data = Lotes::join('products as p','p.id','lotes.products_id')
-            ->select('lotes.numero_lote','lotes.caducidad_lote','lotes.existencia_lote','lotes.existencia_lote_unidad','lotes.created_at','p.name')
+            ->select('lotes.numero_lote','lotes.caducidad_lote','lotes.existencia_lote','lotes.existencia_lote_unidad','p.name','p.chemical_component','p.laboratory')
             ->whereBetween('lotes.caducidad_lote',[$from,$to])
             ->where('lotes.estado_lote','ACTIVO')
             ->orderBy('lotes.caducidad_lote','asc')

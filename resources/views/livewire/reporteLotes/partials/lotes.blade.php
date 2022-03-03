@@ -4,6 +4,8 @@
             <tr>
                 <th class="table-th text-white">N° de lote</th>
                 <th class="table-th text-white">Producto</th>
+                <th class="table-th text-white">Laboratorio</th>
+                <th class="table-th text-white">Componente</th>
                 <th class="table-th text-white text-center">Existencia</th>
                 <th class="table-th text-white text-center">Existencia U</th>
                 <th class="table-th text-white text-center">Caducidad</th>
@@ -14,6 +16,8 @@
             <tr>
                 <td class=""><p>{{$lote->numero_lote}}</p></td>
                 <td class=""><p>{{$lote->name}}</p></td>
+                <td class=""><p>{{$lote->laboratory}}</p></td>
+                <td class=""><p>{{$lote->chemical_component}}</p></td>
                 <td class="text-center"><p>{{$lote->existencia_lote}}</p></td>
                 @if ($lote->existencia_lote_unidad === null)
                 <td class="text-center"><p>N/A</p></td>
