@@ -120,7 +120,7 @@ class ProveedoresController extends Component
             'NRC.min'                   => 'El NRC del proveedor debe tener al menos 4 caracteres',
             'NRC.unique'                => 'El NRC ingresado ya esta asociado a otro proveedor',
             'gran_con.not_in'           => 'Selecciona si es gran contribuyente'
-        ];
+        ]; 
          $this->validate($rules, $messages);
 
          $proveedor = Proveedores::find($this->selected_id);
