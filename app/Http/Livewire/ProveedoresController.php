@@ -45,7 +45,7 @@ class ProveedoresController extends Component
             'nombre_vendedor'   =>  "required|min:3",
             'telefono'          =>  'required|min:8',
             'NIT'               =>  'required|min:10|unique:proveedores,NIT',
-            'NRC'               =>  'required|min:10|unique:proveedores,NRC',
+            'NRC'               =>  'required|min:4|unique:proveedores,NRC',
             'gran_con'          =>  'required|not_in:Seleccionar'
         ];
 
@@ -61,7 +61,7 @@ class ProveedoresController extends Component
             'NIT.min'                   => 'El NIT del proveedor debe tener al menos 10 caracteres',
             'NIT.unique'                => 'El NIT ingresado ya esta asociado a otro proveedor',
             'NRC.required'              => 'El NRC del proveedor es requerido',
-            'NRC.min'                   => 'El NRC del proveedor debe tener al menos 10 caracteres',
+            'NRC.min'                   => 'El NRC del proveedor debe tener al menos 4 caracteres',
             'NRC.unique'                => 'El NRC ingresado ya esta asociado a otro proveedor',
             'gran_con.not_in'           => 'Selecciona si es gran contribuyente'
             
@@ -101,7 +101,7 @@ class ProveedoresController extends Component
             'nombre_vendedor'   =>  "required|min:3",
             'telefono'          =>  'required|min:8',
             'NIT'               =>  "required|min:10|unique:proveedores,NIT,{$this->selected_id}",
-            'NRC'               =>  "required|min:10|unique:proveedores,NRC,{$this->selected_id}",
+            'NRC'               =>  "required|min:4|unique:proveedores,NRC,{$this->selected_id}",
             'gran_con'          =>  'required|not_in:Seleccionar'
         ];
 
@@ -117,7 +117,7 @@ class ProveedoresController extends Component
             'NIT.min'                   => 'El NIT del proveedor debe tener al menos 10 caracteres',
             'NIT.unique'                => 'El NIT ingresado ya esta asociado a otro proveedor',
             'NRC.required'              => 'El NRC del proveedor es requerido',
-            'NRC.min'                   => 'El NRC del proveedor debe tener al menos 10 caracteres',
+            'NRC.min'                   => 'El NRC del proveedor debe tener al menos 4 caracteres',
             'NRC.unique'                => 'El NRC ingresado ya esta asociado a otro proveedor',
             'gran_con.not_in'           => 'Selecciona si es gran contribuyente'
         ];
