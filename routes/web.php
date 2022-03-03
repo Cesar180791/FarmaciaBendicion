@@ -16,6 +16,7 @@ use App\Http\Livewire\ComprasController;
 use App\Http\Livewire\ProveedoresController;
 use App\Http\Livewire\ClientesController;
 use App\Http\Livewire\FacturacionController;
+use App\Http\Livewire\ReporteLotes;
 
 use App\Http\Controllers\PrinterFacturasController;
 
@@ -54,6 +55,7 @@ Route::middleware(['auth'])->group(function (){
         Route::get('proveedores', ProveedoresController::class);
         Route::get('compras', ComprasController::class);
         Route::get('clientes', ClientesController::class);
+        Route::get('lotes-productos', ReporteLotes::class);
     });
 
     Route::group(['middleware' => ['role:Administrador||Cajero']], function () {

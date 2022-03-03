@@ -50,5 +50,9 @@ class PermisosSeeder extends Seeder
             'name'=>'Inventario_Index',
             'guard_name'=>'web',
         ]);
+        Permission::create([
+            'name'=>'Reportes_Index',
+            'guard_name'=>'web',
+        ]);
     }
 }

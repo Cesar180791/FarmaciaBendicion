@@ -12,7 +12,7 @@ class ProveedoresController extends Component
     public $search, $selected_id, $pageTitle, $componentName, $nombre_proveedor , $telefono ,$NIT, $NRC, $nombre_vendedor, $gran_con;
     private $pagination = 5;
 
-      public function mount(){
+    public function mount(){
         $this->pageTitle        =   'Listado';
         $this->componentName    =   'Proveedores';
         $this->gran_con         =   'Seleccionar';
@@ -25,8 +25,6 @@ class ProveedoresController extends Component
     public function updatingSearch(){
         $this->resetPage();
     }
-
-
 
     public function render()
     {
