@@ -478,7 +478,7 @@ class ComprasController extends Component
         $rules =[
             //'descripcion_lote'          =>  'required|min:5',
             'politicas_garantias_id'    =>  'required|not_in:Seleccionar',
-            'factura'                   =>  'required|min:3|unique:purchases,factura',
+            'factura'                   =>  'required|min:3',
             'fecha_compra'              =>  'required',
             'proveedores_id'            =>  'required|not_in:Seleccionar'
         ];
@@ -489,7 +489,6 @@ class ComprasController extends Component
             'politicas_garantias_id.not_in'     =>  'Politica de garantia sobre compra requerida',
             'factura.required'                  =>  'El numero de factura es requerido',
             'factura.min'                       =>  'El numero de factura debe tener al menos 3 caracteres',
-            'factura.unique'                    =>  'El numero de factura ya esta asociado a otra compra',
             'fecha_compra.required'             =>  'La fecha de compra es requerida',
             'proveedores_id.not_in'             =>  'Seleccione el Proveedor',
         ];
