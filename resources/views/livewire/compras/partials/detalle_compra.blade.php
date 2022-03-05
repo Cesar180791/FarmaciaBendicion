@@ -13,7 +13,7 @@
                 <div class="alert alert-danger">No hay productos agregados a la compra</div>
                 @else
                 <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
-                    <table class="table table-bordered table-striped mt-1">
+                    <table class="table table-bordered table-striped mt-1"> 
                         <thead class="text-white fondoNegro">
                             <tr>
                                 <th class="table-th text-center text-white">
@@ -21,6 +21,9 @@
                                 </th>
                                 <th class="table-th text-center text-white">
                                     <div class="size">Cant</div>
+                                </th>
+                                <th class="table-th text-center text-white">
+                                    <div class="size">Meses Garantía</div>
                                 </th>
                                 <th class="table-th text-white">
                                     <div class="size-product">Producto</div>
@@ -75,6 +78,11 @@
                                     <input type="number" id="r{{$item->id}}" min="1" pattern="^[0-9]+"
                                         wire:change="updateCant({{$item->id}}, $('#r'+ {{$item->id}}).val() )"
                                         class="form-control text-center" value="{{$item->quantity}}">
+                                </td>
+                                <td>
+                                    <input type="number" id="politica{{$item->id}}" min="1" pattern="^[0-9]+"
+                                        wire:change="updatePolitica({{$item->id}}, $('#politica'+ {{$item->id}}).val() )"
+                                        class="form-control text-center" value="{{$item->attributes[9]}}">
                                 </td>
                                 <td>
                                     <p>{{$item->name}}</p>
@@ -156,7 +164,7 @@
 <style>
     .my-custom-scrollbar {
         position: relative;
-        height: auto;
+        height: 500px;
         width: auto;
         overflow: auto;
     }
@@ -166,7 +174,7 @@
     }
 
     .size {
-        width: 150px;
+        width: 125px;
     }
 
     .size-product {

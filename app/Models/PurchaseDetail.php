@@ -19,5 +19,6 @@ class PurchaseDetail extends Model
         'precio_venta_mayoreo',
         'precio_venta_unidad',
         'quantity',
+        'politicas_garantias_id'
     ];
 }

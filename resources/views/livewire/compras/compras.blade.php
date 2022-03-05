@@ -3,8 +3,11 @@
         <div class="col-sm-12" id="datos-generales" wire:ignore.self>
             @include('livewire.compras.partials.datos-generales-compras')
         </div>
-        <div class="col-sm-12" id="detalle-compra" wire:ignore.self>
+        <div class="col-sm-12 col-md-8" id="detalle-compra" wire:ignore.self>
             @include('livewire.compras.partials.detalle_compra')
+        </div>
+        <div class="col-sm-12 col-md-4" id="garantias" wire:ignore.self>
+            @include('livewire.compras.partials.cuadro_garantias')
         </div>
         <div class="col-sm-12" id="listar-productos" wire:ignore.self>
             @include('livewire.compras.partials.list-productos')
@@ -31,11 +34,13 @@
         $('#buscarbtn').on("click", function () {
         $('#detalle-compra').hide(); 
         $('#listar-productos').show();
+        $('#garantias').hide();
         });
 
         $('#regresar').on("click", function () {
         $('#detalle-compra').show(); 
         $('#listar-productos').hide();
+        $('#garantias').show();
         });
 
         $('#regresar2').on("click", function () {
@@ -80,6 +85,7 @@
         window.livewire.on('add-ok', msg=>{
             $('#detalle-compra').show();
             $('#lotes').hide();
+            $('#garantias').show();
         });
 
         window.livewire.on('lote-actualizado', msg=>{
@@ -99,6 +105,16 @@
             $('#datos-generales').show();
             $('#detalle-compra').hide();
         });
+
+        window.livewire.on('politica-garantia', msg=>{
+            swal({
+               title: 'Politica de garantia',
+               text: msg,
+               type: 'warning',
+           })
+        });
+
+        
 
         window.livewire.on('compra-ok', msg=>{
             $('#datos-generales').hide();

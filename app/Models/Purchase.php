@@ -15,7 +15,6 @@ class Purchase extends Model
         'lote',
         'descripcion_lote',
         'factura',
-        'politicas_garantias_id',
         'vencimiento',
         'users_id',
         'proveedores_id'

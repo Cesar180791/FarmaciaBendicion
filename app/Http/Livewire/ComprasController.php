@@ -33,7 +33,7 @@ class ComprasController extends Component
         Cart::clear();
         $this->subCategoryId = 'Seleccionar';
         $this->proveedores_id = "Seleccionar";
-        $this->politicas_garantias_id = "Seleccionar";
+        $this->politicas_garantias_id = 1;
         $this->pageTitle = 'Datos Generales';
         $this->pageTitle2 = 'Detalle de compra';
         $this->pageTitle3 = 'Selecciona el producto';
@@ -282,6 +282,12 @@ class ComprasController extends Component
         $product = Product::where('id', $id)->first();
         $buscar_lote = Lotes::where('id', $id_lote)->first();
 
+        $politica = PoliticasGarantias::where('id', $this->politicas_garantias_id)->first();
+        if($politica == false){
+            return $this->emit('politica-garantia','Politica de garantia por defecto no encontrada, por favor registre una politica de garantia');
+        }
+
+
         if($product == null){
             $this->emit('producto-no-encontrado','El producto no esta registrado');
         } else {
@@ -304,6 +310,8 @@ class ComprasController extends Component
                     $buscar_lote->numero_lote,
                     $buscar_lote->caducidad_lote,
                     $product->id,
+                    $politica->meses,
+                    $politica->id
                 ));
                 $this->total = Cart::getTotal();
                 $this->itemsQuantity = Cart::getTotalQuantity();
@@ -317,6 +325,24 @@ class ComprasController extends Component
             return true;
         else 
             return false;
+    }
+
+    public function updatePolitica($productId, $politicaId){
+        $politica = PoliticasGarantias::where('meses', $politicaId)->first();
+        if($politica){
+            $exist = Cart::get($productId);
+            Cart::update($exist->id, array( 
+                array(
+                    $exist->attributes[9] = $politica->meses,
+                    $exist->attributes[10] = $politica->id,
+                )));
+                $this->total = Cart::getTotal();
+                $this->itemsQuantity = Cart::getTotalQuantity();
+           
+        }else{
+            return $this->emit('politica-garantia','Politica de garantia no encontrada, por favor consulte la tabla de referencia de politicas de garantia');
+        }
+
     }
 
     public function updateCost($productId, $cost){
@@ -367,6 +393,8 @@ class ComprasController extends Component
                    $exist->attributes[6],
                    $exist->attributes[7],
                    $exist->attributes[8],
+                   $exist->attributes[9],
+                   $exist->attributes[10]
                 ));
            $this->total = Cart::getTotal();
            $this->itemsQuantity = Cart::getTotalQuantity();
@@ -394,7 +422,9 @@ class ComprasController extends Component
                     $exist->attributes[5],
                     $exist->attributes[6],
                     $exist->attributes[7],
-                    $exist->attributes[8]
+                    $exist->attributes[8],
+                    $exist->attributes[9],
+                    $exist->attributes[10]
                 ));
 
                 $this->total = Cart::getTotal();
@@ -424,7 +454,9 @@ class ComprasController extends Component
                     $exist->attributes[5],
                     $exist->attributes[6],
                     $exist->attributes[7],
-                    $exist->attributes[8]
+                    $exist->attributes[8],
+                    $exist->attributes[9],
+                    $exist->attributes[10]
                 ));
 
                 $this->total = Cart::getTotal();
@@ -454,7 +486,9 @@ class ComprasController extends Component
                     $unidad,
                     $exist->attributes[6],
                     $exist->attributes[7],
-                    $exist->attributes[8]
+                    $exist->attributes[8],
+                    $exist->attributes[9],
+                    $exist->attributes[10]
                 ));
 
                 $this->total = Cart::getTotal();
@@ -477,7 +511,7 @@ class ComprasController extends Component
     public function validacionCabecera(){
         $rules =[
             //'descripcion_lote'          =>  'required|min:5',
-            'politicas_garantias_id'    =>  'required|not_in:Seleccionar',
+            //'politicas_garantias_id'    =>  'required|not_in:Seleccionar',
             'factura'                   =>  'required|min:3',
             'fecha_compra'              =>  'required',
             'proveedores_id'            =>  'required|not_in:Seleccionar'
@@ -486,7 +520,7 @@ class ComprasController extends Component
         $messages=[
             //'descripcion_lote.required'         =>  'La descripcion de la compra es requerida',
             //'descripcion_lote.min'              =>  'La descripcion de la compra debe tener al menos 5 caracteres',
-            'politicas_garantias_id.not_in'     =>  'Politica de garantia sobre compra requerida',
+            //'politicas_garantias_id.not_in'     =>  'Politica de garantia sobre compra requerida',
             'factura.required'                  =>  'El numero de factura es requerido',
             'factura.min'                       =>  'El numero de factura debe tener al menos 3 caracteres',
             'fecha_compra.required'             =>  'La fecha de compra es requerida',
@@ -504,7 +538,7 @@ class ComprasController extends Component
                 'item'                      =>  $this->itemsQuantity,
                 'descripcion_lote'          =>  $this->descripcion_lote,
                 'factura'                   =>  $this->factura,
-                'politicas_garantias_id'    =>  $this->politicas_garantias_id,
+                //'politicas_garantias_id'    =>  $this->politicas_garantias_id,
                 'users_id'                  =>  auth()->user()->id,
                 'proveedores_id'            =>  $this->proveedores_id
             ]);
@@ -514,15 +548,16 @@ class ComprasController extends Component
                 ///se recorre el detalle para guardar en la tabla purchase_details
                 foreach($items as $item){
                     $detalle = PurchaseDetail::create([
-                        'purchases_id'          =>  $compra->id,
-                        'lotes_id'              =>  $item->id,
-                        'costo'                 =>  $item->attributes[0],
-                        'costo_iva'             =>  $item->attributes[1],
-                        'costo_mas_iva'         =>  $item->attributes[2],
-                        'precio_venta'          =>  $item->attributes[3],
-                        'precio_venta_mayoreo'  =>  $item->attributes[4],
-                        'precio_venta_unidad'   =>  $item->attributes[5],
-                        'quantity'              =>  $item->quantity,
+                        'purchases_id'              =>  $compra->id,
+                        'lotes_id'                  =>  $item->id,
+                        'costo'                     =>  $item->attributes[0],
+                        'costo_iva'                 =>  $item->attributes[1],
+                        'costo_mas_iva'             =>  $item->attributes[2],
+                        'precio_venta'              =>  $item->attributes[3],
+                        'precio_venta_mayoreo'      =>  $item->attributes[4],
+                        'precio_venta_unidad'       =>  $item->attributes[5],
+                        'quantity'                  =>  $item->quantity,
+                        'politicas_garantias_id'    =>  $item->attributes[10],
                     ]);
 
                     ///ACTUALIZAR TABLA PRODUCTO
@@ -611,7 +646,7 @@ class ComprasController extends Component
     public function resetUI(){
         $this->descripcion_lote = '';
         $this->factura = '';
-        $this->politicas_garantias_id = 'Seleccionar';
+        //$this->politicas_garantias_id = 'Seleccionar';
         $this->fecha_compra = '';
         $this->proveedores_id = 'Seleccionar';
         $this->search = '';

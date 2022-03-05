@@ -22,19 +22,6 @@
             </div>
 
             <div class="col-sm-12 col-md-6 mt-3">
-                <p><b>Politica de Garantia</b></p>
-                <div class="form-group">
-                    <select wire:model='politicas_garantias_id' class="form-control">
-                        <option value="Seleccionar" disabled>Seleccionar</option>
-                        @foreach($politicas as $politica)
-                        <option value="{{$politica->id}}">{{$politica->concepto}}</option>
-                        @endforeach
-                    </select>
-                    @error('politicas_garantias_id') <span class="text-danger er">{{ $message }}</span> @enderror
-                </div>
-            </div>
-
-            <div class="col-sm-12 col-md-6 mt-3">
                 <p><b>Numero de factura </b></p>
                 <div class="input-group">
                     <div class="input-group-prepend">
