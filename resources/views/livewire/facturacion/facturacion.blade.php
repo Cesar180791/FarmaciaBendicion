@@ -179,6 +179,11 @@
             $('#facturas-dia').hide();
 
 
+            
+           
+            
+
+
             $('#btn-regresar').on("click", function () {
                 $('#menu').show();
                 $('#total').hide();
@@ -222,6 +227,7 @@
                 $('#total').hide();
                 $('#detalle').hide();
                 $('#buscar').show();
+                $('#buscarProducto').focus();
             });
 
             window.livewire.on('ver-lotes', msg => {
@@ -343,7 +349,7 @@
                 })
             });
            
-
+            
 
         });
 
