@@ -8,7 +8,7 @@
     <div class="widget-content">
         <div class="row">
 
-            <div class="col-sm-12 col-md-6 mt-3">
+            <div class="col-sm-12 col-md-4 mt-3">
                 <p><b>Proveedor</b></p>
                 <div class="form-group">
                     <select wire:model='proveedores_id' class="form-control">
@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-6 mt-3">
+            <div class="col-sm-12 col-md-4 mt-3">
                 <p><b>Numero de factura </b></p>
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -35,7 +35,7 @@
                 @error('factura') <span class="text-danger er">{{ $message }}</span> @enderror
             </div>
 
-            <div class="col-sm-12 col-md-6 mt-3">
+            <div class="col-sm-12 col-md-4 mt-3">
                 <p><b>Fecha de compra</b></p>
                 <div class="input-group">
                     <div class="input-group-prepend">

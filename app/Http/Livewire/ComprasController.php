@@ -33,7 +33,7 @@ class ComprasController extends Component
         Cart::clear();
         $this->subCategoryId = 'Seleccionar';
         $this->proveedores_id = "Seleccionar";
-        $this->politicas_garantias_id = 1;
+        $this->politicas_garantias_id = 2;
         $this->pageTitle = 'Datos Generales';
         $this->pageTitle2 = 'Detalle de compra';
         $this->pageTitle3 = 'Selecciona el producto';

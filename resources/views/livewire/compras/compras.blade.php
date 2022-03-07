@@ -56,6 +56,7 @@
         $('#regresar4').on("click", function () {
         $('#datos-generales').hide();
         $('#detalle-compra').show();
+        $('#garantias').show();
         });
 
        
@@ -104,6 +105,7 @@
         window.livewire.on('validacion-detalle-ok', msg=>{
             $('#datos-generales').show();
             $('#detalle-compra').hide();
+            $('#garantias').hide();
         });
 
         window.livewire.on('politica-garantia', msg=>{
@@ -119,6 +121,7 @@
         window.livewire.on('compra-ok', msg=>{
             $('#datos-generales').hide();
             $('#detalle-compra').show();
+            $('#garantias').show();
             swal({
                title: 'Compra Registrada',
                text: msg,
