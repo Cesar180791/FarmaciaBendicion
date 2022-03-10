@@ -30,9 +30,15 @@
     <div class="col-sm-12">
         <button wire:click="resetFiltros" class="btn fondoNegro btn-block text-white"><b><i class="fa-solid fa-filter"></i> Reset Filtros</b></button>
 
-        <a class="btn btn-success btn-block {{count($data) < 1 ? 'disabled' : '' }}"
-        href="{{ url('reporte-lotes/excel' . '/' . $search . '/' . $dateFrom . '/' . $dateTo) }}" target="_blank"><b><i class="fa-solid fa-file-excel"></i> Exportar Excel</b></a>
+        @if ($search == '')
+        <a class="btn btn-success btn-block {{$dateTo == '' ? 'disabled' : '' }}" href="{{ url('reporte-lotes/excel' . '/' . 'sinNombre' . '/' . $dateFrom . '/' . $dateTo) }}" target="_blank"><b><i class="fa-solid fa-file-excel"></i> Exportar por fechas</b></a>
+        @elseif($search != '')
+        <a class="btn btn-success btn-block {{count($data) < 1 ? 'disabled' : '' }}" href="{{ url('reporte-lotes/excel' . '/' . $search . '/' . $dateFrom . '/' . $dateTo) }}" target="_blank"><b><i class="fa-solid fa-file-excel"></i> Exportar por nombre</b></a>
+        @endif
+        @if($search == '' && $dateFrom == '' && $dateTo == '')
+        <a class="btn btn-success btn-block {{count($data) < 1 ? 'disabled' : '' }}" href="{{ url('reporte-lotes/excel' . '/' . $search . '/' . $dateFrom . '/' . $dateTo) }}" target="_blank"><b><i class="fa-solid fa-file-excel"></i> Exportar todo</b></a>
+        @endif
 
-    </div>
+    </div> 
 
 </div>

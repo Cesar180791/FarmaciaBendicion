@@ -59,8 +59,8 @@ Route::middleware(['auth'])->group(function (){
         Route::get('lotes-productos', ReporteLotes::class);
 
         //Generar Reporte Excel
-        //Route::get('reporte-lotes/excel/{f1}/{f2}', [ExportController::class,'reporteLotesExcel']);
         Route::get('reporte-lotes/excel/{search}', [ExportController::class,'reporteLotesExcel']);
+        Route::get('reporte-lotes/excel/{search}/{f1}/{f2}', [ExportController::class,'reporteLotesExcel']);
         Route::get('reporte-lotes/excel/', [ExportController::class,'reporteLotesExcel']);
 
 

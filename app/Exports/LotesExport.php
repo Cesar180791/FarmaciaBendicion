@@ -31,7 +31,7 @@ class LotesExport implements FromCollection, WithHeadings, WithCustomStartCell, 
     {
         $data = [];
 
-        if($this->search != ''){
+        if($this->search !=''){
             $data = Lotes::join('products as p','p.id','lotes.products_id')
             ->select('lotes.numero_lote','p.name','p.laboratory','p.chemical_component','lotes.existencia_lote','lotes.existencia_lote_unidad','lotes.caducidad_lote')
             ->where([

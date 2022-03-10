@@ -11,7 +11,15 @@ use Maatwebsite\Excel\Facades\Excel;
 class ExportController extends Controller
 {
    public function reporteLotesExcel($search, $dateFrom = null, $dateTo = null){
-       $reportName = 'Reporte Lotes_'.uniqid() . '.xlsx';
-       return Excel::download(new LotesExport($search, $dateFrom, $dateTo),$reportName);
+       if($search === 'sinNombre'){
+           $search == 'cofal';
+           $reportName = 'Reporte Lotes_'.uniqid() . '.xlsx';
+           return Excel::download(new LotesExport($search, $dateFrom, $dateTo),$reportName);
+       }else{
+        $reportName = 'Reporte Lotes_'.uniqid() . '.xlsx';
+        return Excel::download(new LotesExport($search, $dateFrom, $dateTo),$reportName);
+
+       }
+       
    } 
 }
