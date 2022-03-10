@@ -9,10 +9,12 @@ use PhpOffice\PhpSpreadsheet\Worksheet;                 //Para interactuar con e
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;    //para definir la celda donde inicia el reporte
 use Maatwebsite\Excel\Concerns\WithTitle;               //para colocar nombre a las hojas del libro
 use Maatwebsite\Excel\Concerns\WithStyles;             //para dar formato a la celda
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet as WorksheetWorksheet;
 
-class LotesExport implements FromCollection, WithHeadings, WithCustomStartCell, WithTitle, WithStyles
+
+class LotesExport implements FromCollection, WithHeadings, WithCustomStartCell, WithTitle, WithStyles, ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -100,7 +102,11 @@ class LotesExport implements FromCollection, WithHeadings, WithCustomStartCell, 
     public function styles(WorksheetWorksheet $sheet)
     {
         return [
-            2 => ['font' => ['bold' => true]],
+            2 => ['font' => ['bold' => true], 'alignment' => ['horizontal' => 'center']],
+            "A3:A15000" => ['font' => ['bold' => false], 'alignment' => ['horizontal' => 'left']],
+            "E3:E15000" => ['font' => ['bold' => false], 'alignment' => ['horizontal' => 'center']],
+            "F3:F15000" => ['font' => ['bold' => false], 'alignment' => ['horizontal' => 'center']],
+            "G3:G15000" => ['font' => ['bold' => false], 'alignment' => ['horizontal' => 'center']],
         ];
     }
 
