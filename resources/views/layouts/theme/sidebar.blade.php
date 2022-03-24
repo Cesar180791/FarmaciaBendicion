@@ -307,7 +307,7 @@
                     <a href="{{ url('/lotes-productos')}}"> Lotes de Producto </a>
                 </li>
                 <li>
-                    <a href=""> ventas </a>
+                    <a href="{{ url('/ventas')}}">Reporte de Ventas Ventas </a>
                 </li>
             </ul>
         </div>

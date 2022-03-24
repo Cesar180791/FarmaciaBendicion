@@ -17,6 +17,7 @@ use App\Http\Livewire\ProveedoresController;
 use App\Http\Livewire\ClientesController;
 use App\Http\Livewire\FacturacionController;
 use App\Http\Livewire\ReporteLotes;
+use App\Http\Livewire\ReporteVentas;
 
 use App\Http\Controllers\PrinterFacturasController;
 use App\Http\Controllers\ExportController;
@@ -56,22 +57,23 @@ Route::middleware(['auth'])->group(function (){
         Route::get('proveedores', ProveedoresController::class);
         Route::get('compras', ComprasController::class);
         Route::get('clientes', ClientesController::class);
+       
+    });
+
+    Route::group(['middleware' => ['role:Administrador||Cajero']], function () {
+        Route::get('consulta-inventario', InventarioController::class);
+        Route::get('facturacion', FacturacionController::class);
         Route::get('lotes-productos', ReporteLotes::class);
+        Route::get('ventas', ReporteVentas::class);
+
+        //rutas de facturas
+        Route::get('print/factura/consumidor-final/{id}', [PrinterFacturasController::class,'facturaConsumidorFinal']);
 
         //Generar Reporte Excel
         Route::get('reporte-lotes/excel/{search}', [ExportController::class,'reporteLotesExcel']);
         Route::get('reporte-lotes/excel/{search}/{f1}/{f2}', [ExportController::class,'reporteLotesExcel']);
         Route::get('reporte-lotes/excel/', [ExportController::class,'reporteLotesExcel']);
 
-
-    });
-
-    Route::group(['middleware' => ['role:Administrador||Cajero']], function () {
-        Route::get('consulta-inventario', InventarioController::class);
-        Route::get('facturacion', FacturacionController::class);
-
-                //rutas de facturas
-        Route::get('print/factura/consumidor-final/{id}', [PrinterFacturasController::class,'facturaConsumidorFinal']);
     });
 });
 
