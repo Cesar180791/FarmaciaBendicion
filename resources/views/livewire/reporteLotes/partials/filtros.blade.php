@@ -1,4 +1,14 @@
 <div class="row">
+
+    <div class="col-sm-12 mb-3">
+        <h6><b>Datos Generales de Inventario</b></h6><hr>
+        <h6><b>Total Costo: </b> ${{number_format($costoTotal,4)}}</h6>
+        <h6><b>Total IVA: </b> ${{number_format($totalIva,4)}}</h6>
+        <h6><b>Total Inventario: </b> ${{number_format($totalCostoIVA,4)}}</h6><hr>
+    </div>
+
+
+
     <div class="col-sm-12 mb-3">
         <h6><b>Buscar</b></h6>
         <div class="input-group">
