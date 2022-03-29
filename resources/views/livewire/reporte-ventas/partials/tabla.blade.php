@@ -1,3 +1,6 @@
+@if(count($data)==0)
+<div class="alert alert-danger">No hay Ventas registradas</div>
+@else
 <div class="table-responsive mt-4">
     <table class="table table-bordered table-striped mt-1">
         <thead class="text-white fondoNegro">
@@ -65,11 +68,13 @@
                 </td>
                 <td class="text-center" width="50px">
                     <button wire:click.prevent="getDetails({{$venta->folio}})"
-                        class="btn fondoNegro text-white btn-sm"><i class="fas fa-list"></i></button>
+                    class="btn fondoNegro text-white btn-sm"><i class="fas fa-list"></i></button>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
+    
 </div>
 {{$data->links()}}
+@endif

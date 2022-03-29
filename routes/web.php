@@ -69,10 +69,15 @@ Route::middleware(['auth'])->group(function (){
         //rutas de facturas
         Route::get('print/factura/consumidor-final/{id}', [PrinterFacturasController::class,'facturaConsumidorFinal']);
 
-        //Generar Reporte Excel
+        //Generar Reporte de lotes Excel
         Route::get('reporte-lotes/excel/{search}', [ExportController::class,'reporteLotesExcel']);
         Route::get('reporte-lotes/excel/{search}/{f1}/{f2}', [ExportController::class,'reporteLotesExcel']);
         Route::get('reporte-lotes/excel/', [ExportController::class,'reporteLotesExcel']);
+
+        //generar reporte de ventas
+        Route::get('reporte-ventas/pdf/{user}/{f1}/{f2}', [ExportController::class,'reporteVentasPdf']);
+        Route::get('reporte-ventas/pdf/{user}/{f1}', [ExportController::class,'reporteVentasPdf']);
+        Route::get('reporte-ventas/pdf/{user}', [ExportController::class,'reporteVentasPdf']);
 
     });
 });
