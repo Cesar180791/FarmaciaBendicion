@@ -74,10 +74,15 @@ Route::middleware(['auth'])->group(function (){
         Route::get('reporte-lotes/excel/{search}/{f1}/{f2}', [ExportController::class,'reporteLotesExcel']);
         Route::get('reporte-lotes/excel/', [ExportController::class,'reporteLotesExcel']);
 
-        //generar reporte de ventas
+        //generar reporte de ventas pdf
         Route::get('reporte-ventas/pdf/{user}/{f1}/{f2}', [ExportController::class,'reporteVentasPdf']);
         Route::get('reporte-ventas/pdf/{user}/{f1}', [ExportController::class,'reporteVentasPdf']);
         Route::get('reporte-ventas/pdf/{user}', [ExportController::class,'reporteVentasPdf']);
+
+        //generar reporte de ventas excel
+        Route::get('reporte-ventas/excel/{user}/{f1}/{f2}', [ExportController::class,'reporteVentasExcel']);
+        Route::get('reporte-ventas/excel/{user}/{f1}', [ExportController::class,'reporteVentasExcel']);
+        Route::get('reporte-ventas/excel/{user}', [ExportController::class,'reporteVentasExcel']);
 
     });
 });

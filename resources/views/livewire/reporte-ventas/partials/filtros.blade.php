@@ -49,6 +49,11 @@
     <div class="col-sm-12">
         <a class="btn fondoNegro text-white btn-block {{count($data) < 1 ? 'disabled' : '' }}"
             href="{{ url('reporte-ventas/pdf' . '/' . $userId  . '/' . $dateFrom . '/' . $dateTo) }}"
-        target="_blank"><i class="fa-solid fa-file-pdf"></i> Generar PDF</a>
+        target="_blank"><i class="fa-solid fa-file-pdf"></i> Exportar PDF</a>
+    </div>
+    <div class="col-sm-12">
+        <a class="mt-2 btn btn-success btn-block {{count($data) < 1 ? 'disabled' : '' }}"
+            href="{{ url('reporte-ventas/excel' . '/' . $userId  . '/' . $dateFrom . '/' . $dateTo) }}"
+        target="_blank"><i class="fa-solid fa-file-excel"></i> Exportar Excel</a>
     </div>
 </div>

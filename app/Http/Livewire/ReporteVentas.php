@@ -59,7 +59,7 @@ class ReporteVentas extends Component
         } else {
             $data = Sale::join('tipos_transacciones as tt','tt.id','sales.tipos_transacciones_id')
             ->join('users as u', 'u.id', 'sales.user_id')
-            ->select('tt.tipo_transaccion','sales.id as folio','sales.items','sales.total','sales.cash','sales.change','sales.numero_factura','u.name as usuario')
+            ->select('tt.tipo_transaccion','sales.id as folio','sales.items','sales.total','sales.cash','sales.change','sales.numero_factura','u.name as usuario','sales.created_at')
             ->whereBetween('sales.created_at',[$from,$to])
             ->where('user_id', $this->userId)
             ->orderBy('sales.created_at','desc')->paginate($this->pagination);

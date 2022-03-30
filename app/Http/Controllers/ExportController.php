@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\LotesExport;
+use App\Exports\SalesExport;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Lotes;
@@ -17,10 +18,10 @@ class ExportController extends Controller
     public function reporteLotesExcel($search, $dateFrom = null, $dateTo = null){
         if($search === 'sinNombre'){
             $search == 'cofal';
-            $reportName = 'Reporte Lotes_'.uniqid() . '.xlsx';
+            $reportName = 'Reporte-Lotes-'.uniqid() . '.xlsx';
             return Excel::download(new LotesExport($search, $dateFrom, $dateTo),$reportName);
         }else{
-            $reportName = 'Reporte Lotes_'.uniqid() . '.xlsx';
+            $reportName = 'Reporte-Lotes-'.uniqid() . '.xlsx';
             return Excel::download(new LotesExport($search, $dateFrom, $dateTo),$reportName);
         }
     }
@@ -56,7 +57,7 @@ class ExportController extends Controller
         } else{
             $data = Sale::join('tipos_transacciones as tt','tt.id','sales.tipos_transacciones_id')
             ->join('users as u', 'u.id', 'sales.user_id')
-            ->select('tt.tipo_transaccion','sales.id as folio','sales.items','sales.total','sales.cash','sales.change','sales.numero_factura','u.name as usuario')
+            ->select('tt.tipo_transaccion','sales.id as folio','sales.items','sales.total','sales.cash','sales.change','sales.numero_factura','sales.created_at','u.name as usuario')
             ->whereBetween('sales.created_at',[$from,$to])
             ->where('user_id', $userId)
             ->orderBy('sales.created_at','desc')->get();
@@ -86,5 +87,10 @@ class ExportController extends Controller
         return $pdf->stream('reporte-ventas.pdf');
         return $pdf->download('reporte-ventas.pdf');
 
+    }
+
+    public function reporteVentasExcel($userId,$dateFrom=null,$dateTo=null){
+        $reportName = 'Reporte-Ventas-'.uniqid() . '.xlsx';
+         return Excel::download(new SalesExport($userId, $dateFrom, $dateTo),$reportName);
     }
 }
