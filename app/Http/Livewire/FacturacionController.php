@@ -600,6 +600,10 @@ class FacturacionController extends Component
             $this->limitar_cant_producto++;
 
             $precio = $producto->precio_caja;
+            $costo  = $producto->cost;
+            $iva    = $producto->iva_cost;
+            $final_cost  = $producto->final_cost;
+
             $this->tipoPrecio = 'NORMAL';
 
             Cart::add(
@@ -608,9 +612,9 @@ class FacturacionController extends Component
                 $precio,
                 1,
                 array(
-                    $exist->attributes[0],
-                    $exist->attributes[1], 
-                    $exist->attributes[2], 
+                    $costo,
+                    $iva, 
+                    $final_cost, 
                     $exist->attributes[3],
                     $exist->attributes[4],
                     $exist->attributes[5],
@@ -633,6 +637,9 @@ class FacturacionController extends Component
             $this->removeItem($IdLote);
             $this->limitar_cant_producto++;
             $precio = $producto->precio_mayoreo;
+            $costo  = $producto->cost;
+            $iva    = $producto->iva_cost;
+            $final_cost  = $producto->final_cost;
             $this->tipoPrecio = 'MAYOREO';
 
              Cart::add(
@@ -641,9 +648,9 @@ class FacturacionController extends Component
                 $precio,
                 1,
                 array(
-                    $exist->attributes[0],
-                    $exist->attributes[1], 
-                    $exist->attributes[2], 
+                    $costo,
+                    $iva, 
+                    $final_cost, 
                     $exist->attributes[3],
                     $exist->attributes[4],
                     $exist->attributes[5],
@@ -666,6 +673,9 @@ class FacturacionController extends Component
             $this->limitar_cant_producto++;
 
              $precio = $producto->precio_unidad;
+             $costo  = $producto->cost / $producto->unidades_presentacion;
+             $iva    = $producto->iva_cost / $producto->unidades_presentacion;
+             $final_cost  = $producto->final_cost / $producto->unidades_presentacion;
              $this->tipoPrecio = 'UNIDAD';
              $this->count = 0;
 
@@ -675,9 +685,9 @@ class FacturacionController extends Component
                 $precio,
                 1,
                 array(
-                    $exist->attributes[0],
-                    $exist->attributes[1], 
-                    $exist->attributes[2], 
+                    $costo,
+                    $iva, 
+                    $final_cost, 
                     $exist->attributes[3],
                     $exist->attributes[4],
                     $exist->attributes[5],

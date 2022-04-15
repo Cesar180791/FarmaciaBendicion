@@ -18,6 +18,7 @@ use App\Http\Livewire\ClientesController;
 use App\Http\Livewire\FacturacionController;
 use App\Http\Livewire\ReporteLotes;
 use App\Http\Livewire\ReporteVentas;
+use App\Http\Livewire\KardexProductosController;
 
 use App\Http\Controllers\PrinterFacturasController;
 use App\Http\Controllers\ExportController;
@@ -57,6 +58,8 @@ Route::middleware(['auth'])->group(function (){
         Route::get('proveedores', ProveedoresController::class);
         Route::get('compras', ComprasController::class);
         Route::get('clientes', ClientesController::class);
+        Route::get('kardex-productos', KardexProductosController::class);
+
        
     });
 
