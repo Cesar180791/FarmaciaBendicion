@@ -10,6 +10,7 @@ use App\Models\PurchaseDetail;
 use App\Models\PoliticasGarantias;
 use App\Models\SubCategory;
 use App\Models\Lotes;
+use App\Models\kardexProductos;
 use Livewire\withPagination;
 use Darryldecode\Cart\Facades\CartFacade as Cart; 
 use DB;
@@ -545,8 +546,32 @@ class ComprasController extends Component
             if ($compra) {
                 ///se crea el registro en la tabla purchases se busca en el carrito el detalle 
                 $items = Cart::getContent();
-                ///se recorre el detalle para guardar en la tabla purchase_details
+                ///se recorre el detalle para guardar en la tabla purchase_detail
                 foreach($items as $item){
+
+                    $kardex = kardexProductos::where('products_id', $item->attributes[8])->get();
+                    $actualizarExistencia = Product::find($item->attributes[8]);
+
+                    if($actualizarExistencia->unidades_presentacion == 1){
+                        $costo_unitario = 0; 
+                    }else{
+                        $costo_unitario = $actualizarExistencia->cost / $actualizarExistencia->unidades_presentacion;
+                    }
+
+                    if (count($kardex) == 0) {
+                        kardexProductos::create([
+                            'products_id' => $item->attributes[8],
+                            'concepto' => "Inicio de KARDEX",
+                            'cantidad_existencias_ppal' => $actualizarExistencia->existencia_caja,
+                            'cantidad_existencias_unitarias' => $actualizarExistencia->existencia_unidad,
+                            'costo_unit_existencias_ppal' => $actualizarExistencia->cost,
+                            'costo_unit_existencias_unitarias' => $costo_unitario,
+                            'costo_total_existencias' => ($actualizarExistencia->cost * $actualizarExistencia->existencia_caja) + (($actualizarExistencia->cost / $actualizarExistencia->unidades_presentacion) * $actualizarExistencia->existencia_unidad),
+                            'id_transaccion' => 0,
+                            'tipo_movimiento' => 'Inicio'
+                        ]);
+                    }
+
                     $detalle = PurchaseDetail::create([
                         'purchases_id'              =>  $compra->id,
                         'lotes_id'                  =>  $item->id,
@@ -565,7 +590,7 @@ class ComprasController extends Component
                     //Y EL REGISTRO DE CARGA RECIEN CREADO Y SU EXISTENCIA ES CERO LOS COSTOS SE SOBREESCRIBIRAN Y NO SE APLICARA
                     //COSTO PROMEDIO.
                     //PARA ESTO SE BUSCA EL REGISTRO A MODIFICAR POR LA CARGA
-                    $actualizarExistencia = Product::find($item->attributes[8]);
+                    //$actualizarExistencia = Product::find($item->attributes[8]);
 
                     //Y LUEGO CON LA FUNCION DIFFINDAYS DE CARBON SE CALCULA LA DIFERENCIA DE DIAS ENTRE
                     //LA ULTIMA ACTUALIZACION DEL PRODUCTO EN SU COLUMNA UPDATED_AT
@@ -627,6 +652,27 @@ class ComprasController extends Component
                         $actualizarlote->estado_lote = 'ACTIVO';
                         $actualizarlote->save();    
                     }
+
+                    if($actualizarExistencia->unidades_presentacion == 1){
+                        $costo_unitario = 0;
+                    }else{
+                        $costo_unitario = $actualizarExistencia->cost / $actualizarExistencia->unidades_presentacion;
+                    }
+
+                    kardexProductos::create([
+                        'products_id' => $item->attributes[8],
+                        'concepto' => "Compra factura N°: " . $compra->factura . ' ID: ' . $compra->id,
+                        'cantidad_entrada' => $item->quantity,
+                        'costo_unit_entrada' => $item->attributes[0],
+                        'costo_total_entrada' => $item->attributes[0] * $item->quantity,
+                        'cantidad_existencias_ppal' => $actualizarExistencia->existencia_caja,
+                        'cantidad_existencias_unitarias' => $actualizarExistencia->existencia_unidad,
+                        'costo_unit_existencias_ppal' => $actualizarExistencia->cost,
+                        'costo_unit_existencias_unitarias' => $costo_unitario,
+                        'costo_total_existencias' => ($actualizarExistencia->cost * $actualizarExistencia->existencia_caja) + (($actualizarExistencia->cost / $actualizarExistencia->unidades_presentacion) * $actualizarExistencia->existencia_unidad),
+                        'id_transaccion' => $compra->id,
+                        'tipo_movimiento' => 'Compra'
+                    ]);
                 }
             }
             $this->emit('compra-ok','Compra Registrada con exito');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\LotesExport;
 use App\Exports\SalesExport;
+use App\Exports\KardexExport;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Lotes;
@@ -92,5 +93,10 @@ class ExportController extends Controller
     public function reporteVentasExcel($userId,$dateFrom=null,$dateTo=null){
         $reportName = 'Reporte-Ventas-'.uniqid() . '.xlsx';
          return Excel::download(new SalesExport($userId, $dateFrom, $dateTo),$reportName);
+    }
+
+    public function kardex($id, $productoName, $dateFrom=null, $dateTo=null){
+        $reportName = "REGISTRO-DE-CONTROL-DE-INVENTARIO-" . $productoName .'-'. uniqid() .'.xlsx';
+        return Excel::download(new KardexExport($id, $productoName, $dateFrom, $dateTo), $reportName);
     }
 }

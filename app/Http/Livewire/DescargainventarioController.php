@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Lotes;
 use App\Models\Descarga; 
 use App\Models\Detalle_descargas; 
+use App\Models\kardexProductos;
 use Livewire\withPagination;
 use Darryldecode\Cart\Facades\CartFacade as Cart; 
 use DB;
@@ -214,19 +215,44 @@ class DescargainventarioController extends Component
     
              $this->validate($rules, $messages);
 
-
-
             $descarga = Descarga::create([
                 'total_descarga'       => $this->total,
                 'total_item_descarga'  => $this->itemsQuantity,
                 'descripcion_descarga' => $this->descripcion_descarga,
                 'users_id'             => auth()->user()->id,
             ]);
+
             if ($descarga) {
                 ///se crea el registro en la tabla ventas se busca en el carrito el detalle 
                 $items = Cart::getContent();
                 ///se recorre el detalle para guardar en la tabla detalle de ventas 
                 foreach($items as $item){
+
+                    $kardex = kardexProductos::where('products_id', $item->attributes[9])->get();
+                    $actualizarExistencia = Product::find($item->attributes[9]);
+
+                    if($actualizarExistencia->unidades_presentacion == 1){
+                        $costo_unitario = 0; 
+                    }else{
+                        $costo_unitario = $actualizarExistencia->cost / $actualizarExistencia->unidades_presentacion;
+                    }
+
+
+                    if (count($kardex) == 0) {
+                        kardexProductos::create([
+                            'products_id' => $item->attributes[9],
+                            'concepto' => "Inicio de KARDEX",
+                            'cantidad_existencias_ppal' => $actualizarExistencia->existencia_caja,
+                            'cantidad_existencias_unitarias' => $actualizarExistencia->existencia_unidad,
+                            'costo_unit_existencias_ppal' => $actualizarExistencia->cost,
+                            'costo_unit_existencias_unitarias' => $costo_unitario,
+                            'costo_total_existencias' => ($actualizarExistencia->cost * $actualizarExistencia->existencia_caja) + (($actualizarExistencia->cost / $actualizarExistencia->unidades_presentacion) * $actualizarExistencia->existencia_unidad),
+                            'id_transaccion' => 0,
+                            'tipo_movimiento' => 'Inicio'
+
+                        ]);
+                    }
+
                     $detalle = Detalle_descargas::create([
                         'descargas_id'                          =>  $descarga->id,
                         'lotes_id'                              =>  $item->id,
@@ -240,7 +266,7 @@ class DescargainventarioController extends Component
                     ]);
 
                     //actualizar tabla productos
-                    $actualizarExistencia = Product::find($item->attributes[9]);
+                    //$actualizarExistencia = Product::find($item->attributes[9]);
                     $actualizarExistencia->existencia_caja -= $item->quantity;
                     $actualizarExistencia->save();
 
@@ -254,6 +280,26 @@ class DescargainventarioController extends Component
                         $actualizarLote->save();
                     }
 
+                    if($actualizarExistencia->unidades_presentacion == 1){
+                        $costo_unitario = 0; 
+                    }else{
+                        $costo_unitario = $actualizarExistencia->cost / $actualizarExistencia->unidades_presentacion;
+                    }
+
+                    kardexProductos::create([
+                        'products_id' => $item->attributes[9],
+                        'concepto' => "Descarga de Inventario Identificador: " . $descarga->id,
+                        'cantidad_salida' => $item->quantity,
+                        'costo_unit_salida' => $item->attributes[0],
+                        'costo_total_salida' => $item->attributes[0] * $item->quantity,
+                        'cantidad_existencias_ppal' => $actualizarExistencia->existencia_caja,
+                        'cantidad_existencias_unitarias' => $actualizarExistencia->existencia_unidad,
+                        'costo_unit_existencias_ppal' => $actualizarExistencia->cost,
+                        'costo_unit_existencias_unitarias' => $costo_unitario,
+                        'costo_total_existencias' => ($actualizarExistencia->cost * $actualizarExistencia->existencia_caja) + (($actualizarExistencia->cost / $actualizarExistencia->unidades_presentacion) * $actualizarExistencia->existencia_unidad),
+                        'id_transaccion' => $descarga->id,
+                        'tipo_movimiento' => 'Descarga'
+                    ]);
                 }
             }
             $this->emit('carga-ok','Carga Registrada con exito');

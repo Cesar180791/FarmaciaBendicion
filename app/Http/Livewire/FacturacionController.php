@@ -10,6 +10,7 @@ use App\Models\Clientes;
 use App\Models\Sale; 
 use App\Models\SaleDetails;
 use App\Models\Denomination;
+use App\Models\kardexProductos;
 use Livewire\withPagination;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 use Carbon\Carbon;
@@ -703,7 +704,6 @@ class FacturacionController extends Component
     }
 
      public function saveSale(){
-     
         if($this->total <=0){
             $this->emit('sale-error','Agrega productos al detalle');
             return;
@@ -807,6 +807,34 @@ class FacturacionController extends Component
                 
                 ///se recorre el detalle para guardar en la tabla detalle de ventas 
                 foreach($items as $item){
+
+                    $product = Product::find($item->attributes[5]);
+                    $actualizarLote = Lotes::find($item->id);
+
+                    if($product->unidades_presentacion == 1){
+                        $costo_unitario = 0; 
+                    }else{
+                        $costo_unitario = $product->cost / $product->unidades_presentacion;
+                    }
+
+                    $kardex = kardexProductos::where('products_id', $item->attributes[5])->get();
+
+                    if (count($kardex) == 0) {
+                        
+                        kardexProductos::create([
+                            'products_id' => $item->attributes[5],
+                            'concepto' => "Inicio de KARDEX",
+                            'cantidad_existencias_ppal' => $product->existencia_caja,
+                            'cantidad_existencias_unitarias' => $product->existencia_unidad,
+                            'costo_unit_existencias_ppal' => $product->cost,
+                            'costo_unit_existencias_unitarias' => $costo_unitario,
+                            'costo_total_existencias' => ($product->cost * $product->existencia_caja) + (($product->cost / $product->unidades_presentacion) * $product->existencia_unidad),
+                            'id_transaccion' => 0,
+                            'tipo_movimiento' => 'Inicio'
+
+                        ]);
+                    }
+
                     $precio_venta = $item->price / 1.13;
                     $iva_precio_venta = $item->price - $precio_venta;
                     
@@ -825,8 +853,8 @@ class FacturacionController extends Component
 
                     //inicio actualizar el stock
 
-                    $product = Product::find($item->attributes[5]);
-                    $actualizarLote = Lotes::find($item->id);
+                    //$product = Product::find($item->attributes[5]);
+                    //$actualizarLote = Lotes::find($item->id);
 
                     if($item->attributes[6] === 'NORMAL' || $item->attributes[6] === 'MAYOREO'){
                         $product->existencia_caja -= $item->quantity;
@@ -876,6 +904,36 @@ class FacturacionController extends Component
                             }
                         }
                     }
+
+                    if ($this->transaccionId === 1 ) {
+                        $tipoVenta = "Consumidor Final";
+                    }
+                    if ($this->transaccionId === 2) {
+                       $tipoVenta = "Credito Fiscal";
+                    }
+
+                    if($product->unidades_presentacion == 1){
+                        $costo_unitario = 0; 
+                    }else{
+                        $costo_unitario = $product->cost / $product->unidades_presentacion;
+                    }
+
+                    kardexProductos::create([
+                            'products_id' => $item->attributes[5],
+                            'concepto' => "Venta " . $tipoVenta . ' Factura N° : ' . $this->numero_factura . ' Tipo de venta ' . $item->attributes[6] . ' ID: ' . $sale->id,
+                            'cantidad_salida' => $item->quantity,
+                            'costo_unit_salida' => $item->attributes[0],
+                            'costo_total_salida' => $item->attributes[0] * $item->quantity,
+                            'cantidad_existencias_ppal' => $product->existencia_caja,
+                            'cantidad_existencias_unitarias' => $product->existencia_unidad,
+                            'costo_unit_existencias_ppal' => $product->cost,
+                            'costo_unit_existencias_unitarias' => $costo_unitario,
+                            'costo_total_existencias' => ($product->cost * $product->existencia_caja) + (($product->cost / $product->unidades_presentacion) * $product->existencia_unidad),
+                            'id_transaccion' => $sale->id,
+                            'tipo_movimiento' => 'Venta'
+
+                        ]);
+
                      //Fin  actualizar la cantidad de producto
                 }
             }

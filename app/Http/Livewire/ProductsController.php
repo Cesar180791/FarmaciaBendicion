@@ -8,7 +8,7 @@ use App\Models\Product;
 use Livewire\withPagination; //trait paginacion
 use Illuminate\Support\Str;
 
-class ProductsController extends Component
+class ProductsController extends Component 
 {
     use withPagination;
 

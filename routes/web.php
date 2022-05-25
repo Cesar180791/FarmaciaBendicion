@@ -60,7 +60,10 @@ Route::middleware(['auth'])->group(function (){
         Route::get('clientes', ClientesController::class);
         Route::get('kardex-productos', KardexProductosController::class);
 
-       
+        //generar reporte de ventas excel
+        Route::get('control-de-inventario/excel/{id}/{nombreProducto}/{f1}/{f2}', [ExportController::class,'kardex']);
+        Route::get('control-de-inventario/excel/{id}/{nombreProducto}/{f1}', [ExportController::class,'kardex']);
+        Route::get('control-de-inventario/excel/{id}/{nombreProducto}', [ExportController::class,'kardex']);
     });
 
     Route::group(['middleware' => ['role:Administrador||Cajero']], function () {
