@@ -298,7 +298,9 @@ class DescargainventarioController extends Component
                         'costo_unit_existencias_unitarias' => $costo_unitario,
                         'costo_total_existencias' => ($actualizarExistencia->cost * $actualizarExistencia->existencia_caja) + (($actualizarExistencia->cost / $actualizarExistencia->unidades_presentacion) * $actualizarExistencia->existencia_unidad),
                         'id_transaccion' => $descarga->id,
-                        'tipo_movimiento' => 'Descarga'
+                        'tipo_movimiento' => 'Descarga',
+                        'id_transaccion' => $descarga->id,
+                        'detalle_descargas_id' => $descarga->id
                     ]);
                 }
             }

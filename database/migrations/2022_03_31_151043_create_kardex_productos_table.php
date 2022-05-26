@@ -30,6 +30,10 @@ class CreateKardexProductosTable extends Migration
             $table->decimal('costo_total_existencias',10,4);
             $table->integer('id_transaccion');
             $table->enum('tipo_movimiento',['Venta','Compra','Carga','Descarga','Inicio']);
+            $table->foreignId('sale_details_id')->nullable()->constrained();
+            $table->foreignId('detalle_cargas_id')->nullable()->constrained();
+            $table->foreignId('purchase_details_id')->nullable()->constrained();
+            $table->foreignId('detalle_descargas_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

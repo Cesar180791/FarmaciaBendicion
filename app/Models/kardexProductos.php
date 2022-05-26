@@ -24,6 +24,10 @@ class kardexProductos extends Model
         'costo_unit_existencias_unitarias',
         'costo_total_existencias',
         'id_transaccion',
-        'tipo_movimiento'
+        'tipo_movimiento',
+        'sale_details_id',
+        'detalle_cargas_id',
+        'purchase_details_id',
+        'detalle_descargas_id'
     ];
 }

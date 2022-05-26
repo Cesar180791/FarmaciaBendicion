@@ -671,7 +671,8 @@ class ComprasController extends Component
                         'costo_unit_existencias_unitarias' => $costo_unitario,
                         'costo_total_existencias' => ($actualizarExistencia->cost * $actualizarExistencia->existencia_caja) + (($actualizarExistencia->cost / $actualizarExistencia->unidades_presentacion) * $actualizarExistencia->existencia_unidad),
                         'id_transaccion' => $compra->id,
-                        'tipo_movimiento' => 'Compra'
+                        'tipo_movimiento' => 'Compra',
+                        'purchase_details_id' => $compra->id
                     ]);
                 }
             }

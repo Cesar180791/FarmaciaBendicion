@@ -613,7 +613,8 @@ class CargaInventarioController extends Component
                         'costo_unit_existencias_unitarias' => $costo_unitario,
                         'costo_total_existencias' => ($actualizarExistencia->cost * $actualizarExistencia->existencia_caja) + (($actualizarExistencia->cost / $actualizarExistencia->unidades_presentacion) * $actualizarExistencia->existencia_unidad),
                         'id_transaccion' => $carga->id,
-                        'tipo_movimiento' => 'Carga'
+                        'tipo_movimiento' => 'Carga',
+                        'detalle_cargas_id' => $carga->id
                     ]);
 
 

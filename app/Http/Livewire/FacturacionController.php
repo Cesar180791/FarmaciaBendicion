@@ -930,7 +930,8 @@ class FacturacionController extends Component
                             'costo_unit_existencias_unitarias' => $costo_unitario,
                             'costo_total_existencias' => ($product->cost * $product->existencia_caja) + (($product->cost / $product->unidades_presentacion) * $product->existencia_unidad),
                             'id_transaccion' => $sale->id,
-                            'tipo_movimiento' => 'Venta'
+                            'tipo_movimiento' => 'Venta',
+                            'sale_details_id' =>  $sale->id
 
                         ]);
 
