@@ -27,7 +27,7 @@ class FacturacionController extends Component
             $cliente_consumidor_final, $direccion_consumidor_final, 
             $dui_consumidor_final, $lote, $producto, $precio, 
             $id_lote,$descuento, $count = 0, $limitar_cant_producto=0, 
-            $data, $details,$countDetails,$sumDetails, $imprimirfacturaModal;
+            $data, $details,$countDetails,$sumDetails, $imprimirfacturaModal, $buscar_lote;
 
     private $pagination = 5, $pagination2 = 5;
 
@@ -35,6 +35,7 @@ class FacturacionController extends Component
         Cart::clear();
         $this->data = [];
         $this->details = [];
+        $this->buscar_lote = [];
         $this->countDetails=0;
         $this->sumDetails=0;
         $this->pageTitle5 = 'Clientes';
@@ -151,8 +152,114 @@ class FacturacionController extends Component
     protected $listeners = [ 
         'removeItem',
         'saveSale',
-        'clearCart'
+        'clearCart',
+        'scanCode'
     ];
+
+    public function scanCode($barcode, $cant = 1){
+        
+        $producto = Product::where('barCode', $barcode)->first();
+        
+        if($producto == null){
+            $this->emit('scan-not-found','El producto no esta registrado');
+        } else{
+
+            $buscar_lote = Lotes::where([
+                ['products_id', $producto->id],
+                ['estado_lote', 'ACTIVO']
+                ])
+            ->orderBy('caducidad_lote', 'asc')->take(1)
+            ->first();
+
+            if($buscar_lote == null){
+                $this->emit('scan-not-found','La existencia total de lotes esta en el detalle de la factura o ya no hay en existencias');
+                return;
+            }
+
+            if($this->InCart($buscar_lote->id)){
+
+                $exist = Cart::get($buscar_lote->id);
+
+                if($this->tipoPrecio === "UNIDAD"){
+                    if($exist->quantity > $buscar_lote->existencia_lote_unidad){
+                            $buscar_lote->update([
+                                'estado_lote' => 'DESHABILITADO'
+                            ]);
+                    }
+                }
+                if($this->tipoPrecio === "NORMAL" || $this->tipoPrecio === "MAYOREO"){
+                    if($exist->quantity == $buscar_lote->existencia_lote){
+                        $buscar_lote->update([
+                            'estado_lote' => 'DESHABILITADO'
+                        ]);
+                    } else{
+                        $buscar_lote->update([
+                            'estado_lote' => 'ACTIVO'
+                        ]);
+                    }
+                }
+             
+                $this->increaseQty($producto->id, $buscar_lote->id);
+                return;
+
+            } else{
+
+                if($producto->unidades_presentacion > 1){
+                    $this->tipoPrecio  = 'UNIDAD';
+                }else{
+                    $this->tipoPrecio  = 'NORMAL';
+                }
+
+
+                if($this->tipoPrecio === 'NORMAL'){
+                    $precioVenta = $producto->precio_caja;
+                    $cost =  $producto->cost;
+                    $iva_cost =  $producto->iva_cost;
+                    $final_cost =  $producto->final_cost;
+    
+                    if ($buscar_lote->existencia_lote <1 ) {
+                        $this->emit('no-stock', 'Existencias Insuficientes para: ' .$producto->name. ' lote N°: '. $buscar_lote->numero_lote);
+                        return;
+                    }
+                }
+
+                if($this->tipoPrecio === 'UNIDAD'){
+                    $precioVenta = $producto->precio_unidad;
+                    $cost =  $producto->cost / $producto->unidades_presentacion;
+                    $iva_cost =  $producto->iva_cost / $producto->unidades_presentacion;
+                    $final_cost =  $producto->final_cost / $producto->unidades_presentacion;
+    
+                    if ($buscar_lote->existencia_lote_unidad <1 ) {
+                        if($buscar_lote->existencia_lote < 1){
+                            $this->emit('no-stock', 'Stock insuficiente');
+                            return;
+                        }
+                    }
+                }
+
+                Cart::add(
+                    $buscar_lote->id,
+                    $producto->name,
+                    $precioVenta,
+                    $cant,
+                    array(
+                        $cost,
+                        $iva_cost, 
+                        $final_cost, 
+                        $buscar_lote->numero_lote,
+                        $buscar_lote->caducidad_lote,
+                        $producto->id,
+                        $this->tipoPrecio,
+                        $descuento=0
+                    ));
+                    $this->total = Cart::getTotal();
+                    $this->itemsQuantity = Cart::getTotalQuantity();
+                    $this->emit('add-ok');
+                    $this->limitar_cant_producto++;
+            }
+
+        }
+    } 
 
     //con esta funcion se le asiganara el id de transaccion a la variable $transaccionId
     public function validarTipoTransaccion(TiposTransacciones $transaccionId){
@@ -262,10 +369,13 @@ class FacturacionController extends Component
 
     public function InCart($loteId){
         $exist = Cart::get($loteId);
-        if ($exist) 
+
+        if ($exist) {
+            $this->tipoPrecio = $exist->attributes[6];
             return true;
-        else 
+        }else{ 
             return false;
+        }
     }
 
     public function increaseQty($productId, $id_lote, $cant = 1){
@@ -276,7 +386,7 @@ class FacturacionController extends Component
         $exist = Cart::get($id_lote);
         if ($exist)
            $title = 'Cantidad Actualizada';
-       else
+        else
             $title = 'producto Agregado'; 
 
 
@@ -345,6 +455,12 @@ class FacturacionController extends Component
     //por el momento no se usa
     public function decreaseQty($loteId){
         $item = Cart::get($loteId);
+
+        $buscar_lote = Lotes::find($loteId);
+
+        $buscar_lote->update([
+            'estado_lote' => 'ACTIVO'
+        ]);
        
 
         if($item->quantity > 1){
@@ -455,6 +571,13 @@ class FacturacionController extends Component
 
     public function removeItem($productId){
         Cart::remove($productId);
+
+        $buscar_lote = Lotes::find($productId);
+
+        $buscar_lote->update([
+            'estado_lote' => 'ACTIVO'
+        ]);
+
         $this->total = Cart::getTotal();
         $this->itemsQuantity = Cart::getTotalQuantity();
         $this->limitar_cant_producto-=1;
@@ -467,8 +590,16 @@ class FacturacionController extends Component
     }
 
     public function clearCart(){
-        Cart::clear();
 
+        $items = Cart::getContent();
+        foreach($items as $item){
+            $buscar_lote = Lotes::find($item->id);
+            $buscar_lote->update([
+                'estado_lote' => 'ACTIVO'
+            ]);
+        }
+
+        Cart::clear();
         $this->efectivo = 0;
         $this->change = 0;
         $this->total = Cart::getTotal();
@@ -1012,7 +1143,4 @@ class FacturacionController extends Component
                                 $this->imprimirfacturaModal = $idVenta;
                                 $this->emit('show-modal-detalle');
     }
-
-
-
 }

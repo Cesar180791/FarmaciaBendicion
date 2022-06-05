@@ -144,9 +144,12 @@
         <div class="col-xl-12 col-lg-9 col-md-12 col-sm-12 col-12 layout-spacing" id="descuento" wire:ignore.self>
             @include('livewire.facturacion.partials.modal_descuento')
         </div>
-
+        <script src="{{ asset('js/onscan.js') }}"></script>
         @include('livewire.facturacion.partials.ver_productos_factura_modal')
+        @include('livewire.facturacion.partials.scan')
     </div>
+
+   
     
     <style>
         .my-custom-scrollbar {
@@ -342,6 +345,14 @@
             });
 
             window.livewire.on('maximo-producto-factura', msg => {
+                swal({
+                    title: 'Advertencia',
+                    text: msg,
+                    type: 'warning',
+                })
+            });
+
+            window.livewire.on('scan-not-found', msg => {
                 swal({
                     title: 'Advertencia',
                     text: msg,

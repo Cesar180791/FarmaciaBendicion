@@ -141,7 +141,7 @@
                                         </svg>
                                     </a>
 
-                                    <a href="javascript:void(0)" wire:click.prevent="decreaseQty({{$item->id}})"
+                                    <a href="javascript:void(0)" wire:click="decreaseQty({{$item->id}})"
                                         title="Restar Producto">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -214,7 +214,7 @@
                                         class="form-control text-center" value="{{$item->quantity}}">
                                 </td>
                                 <td>
-                                    <p>{{$item->name}} {{$item->attributes[6]}}</p>
+                                    <p>{{$item->name}} {{$item->attributes[6]}} - Lote: {{$item->attributes[3]}}</p>
                                 </td>
                                 <td class="text-center">
                                     ${{number_format($item->price,4)}}
