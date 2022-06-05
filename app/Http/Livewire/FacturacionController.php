@@ -181,7 +181,8 @@ class FacturacionController extends Component
                 $exist = Cart::get($buscar_lote->id);
 
                 if($this->tipoPrecio === "UNIDAD"){
-                    if($exist->quantity > $buscar_lote->existencia_lote_unidad){
+					 
+                    if($exist->quantity >= $buscar_lote->existencia_lote_unidad){
                             $buscar_lote->update([
                                 'estado_lote' => 'DESHABILITADO'
                             ]);
