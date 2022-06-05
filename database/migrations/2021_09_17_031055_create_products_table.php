@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name',255);
             $table->string('chemical_component',100);
-            $table->string('barCode',25)->nullable();
+            $table->string('barCode',25)->nullable()->unique();
             $table->string('Numero_registro',25);
             $table->string('laboratory');
             $table->decimal('cost',10,4);

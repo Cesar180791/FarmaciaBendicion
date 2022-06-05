@@ -62,7 +62,7 @@ class KardexExport implements
             ->where('kardex_productos.products_id', $this->id)->get();
         }
 
-        $this->countFilas = count($data);
+        $this->countFilas = count($data) + 10;
 
         return $data;
 
@@ -134,8 +134,8 @@ class KardexExport implements
             "F8" => ['font' => ['bold' => true], 'alignment' => ['horizontal' => 'center']],
             "I8" => ['font' => ['bold' => true], 'alignment' => ['horizontal' => 'center']],
             "A9:N9" => ['font' => ['bold' => true], 'alignment' => ['horizontal' => 'center']],
-            "A10:A".$this->countFilas + 10 => ['font' => ['bold' => false], 'alignment' => ['horizontal' => 'center']],
-            "B10:B".$this->countFilas + 10 => ['font' => ['bold' => false], 'alignment' => ['horizontal' => 'justify']],
+            "A10:A".$this->countFilas  => ['font' => ['bold' => false], 'alignment' => ['horizontal' => 'center']],
+            "B10:B".$this->countFilas  => ['font' => ['bold' => false], 'alignment' => ['horizontal' => 'justify']],
 
         ];
     }
