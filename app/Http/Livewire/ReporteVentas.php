@@ -26,7 +26,7 @@ class ReporteVentas extends Component
         return 'vendor.livewire.bootstrap';
     }
 
-    public function updatingSearch(){
+    public function updatingSearch(){ 
         $this->resetPage();
     }
     

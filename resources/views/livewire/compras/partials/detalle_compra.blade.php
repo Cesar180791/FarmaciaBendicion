@@ -9,6 +9,7 @@
                 </div> 
                 <a class="btn fondoNegro text-white mbmobile mb-4" id="buscarbtn"><b>Buscar F1</b></a>
                 <a class="btn fondoNegro text-white mbmobile mb-4" data-toggle="modal" data-target="#theModal"><b>Nuevo Producto</b></a>
+                <a class="btn fondoNegro text-white mbmobile mb-4" id="ver-compras"><b><i class="fa-solid fa-eye"></i> Ver Compras</b></a>
                 @if(count($cart)==0)
                 <div class="alert alert-danger">No hay productos agregados a la compra</div>
                 @else

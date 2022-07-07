@@ -18,6 +18,9 @@
         <div class="col-sm-12" id="nuevo-lote" wire:ignore.self>
             @include('livewire.compras.partials.crear_lote')
         </div>
+        <div class="col-sm-12" id="historial-compras" wire:ignore.self>
+            @include('livewire.compras.partials.ver-compras')
+        </div>
     </div>
 <script src="{{ asset('js/keypress.js') }}"></script>
 @include('livewire.compras.partials.shortcuts')
@@ -26,37 +29,50 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function(){
+        $('#historial-compras').hide();
         $('#datos-generales').hide();
         $('#listar-productos').hide();
         $('#nuevo-lote').hide();
         $('#lotes').hide();
+
+        $('#ver-compras').on("click", function () {
+            $('#detalle-compra').hide();
+            $('#garantias').hide();
+            $('#historial-compras').show();
+        });
       
         $('#buscarbtn').on("click", function () {
-        $('#detalle-compra').hide(); 
-        $('#listar-productos').show();
-        $('#garantias').hide();
+            $('#detalle-compra').hide(); 
+            $('#listar-productos').show();
+            $('#garantias').hide();
         });
 
         $('#regresar').on("click", function () {
-        $('#detalle-compra').show(); 
-        $('#listar-productos').hide();
-        $('#garantias').show();
+            $('#detalle-compra').show(); 
+            $('#listar-productos').hide();
+            $('#garantias').show();
         });
 
         $('#regresar2').on("click", function () {
-        $('#lotes').hide(); 
-        $('#listar-productos').show();
+            $('#lotes').hide(); 
+            $('#listar-productos').show();
         });
 
         $('#regresar3').on("click", function () {
-        $('#lotes').show(); 
-        $('#nuevo-lote').hide();
+            $('#lotes').show(); 
+            $('#nuevo-lote').hide();
         });
 
         $('#regresar4').on("click", function () {
-        $('#datos-generales').hide();
-        $('#detalle-compra').show();
-        $('#garantias').show();
+            $('#datos-generales').hide();
+            $('#detalle-compra').show();
+            $('#garantias').show();
+        });
+
+        $('#regresar5').on("click", function () {
+            $('#garantias').show();
+            $('#detalle-compra').show();
+            $('#historial-compras').hide();
         });
 
        

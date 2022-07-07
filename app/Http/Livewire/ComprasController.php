@@ -11,8 +11,10 @@ use App\Models\PoliticasGarantias;
 use App\Models\SubCategory;
 use App\Models\Lotes;
 use App\Models\kardexProductos;
+use App\Models\User;
 use Livewire\withPagination;
 use Darryldecode\Cart\Facades\CartFacade as Cart; 
+use Carbon\Carbon;
 use DB;
 
 class ComprasController extends Component
@@ -25,10 +27,10 @@ class ComprasController extends Component
     $caducidad_lote, $politicas_garantias_id, $existencia_lote_unidad,
     $Numero_registro, $laboratory, $chemical_component, $name, $barCode,
     $cost, $price, $subCategoryId, $precio_caja, $precio_mayoreo, $precio_unidad, 
-    $unidades_presentacion,$selected_id;
+    $unidades_presentacion,$selected_id, $dateFrom, $dateTo, $userId;
 
 
-    private $pagination = 5, $paginate2 = 5;
+    private $pagination = 5, $paginate2 = 5, $pagination3 = 10;
 
     public function mount(){
         Cart::clear();
@@ -42,6 +44,7 @@ class ComprasController extends Component
         $this->componentName = 'Compras';
         $this->total = Cart::getTotal();
         $this->itemsQuantity = Cart::getTotalQuantity();
+        $this->userId=0;
     }
 
     public function paginationView(){
@@ -57,8 +60,24 @@ class ComprasController extends Component
         $this->resetPage('lotes-page');
     }
 
+    public function updatingSearch3()
+    {
+        $this->resetPage('compras-page');
+    }
+
     public function render()
     {
+        //Inicio armar fecha para filtrar las Compras
+        if($this->dateFrom == null && $this->dateTo == null || $this->dateFrom == '' && $this->dateTo == ''){
+            $from = Carbon::parse(Carbon::now())->format('Y-m-d') . ' 00:00:00';
+            $to = Carbon::parse(Carbon::now())->format('Y-m-d') . ' 23:59:59';
+       }else{
+           $from = Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00';
+           $to = Carbon::parse($this->dateTo)->format('Y-m-d') . ' 23:59:59';
+       }
+       //Fin armar fecha para filtrar las Compras
+
+        //Inicio Seteando Variables de Interes
         if ($this->cost == null) {
             $this->cost = 0;
             $this->iva_cost = 0;
@@ -79,7 +98,7 @@ class ComprasController extends Component
         if ($this->unidades_presentacion == null || $this->unidades_presentacion == 0) {
             $this->unidades_presentacion=1;
         }
-
+        //Fin Seteando Variables de Interes
 
         //id de lote se almacena en $idBuscarProducto y cambia mediante la funcion asignarIdBusquedaProducto()
         if (strlen($this->search2) > 0)
@@ -107,8 +126,6 @@ class ComprasController extends Component
                        $this->idProducto = $this->idBuscarProducto;
 
 
-
-
         if (strlen($this->search) > 0)
         $products = Product::join('sub_categories as c','c.id','products.sub_category_id')
                         ->select('products.*','c.name as sub_category')
@@ -121,19 +138,35 @@ class ComprasController extends Component
                         ->orderBy('products.name','asc')
                         ->paginate($this->pagination);
         else
-         $products = Product::join('sub_categories as c','c.id','products.sub_category_id')
+        $products = Product::join('sub_categories as c','c.id','products.sub_category_id')
                         ->select('products.*','c.name as sub_category')
                         ->orderBy('products.name','asc')
                         ->paginate($this->pagination);
+        
+        if ($this->userId == 0) {
+            $data = Purchase::join('proveedores as p','p.id','purchases.proveedores_id')
+            ->join('users as u', 'u.id', 'purchases.users_id')
+            ->select('purchases.id as compra_id','purchases.created_at','purchases.total','purchases.item','purchases.factura','p.nombre_proveedor','u.name as usuario')
+            ->whereBetween('purchases.created_at',[$from,$to])
+            ->orderBy('purchases.created_at','desc')->paginate($this->pagination3, ['*'], 'compras-page');
+        } else {
+            $data = Purchase::join('proveedores as p','p.id','purchases.proveedores_id')
+            ->join('users as u', 'u.id', 'purchases.users_id')
+            ->select('purchases.id as compra_id','purchases.created_at','purchases.total','purchases.item','purchases.factura','p.nombre_proveedor','u.name as usuario','u.id')
+            ->whereBetween('purchases.created_at',[$from,$to])
+            ->where('u.id', $this->userId)
+            ->orderBy('purchases.created_at','desc')->paginate($this->pagination3, ['*'], 'compras-page');
+        }
 
- 
         return view('livewire.compras.compras',[
-            'products'      =>  $products,
-            'lotes'         =>  $lotes,
+            'data'              =>  $data,
+            'products'          =>  $products,
+            'lotes'             =>  $lotes,
             'sub_categories'    =>  SubCategory::orderBy('name','asc')->get(),
-            'cart'          =>  Cart::getContent()->sortBy('id'),
-            'proveedores'   =>  Proveedores::orderBy('nombre_proveedor', 'asc')->where('estado_proveedor', 'ACTIVO')->get(),
-            'politicas'     =>  PoliticasGarantias::orderBy('id', 'asc')->get()
+            'cart'              =>  Cart::getContent()->sortBy('id'),
+            'proveedores'       =>  Proveedores::orderBy('nombre_proveedor', 'asc')->where('estado_proveedor', 'ACTIVO')->get(),
+            'politicas'         =>  PoliticasGarantias::orderBy('id', 'asc')->get(),
+            'users'             =>  User::orderBy('name','asc')->get()
         ])->extends('layouts.theme.app')
         ->section('content');
     }
