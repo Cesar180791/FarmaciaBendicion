@@ -70,7 +70,7 @@ class ProductsController extends Component
 
         return view('livewire.product.products', [
             'products'          =>  $products,
-            'sub_categories'    =>  SubCategory::orderBy('name','asc')->get(),
+            'sub_categories'    =>  SubCategory::orderBy('name','asc')->get(), 
         ])
         ->extends('layouts.theme.app')
         ->section('content');

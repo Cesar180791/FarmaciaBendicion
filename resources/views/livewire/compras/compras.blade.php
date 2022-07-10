@@ -22,6 +22,8 @@
             @include('livewire.compras.partials.ver-compras')
         </div>
     </div>
+
+    @include('livewire.compras.partials.modal-ver-detalle')
 <script src="{{ asset('js/keypress.js') }}"></script>
 @include('livewire.compras.partials.shortcuts')
 @include('livewire.compras.partials.form')
@@ -73,6 +75,10 @@
             $('#garantias').show();
             $('#detalle-compra').show();
             $('#historial-compras').hide();
+        });
+
+        window.livewire.on('show-modal', msg=>{
+            $('#theModalDetalleCompra').modal('show');
         });
 
        

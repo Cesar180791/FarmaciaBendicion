@@ -27,7 +27,8 @@ class ComprasController extends Component
     $caducidad_lote, $politicas_garantias_id, $existencia_lote_unidad,
     $Numero_registro, $laboratory, $chemical_component, $name, $barCode,
     $cost, $price, $subCategoryId, $precio_caja, $precio_mayoreo, $precio_unidad, 
-    $unidades_presentacion,$selected_id, $dateFrom, $dateTo, $userId;
+    $unidades_presentacion,$selected_id, $dateFrom, $dateTo, $userId, $detalle_compra,
+    $totalQuantityDetalles, $totalCostoDetalles, $totalDetalle;
 
 
     private $pagination = 5, $paginate2 = 5, $pagination3 = 10;
@@ -45,6 +46,10 @@ class ComprasController extends Component
         $this->total = Cart::getTotal();
         $this->itemsQuantity = Cart::getTotalQuantity();
         $this->userId=0;
+        $this->detalle_compra = [];
+        $this->totalQuantityDetalles = 0;
+        $this->totalCostoDetalles = 0;
+        $this->totalDetalle = 0;
     }
 
     public function paginationView(){
@@ -173,7 +178,8 @@ class ComprasController extends Component
 
     protected $listeners = [ 
         'removeItem',
-        'lote-registrado' => '$refresh'
+        'lote-registrado' => '$refresh',
+        'deleteCompra'
     ];
 
     public function Store(){
@@ -231,13 +237,11 @@ class ComprasController extends Component
         $this->emit('ver-lotes','Ver lotes del producto seleccionado');
     }
 
-
     public function nuevoLote(Product $idProduct){
         $this->producto = $idProduct->name;
         $this->idProducto = $idProduct->id;
         $this->emit('crear-lote','El Producto ha sido agregado');
     }
-
 
     public function crearLote(){
         $rules = [
@@ -308,8 +312,6 @@ class ComprasController extends Component
          $this->emit('lote-actualizado','Producto Actualizado Correctamente');
 
     }
-
-
 
     public function addItem($id, $id_lote, $cant = 1){
 
@@ -531,7 +533,6 @@ class ComprasController extends Component
             }
     }
 
-
     public function validarCampos(){
         $items = Cart::getContent();
         foreach($items as $item){
@@ -721,7 +722,47 @@ class ComprasController extends Component
         }   
     }
 
+    public function deleteCompra($compra_id){
+        //compra
+        $compra = Purchase::find($compra_id);
+        //detalle de compra
+        $detalles = PurchaseDetail::where('purchases_id', $compra->id)->get();
 
+        foreach($detalles as $detalle){
+            dd($detalle);
+        }
+
+        //$detalles->each->delete();
+        //$compra->delete();
+        //dd($detalle);
+    }
+
+
+    public function getDetails($compra_id){
+        $this->detalle_compra = PurchaseDetail::join('politicas_garantias as pg','pg.id','purchase_details.politicas_garantias_id')
+        ->join('lotes as l','l.id','purchase_details.lotes_id')
+        ->join('products as p','p.id','l.products_id')
+        ->where('purchase_details.purchases_id', $compra_id)
+        ->select('purchase_details.id as id_detalle','purchase_details.quantity','purchase_details.costo',
+        'purchase_details.costo_iva','purchase_details.costo_mas_iva','purchase_details.precio_venta',
+        'purchase_details.precio_venta_mayoreo','purchase_details.precio_venta_unidad','pg.meses as garantia_meses',
+        'l.numero_lote','l.caducidad_lote','p.name as producto')
+        ->get();
+
+        $this->totalQuantityDetalles = $this->detalle_compra->sum('quantity');
+        $this->totalCostoDetalles = $this->detalle_compra->sum('costo');
+
+        $totalCosto = $this->detalle_compra->sum(function($item){
+            return $item->quantity * $item->costo;
+        });
+
+        $this->totalDetalle = $totalCosto; 
+
+        $this->emit('show-modal');
+
+
+        //dd($this->detalle_compra);
+    }
 
     public function resetUI(){
         $this->descripcion_lote = '';

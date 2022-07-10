@@ -84,7 +84,7 @@ class ReporteVentas extends Component
         
 
         //dd($data3);
-        return view('livewire.reporte-ventas.reporte-ventas',[
+        return view('livewire.reporte-ventas.reporte-ventas',[ 
             'data' => $data,
             'users' => User::orderBy('name','asc')->get()
         ])
