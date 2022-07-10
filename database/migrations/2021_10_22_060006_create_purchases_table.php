@@ -16,7 +16,7 @@ class CreatePurchasesTable extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->date('fecha_compra');
-            $table->decimal('total',10,2);
+            $table->decimal('total',10,4);
             $table->integer('item');
             $table->string('descripcion_lote',150)->nullable();
             $table->string('factura')->unique();

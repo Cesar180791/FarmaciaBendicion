@@ -92,7 +92,7 @@
                                 <p>{{\Carbon\Carbon::parse($compra->created_at)->format('M d, Y h:i A')}}</p>
                             </td>
                             <td class="text-center">
-                                <p>Con IVA: ${{number_format($compra->total,4)}} <br> Sin IVA ${{number_format($compra->total/1.13,4)}}</p>
+                                <p>${{number_format($compra->total,4)}}</p>
                             </td>
                             <td class="text-center">
                                 <p>{{$compra->item}}</p>

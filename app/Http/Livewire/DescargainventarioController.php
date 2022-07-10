@@ -288,7 +288,7 @@ class DescargainventarioController extends Component
 
                     kardexProductos::create([
                         'products_id' => $item->attributes[9],
-                        'concepto' => "Descarga de Inventario Identificador: " . $descarga->id,
+                        'concepto' => "Descarga de Inventario Identificador: " . $detalle->id,
                         'cantidad_salida' => $item->quantity,
                         'costo_unit_salida' => $item->attributes[0],
                         'costo_total_salida' => $item->attributes[0] * $item->quantity,
@@ -299,8 +299,8 @@ class DescargainventarioController extends Component
                         'costo_total_existencias' => ($actualizarExistencia->cost * $actualizarExistencia->existencia_caja) + (($actualizarExistencia->cost / $actualizarExistencia->unidades_presentacion) * $actualizarExistencia->existencia_unidad),
                         'id_transaccion' => $descarga->id,
                         'tipo_movimiento' => 'Descarga',
-                        'id_transaccion' => $descarga->id,
-                        'detalle_descargas_id' => $descarga->id
+                        //'id_transaccion' => $descarga->id,
+                        'detalle_descargas_id' => $detalle->id
                     ]);
                 }
             }

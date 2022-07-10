@@ -17,12 +17,12 @@ class CreatePurchaseDetailsTable extends Migration
             $table->id();
             $table->foreignId('purchases_id')->constrained();
             $table->foreignId('lotes_id')->constrained();
-            $table->decimal('costo',10,2);
-            $table->decimal('costo_iva',10,2);
-            $table->decimal('costo_mas_iva',10,2);
-            $table->decimal('precio_venta',10,2);
-            $table->decimal('precio_venta_mayoreo',10,2);
-            $table->decimal('precio_venta_unidad',10,2)->nullable(); 
+            $table->decimal('costo',10,4);
+            $table->decimal('costo_iva',10,4);
+            $table->decimal('costo_mas_iva',10,4);
+            $table->decimal('precio_venta',10,4);
+            $table->decimal('precio_venta_mayoreo',10,4);
+            $table->decimal('precio_venta_unidad',10,4)->nullable(); 
             $table->integer('quantity');
             $table->timestamps();
         });

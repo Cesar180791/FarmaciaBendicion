@@ -970,7 +970,7 @@ class FacturacionController extends Component
                     $precio_venta = $item->price / 1.13;
                     $iva_precio_venta = $item->price - $precio_venta;
                     
-                    SaleDetails::create([
+                    $detalle = SaleDetails::create([
                         'lotes_id' => $item->id,
                         'sale_id' => $sale->id,
                         'tipo_venta' => $item->attributes[6],
@@ -1063,7 +1063,7 @@ class FacturacionController extends Component
                             'costo_total_existencias' => ($product->cost * $product->existencia_caja) + (($product->cost / $product->unidades_presentacion) * $product->existencia_unidad),
                             'id_transaccion' => $sale->id,
                             'tipo_movimiento' => 'Venta',
-                            'sale_details_id' =>  $sale->id
+                            'sale_details_id' =>  $detalle->id
 
                         ]);
 

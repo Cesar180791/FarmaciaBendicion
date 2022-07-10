@@ -603,7 +603,7 @@ class CargaInventarioController extends Component
 
                     kardexProductos::create([
                         'products_id' => $item->attributes[8],
-                        'concepto' => "Carga de Inventario Identificador: " . $carga->id,
+                        'concepto' => "Carga de Inventario Identificador: " . $detalle->id,
                         'cantidad_entrada' => $item->quantity,
                         'costo_unit_entrada' => $item->attributes[0],
                         'costo_total_entrada' => $item->attributes[0] * $item->quantity,
@@ -614,7 +614,7 @@ class CargaInventarioController extends Component
                         'costo_total_existencias' => ($actualizarExistencia->cost * $actualizarExistencia->existencia_caja) + (($actualizarExistencia->cost / $actualizarExistencia->unidades_presentacion) * $actualizarExistencia->existencia_unidad),
                         'id_transaccion' => $carga->id,
                         'tipo_movimiento' => 'Carga',
-                        'detalle_cargas_id' => $carga->id
+                        'detalle_cargas_id' => $detalle->id
                     ]);
 
 

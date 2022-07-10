@@ -334,7 +334,7 @@ class ComprasController extends Component
             Cart::add(
                 $buscar_lote->id,
                 $product->name,
-                $product->final_cost, 
+                $product->cost, 
                 $cant,
                 array(
                     $product->cost,
@@ -706,7 +706,7 @@ class ComprasController extends Component
                         'costo_total_existencias' => ($actualizarExistencia->cost * $actualizarExistencia->existencia_caja) + (($actualizarExistencia->cost / $actualizarExistencia->unidades_presentacion) * $actualizarExistencia->existencia_unidad),
                         'id_transaccion' => $compra->id,
                         'tipo_movimiento' => 'Compra',
-                        'purchase_details_id' => $compra->id
+                        'purchase_details_id' => $detalle->id
                     ]);
                 }
             }
@@ -736,7 +736,6 @@ class ComprasController extends Component
         //$compra->delete();
         //dd($detalle);
     }
-
 
     public function getDetails($compra_id){
         $this->detalle_compra = PurchaseDetail::join('politicas_garantias as pg','pg.id','purchase_details.politicas_garantias_id')
