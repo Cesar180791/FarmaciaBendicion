@@ -19,10 +19,10 @@ class CreateSalesTable extends Migration
             $table->string('cliente_consumidor_final',150)->nullable();
             $table->string('direccion_consumidor_final',150)->nullable();
             $table->string('dui_consumidor_final',150)->nullable();
-            $table->decimal('total',10,2);
+            $table->decimal('total',10,4);
             $table->integer('items');
-            $table->decimal('cash',10,2);
-            $table->decimal('change',10,2);
+            $table->decimal('cash',10,4);
+            $table->decimal('change',10,4);
             $table->string('numero_factura')->nullable();
             $table->enum('status',['PAID','PENDING','CANCELLED'])->default('PAID');
             $table->foreignId('clientes_id')->constrained()->nullable();
