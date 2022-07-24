@@ -11,9 +11,11 @@
                                     <h6 class="text-primary"><b>Total: ${{number_format($total,2)}}</b></h6>
                                     <h6 class="">Cambio: ${{number_format($change,2)}}
                                         @if ($efectivo > $total)
-                                        <span class="spinner-grow text-success align-self-center loader-sm">Loading...</span>
+                                        <span
+                                            class="spinner-grow text-success align-self-center loader-sm">Loading...</span>
                                         @endif
-                                    </h6><hr>
+                                    </h6>
+                                    <hr>
                                     <h6 class="mt-3">Articulos: {{$itemsQuantity}}</h6>
                                     <h6>Numero de filas: {{$limitar_cant_producto}}</h6>
                                     <input type="hidden" id="hiddenTotal" value="{{$total}}">
@@ -52,9 +54,17 @@
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-6">
                                     @if($efectivo >= $total && $total > 0)
+
+                                    @if($facturas=== null)
+
+
+                                    <h6 class="text-danger"><b>Agregar Factura</b></h6>
+
+                                    @else
                                     <button wire:click="saveSale" class="btn btn-dark btn-block">
                                         Facturar
                                     </button>
+                                    @endif
                                     @endif
                                 </div>
                             </div>

@@ -54,7 +54,7 @@
                         @error('direccion_consumidor_final') <span class="text-danger er">{{ $message }}</span>
                         @enderror
                     </div>
-                   
+
                     <div class="col-sm-12 col-md-4 mt-2">
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -68,30 +68,35 @@
                         @error('dui_consumidor_final') <span class="text-danger er">{{ $message }}</span> @enderror
                     </div>
 
+                    @if($facturas=== null)
+
                     <div class="col-sm-12 col-md-4 mt-2">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text input-gp bg-dark">
-                                    <i class="fas fa-file-invoice-dollar"></i>
-                                </span>
-                            </div>
-                            <input type="text" wire:model.lazy="numero_factura" class="form-control"
-                                placeholder="Numero Factura Consumidor Final">
-                        </div>
-                        @error('numero_factura') <span class="text-danger er">{{ $message }}</span> @enderror
+                        <a href="javascript:void(0)" class="tabmenu btn fondoNegro text-white btn-block" data-toggle="modal"
+                            data-target="#theModalFacturas"><b>Agregar N° factura</b></a>
+                    </div>
+                    @else
+                    <div class="col-sm-12 col-md-4 mt-2">
+                        <h6 class="text-success"><b>N° Factura configurado: {{$facturas->numero_factura_inicial}}</b></h6>
+                        <h6 class="text-success"><b>Siguiente N° Factura: {{$facturas->numero_factura_correlativo}}</b></h6>
                     </div>
 
+                    <div class="col-sm-12 col-md-4 mt-2">
+                        <a href="javascript:void(0)" class="tabmenu btn fondoNegro text-white btn-block" wire:click="changeFactura({{$facturas->id}})"><b>Cambiar N° factura</b></a>
+                    </div>
                     @endif
-                    <div class="col-sm-12 col-md-2 mt-2 d-flex">
-                        <a wire:click.prevent="resetUI()" class="btn btn-danger mbmobile mb-4 btn-block" id="btn-regresar"><b><i
-                                    class="fas fa-arrow-left"></i></b></a>
-                    </div>
+                    @endif
 
                     <div class="col-sm-12 col-md-2 mt-2 d-flex">
-                        <a class="btn btn-dark mbmobile mb-4 btn-block" id="btn-buscar"><b><i class="fas fa-search-plus"></i>
+                        <a class="btn fondoNegro text-white mbmobile mb-4 btn-block" id="btn-buscar"><b><i
+                                    class="fas fa-search-plus"></i>
                                 Buscar</b></a>
                     </div>
-                   
+
+                    <div class="col-sm-12 col-md-2 mt-2 d-flex">
+                        <a wire:click.prevent="resetUI()" class="btn btn-danger mbmobile mb-4 btn-block"
+                            id="btn-regresar"><b><i class="fas fa-arrow-left"></i></b></a>
+                    </div>
+
 
 
                 </div>
@@ -225,7 +230,7 @@
                                 <td class="text-center">
                                     <p>{{$item->attributes[3]}}</p>
                                 </td>
-                              
+
                             </tr>
                             @endforeach
                         </tbody>
@@ -254,4 +259,5 @@
             </div>
         </div>
     </div>
+    @include('livewire.facturacion.partials.modal_edit_and_create_n_facturas')
 </div>

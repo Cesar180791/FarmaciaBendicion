@@ -298,7 +298,7 @@ namespace App\Models{
  * App\Models\PoliticasGarantias
  *
  * @property int $id
- * @property int $meses
+ * @property string $meses
  * @property string $concepto
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -479,7 +479,7 @@ namespace App\Models{
  * @property string $change
  * @property string|null $numero_factura
  * @property string $status
- * @property int $clientes_id
+ * @property int|null $clientes_id
  * @property int $tipos_transacciones_id
  * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -634,5 +634,71 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
 	class User extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\kardexProductos
+ *
+ * @property int $id
+ * @property int $products_id
+ * @property string $concepto
+ * @property int|null $cantidad_entrada
+ * @property string|null $costo_unit_entrada
+ * @property string|null $costo_total_entrada
+ * @property int|null $cantidad_salida
+ * @property string|null $costo_unit_salida
+ * @property string|null $costo_total_salida
+ * @property int $cantidad_existencias_ppal
+ * @property int $cantidad_existencias_unitarias
+ * @property string $costo_unit_existencias_ppal
+ * @property string $costo_unit_existencias_unitarias
+ * @property string $costo_total_existencias
+ * @property int $id_transaccion
+ * @property string $tipo_movimiento
+ * @property int|null $sale_details_id
+ * @property int|null $detalle_cargas_id
+ * @property int|null $purchase_details_id
+ * @property int|null $detalle_descargas_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos query()
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereCantidadEntrada($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereCantidadExistenciasPpal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereCantidadExistenciasUnitarias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereCantidadSalida($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereConcepto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereCostoTotalEntrada($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereCostoTotalExistencias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereCostoTotalSalida($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereCostoUnitEntrada($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereCostoUnitExistenciasPpal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereCostoUnitExistenciasUnitarias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereCostoUnitSalida($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereDetalleCargasId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereDetalleDescargasId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereIdTransaccion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereProductsId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos wherePurchaseDetailsId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereSaleDetailsId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereTipoMovimiento($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kardexProductos whereUpdatedAt($value)
+ */
+	class kardexProductos extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\n_facturas
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|n_facturas newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|n_facturas newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|n_facturas query()
+ */
+	class n_facturas extends \Eloquent {}
 }
 

@@ -11,6 +11,7 @@ use App\Models\Sale;
 use App\Models\SaleDetails;
 use App\Models\Denomination;
 use App\Models\kardexProductos;
+use App\Models\n_facturas;
 use Livewire\withPagination;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 use Carbon\Carbon;
@@ -27,7 +28,7 @@ class FacturacionController extends Component
             $cliente_consumidor_final, $direccion_consumidor_final, 
             $dui_consumidor_final, $lote, $producto, $precio, 
             $id_lote,$descuento, $count = 0, $limitar_cant_producto=0, 
-            $data, $details,$countDetails,$sumDetails, $imprimirfacturaModal, $buscar_lote;
+            $data, $details,$countDetails,$sumDetails, $imprimirfacturaModal, $buscar_lote, $id_factura, $numero_factura_inicial;
 
     private $pagination = 5, $pagination2 = 5;
 
@@ -138,7 +139,12 @@ class FacturacionController extends Component
                         ->where('estado','ACTIVO')
                         ->paginate($this->pagination);
 
+
+        $facturas  = n_facturas::where('user_id', auth()->user()->id)->first();
+       //dd($facturas);
+
         return view('livewire.facturacion.facturacion',[
+            'facturas'      =>  $facturas,
             'products'      =>  $products,
             'Clientes'      =>  $data,
             'transacciones' =>  TiposTransacciones::orderBy('id', 'asc')->get(),
@@ -155,6 +161,61 @@ class FacturacionController extends Component
         'clearCart',
         'scanCode'
     ];
+
+    public function StoreFactura(){
+        $rules = [
+            'numero_factura_inicial'    =>  'required|int',
+        ];
+
+        $messages = [
+            'numero_factura_inicial.required'   => 'El N° de factura es requerido',
+            'numero_factura_inicial.int'   => 'El N° de factura debe ser un numero entero',
+        ];
+
+        $this->validate($rules, $messages);
+
+        n_facturas::create([
+            'user_id'    =>  auth()->user()->id,
+            'numero_factura_inicial' =>  $this->numero_factura_inicial,
+            'numero_factura_correlativo' =>  $this->numero_factura_inicial,
+        ]);
+
+        //$this->resetUI();
+        $this->emit('factura-add');
+
+
+    }
+
+
+    public function changeFactura(n_facturas $factura){
+        $this->id_factura = $factura->id;
+        $this->numero_factura_inicial = $factura->numero_factura_inicial;
+
+        $this->emit("show-factura");
+    }
+
+    public function UpdateFactura(){
+        $rules = [
+            'numero_factura_inicial'    =>  'required|int',
+        ];
+
+        $messages = [
+            'numero_factura_inicial.required'   => 'El N° de factura es requerido',
+            'numero_factura_inicial.int'   => 'El N° de factura debe ser un numero entero',
+        ];
+
+        $this->validate($rules, $messages);
+
+        $factura = n_facturas::find($this->id_factura);
+        $factura->update([
+            'numero_factura_inicial' =>  $this->numero_factura_inicial,
+            'numero_factura_correlativo' =>  $this->numero_factura_inicial,
+        ]);
+
+        $this->numero_factura_inicial = '';
+        $this->emit('factura-update');
+    }
+
 
     public function scanCode($barcode, $cant = 1){
         
@@ -858,7 +919,7 @@ class FacturacionController extends Component
                         //'cliente_consumidor_final'    =>  'required|min:3|max:150',
                         //'direccion_consumidor_final'    =>  'required|min:3|max:150',
                         'dui_consumidor_final'    =>  'required|min:10|max:10',
-                        'numero_factura'    =>  'required|min:3',
+                        //'numero_factura'    =>  'required|min:3',
                     ];
             
                     $messages = [
@@ -871,11 +932,11 @@ class FacturacionController extends Component
                         'dui_consumidor_final.required'         => 'Compra mayor a $100 Dui es requerido',    
                         'dui_consumidor_final.min'              => 'DUI cliente debe tener al menos 10 caracteres',  
                         'dui_consumidor_final.max'              => 'DUI cliente debe tener al max 10 caracteres',
-                        'numero_factura.required'   => 'Numero de factura es requerido',    
-                        'numero_factura.min'        => 'El numero de factura debe tener al menos 3 caracteres',           
+                        //'numero_factura.required'   => 'Numero de factura es requerido',    
+                        //'numero_factura.min'        => 'El numero de factura debe tener al menos 3 caracteres',           
                     ];
                     $this->validate($rules, $messages);
-                } else{
+                } /*else{
 
                     $rules = [
                         'numero_factura'    =>  'required|min:3',
@@ -886,7 +947,9 @@ class FacturacionController extends Component
                         'numero_factura.min'        => 'El numero de factura debe tener al menos 3 caracteres',           
                     ];
                     $this->validate($rules, $messages);
-                }
+                }*/
+                
+                $facturas  = n_facturas::where('user_id', auth()->user()->id)->first();
 
                 if($this->cliente_consumidor_final == null){
                     $this->cliente_consumidor_final = 'Clientes Varios';
@@ -903,10 +966,17 @@ class FacturacionController extends Component
                     'items'                         =>  $this->itemsQuantity,
                     'cash'                          =>  $this->efectivo,
                     'change'                        =>  $this->change,
-                    'numero_factura'                =>  $this->numero_factura,
+                    'numero_factura'                =>  $facturas->numero_factura_correlativo,
                     'tipos_transacciones_id'        =>  $this->transaccionId,
                     'user_id'                       =>  auth()->user()->id
                 ]);
+
+                $newCorrelativo = $facturas->numero_factura_correlativo + 1;
+                
+                $facturas ->update([
+                    'numero_factura_correlativo' => $newCorrelativo
+                ]);
+
             }
             if ($this->transaccionId === 2) {
 
@@ -1039,9 +1109,11 @@ class FacturacionController extends Component
 
                     if ($this->transaccionId === 1 ) {
                         $tipoVenta = "Consumidor Final";
+                        $factura = $facturas->numero_factura_correlativo ;
                     }
                     if ($this->transaccionId === 2) {
                        $tipoVenta = "Credito Fiscal";
+                       $factura = $this->numero_factura ;
                     }
 
                     if($product->unidades_presentacion == 1){
@@ -1052,7 +1124,7 @@ class FacturacionController extends Component
 
                     kardexProductos::create([
                             'products_id' => $item->attributes[5],
-                            'concepto' => "Venta " . $tipoVenta . ' Factura N° : ' . $this->numero_factura . ' Tipo de venta ' . $item->attributes[6] . ' ID: ' . $sale->id,
+                            'concepto' => "Venta " . $tipoVenta . ' Factura N° : ' . $factura . ' Tipo de venta ' . $item->attributes[6] . ' ID: ' . $sale->id,
                             'cantidad_salida' => $item->quantity,
                             'costo_unit_salida' => $item->attributes[0],
                             'costo_total_salida' => $item->attributes[0] * $item->quantity,

@@ -181,11 +181,17 @@
             $('#descuento').hide();
             $('#facturas-dia').hide();
 
+            window.livewire.on('factura-add', msg => {
+                $('#theModalFacturas').modal('hide');
+            });
 
+            window.livewire.on('show-factura', msg => {
+                $('#theModalFacturas').modal('show');
+            });
             
-           
-            
-
+            window.livewire.on('factura-update', msg => {
+                $('#theModalFacturas').modal('hide');
+            });
 
             $('#btn-regresar').on("click", function () {
                 $('#menu').show();
