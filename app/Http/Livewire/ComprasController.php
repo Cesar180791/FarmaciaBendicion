@@ -728,13 +728,64 @@ class ComprasController extends Component
         //detalle de compra
         $detalles = PurchaseDetail::where('purchases_id', $compra->id)->get();
 
+
+        //comprobando la existencia del lote
         foreach($detalles as $detalle){
-            dd($detalle);
+            $comprobarExistencia = Lotes::find($detalle->lotes_id)->first();
+            
+            //si la existencia del lote es mayor a la compra hara un return deteniendo el proceso
+            if($detalle->quantity > $comprobarExistencia->existencia_lote){
+                return $this->emit("lote-error","La existencia actual del lote es menor a la compra registrada");
+            }
+
         }
 
-        //$detalles->each->delete();
-        //$compra->delete();
-        //dd($detalle);
+        //actualizando existencias
+        foreach($detalles as $detalle){
+
+            //BUSCANDO LOTE PARA ACTUALIZAR
+            $actualizandoExistenciaLotes = Lotes::find($detalle->lotes_id);
+
+            //BUSCANDO PRODUCTO PARA ACTUALIZAR
+            $actualizandoExistenciaProductos = Product::find($actualizandoExistenciaLotes->products_id);
+
+             //SE ACTUALIZA LA EXISTENCIA DEL LOTE
+             $actualizandoExistenciaLotes -> update([
+                'existencia_lote' => $actualizandoExistenciaLotes->existencia_lote - $detalle->quantity 
+             ]);
+ 
+             //SE ACTUALIZA LA EXISTENCIA DE EL PRODUCTO EN LA TABLA PRODUCTO
+             $actualizandoExistenciaProductos -> update([
+                 'existencia_caja' => $actualizandoExistenciaProductos->existencia_caja - $detalle->quantity 
+              ]);
+
+            //SE BUSCA EL REGISTRO EN EL KARDEX
+            $kardex = kardexProductos::where('purchase_details_id',$detalle->id)->first();
+
+            //BISCANDO PRODUCTOS EN EL KARDEX QUE CON FILTRO QUE SEAN PORSTERIORES AL MOVIMIENTO DE LA COMPRA
+            $movimientosKardex = kardexProductos::where([
+                ['products_id', $actualizandoExistenciaProductos->id],
+                ['created_at','>',$kardex->created_at]
+            ])->get();
+
+            //SOBRRESCRIBIR KARDEX
+            foreach($movimientosKardex as $updateKardex){
+                $updateKardex -> update([
+                    'cantidad_existencias_ppal' => $updateKardex->cantidad_existencias_ppal - $detalle->quantity,
+                    'costo_total_existencias' => ($actualizandoExistenciaProductos->cost * $actualizandoExistenciaProductos->existencia_caja) + (($actualizandoExistenciaProductos->cost / $actualizandoExistenciaProductos->unidades_presentacion) * $actualizandoExistenciaProductos->existencia_unidad),
+                ]);
+            }
+
+            //SE BORRA EL REGISTRO DEL KARDEX
+            $kardex->delete();
+
+           
+
+
+        }
+
+        $detalles->each->delete();
+        $compra->delete();
     }
 
     public function getDetails($compra_id){

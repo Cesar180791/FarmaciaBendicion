@@ -37,6 +37,14 @@
         $('#nuevo-lote').hide();
         $('#lotes').hide();
 
+        window.livewire.on('lote-error', msg=>{
+            swal({
+               title: 'Error',
+               text: msg,
+               type: 'error',
+           })
+        });
+
         $('#ver-compras').on("click", function () {
             $('#detalle-compra').hide();
             $('#garantias').hide();
