@@ -57,6 +57,11 @@
                             <p class="text-white">{{\Carbon\Carbon::parse($lote->caducidad_lote)->format('M d, Y')}}</p>
                         </span></td>
                     @endif
+                    @if($lote->caducidad_lote === now()->toDateString())
+                    <td class="text-center"><span class="badge badge-warning">
+                            <p class="text-white">{{\Carbon\Carbon::parse($lote->caducidad_lote)->format('M d, Y')}}</p>
+                        </span></td>
+                    @endif
                     @if(\Carbon\Carbon::parse($lote->caducidad_lote)->subMonths(3) < now()->toDateString() &&
                         $lote->caducidad_lote > now()->toDateString())
                         <td class="text-center"><span class="badge badge-warning">
