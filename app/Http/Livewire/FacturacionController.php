@@ -28,7 +28,8 @@ class FacturacionController extends Component
             $cliente_consumidor_final, $direccion_consumidor_final, 
             $dui_consumidor_final, $lote, $producto, $precio, 
             $id_lote,$descuento, $count = 0, $limitar_cant_producto=0, 
-            $data, $details,$countDetails,$sumDetails, $imprimirfacturaModal, $buscar_lote, $id_factura, $numero_factura_inicial;
+            $data, $details,$countDetails,$sumDetails, $imprimirfacturaModal, $buscar_lote, $id_factura, $numero_factura_inicial,
+            $serie_factura;
 
     private $pagination = 5, $pagination2 = 5;
 
@@ -164,10 +165,12 @@ class FacturacionController extends Component
 
     public function StoreFactura(){
         $rules = [
+            'serie_factura'             => 'required',
             'numero_factura_inicial'    =>  'required|int',
         ];
 
         $messages = [
+            'serie_factura' => 'El numero de serie es requerido',
             'numero_factura_inicial.required'   => 'El N° de factura es requerido',
             'numero_factura_inicial.int'   => 'El N° de factura debe ser un numero entero',
         ];
@@ -176,6 +179,7 @@ class FacturacionController extends Component
 
         n_facturas::create([
             'user_id'    =>  auth()->user()->id,
+            'serie_factura' => $this->serie_factura,
             'numero_factura_inicial' =>  $this->numero_factura_inicial,
             'numero_factura_correlativo' =>  $this->numero_factura_inicial,
         ]);
@@ -189,6 +193,7 @@ class FacturacionController extends Component
 
     public function changeFactura(n_facturas $factura){
         $this->id_factura = $factura->id;
+        $this->serie_factura = $factura->serie_factura;
         $this->numero_factura_inicial = $factura->numero_factura_inicial;
 
         $this->emit("show-factura");
@@ -196,18 +201,20 @@ class FacturacionController extends Component
 
     public function UpdateFactura(){
         $rules = [
+            'serie_factura'             => 'required',
             'numero_factura_inicial'    =>  'required|int',
         ];
 
         $messages = [
+            'serie_factura' => 'El numero de serie es requerido',
             'numero_factura_inicial.required'   => 'El N° de factura es requerido',
             'numero_factura_inicial.int'   => 'El N° de factura debe ser un numero entero',
         ];
-
         $this->validate($rules, $messages);
 
         $factura = n_facturas::find($this->id_factura);
         $factura->update([
+            'serie_factura' => $this->serie_factura,
             'numero_factura_inicial' =>  $this->numero_factura_inicial,
             'numero_factura_correlativo' =>  $this->numero_factura_inicial,
         ]);
@@ -966,7 +973,7 @@ class FacturacionController extends Component
                     'items'                         =>  $this->itemsQuantity,
                     'cash'                          =>  $this->efectivo,
                     'change'                        =>  $this->change,
-                    'numero_factura'                =>  $facturas->numero_factura_correlativo,
+                    'numero_factura'                =>  $facturas->serie_factura . " " . $facturas->numero_factura_correlativo,
                     'tipos_transacciones_id'        =>  $this->transaccionId,
                     'user_id'                       =>  auth()->user()->id
                 ]);

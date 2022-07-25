@@ -11,6 +11,7 @@ class n_facturas extends Model
 
     protected  $fillable = [
         'user_id',
+        'serie_factura',
         'numero_factura_inicial',
         'numero_factura_correlativo'
     ];

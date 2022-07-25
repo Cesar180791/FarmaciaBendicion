@@ -10,6 +10,22 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-12 col-md-12 mt-3">
+                        <p><b>Serie </b></p>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text input-gp fondoNegro text-white">
+                                    <i class="fa-solid fa-receipt"></i>
+                                </span>
+                            </div>
+                            <input type="text" wire:model.lazy="serie_factura" class="form-control"
+                                placeholder="Ingrese serie de factura">
+                        </div>
+                        @error('serie_factura') <span class="text-danger er">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 mt-3">
                         <p><b>N° factura </b></p>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -18,7 +34,7 @@
                                 </span>
                             </div>
                             <input type="number" wire:model.lazy="numero_factura_inicial" class="form-control"
-                                placeholder="Ingrese el Componente quimico">
+                                placeholder="Ingrese Numero de factura">
                         </div>
                         @error('numero_factura_inicial') <span class="text-danger er">{{ $message }}</span>
                         @enderror

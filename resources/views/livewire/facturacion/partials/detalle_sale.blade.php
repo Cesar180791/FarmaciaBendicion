@@ -76,6 +76,7 @@
                     </div>
                     @else
                     <div class="col-sm-12 col-md-4 mt-2">
+                        <h6 class="text-success"><b>Serie: {{$facturas->serie_factura}}</b></h6>
                         <h6 class="text-success"><b>N° Factura configurado: {{$facturas->numero_factura_inicial}}</b></h6>
                         <h6 class="text-success"><b>Siguiente N° Factura: {{$facturas->numero_factura_correlativo}}</b></h6>
                     </div>
@@ -86,14 +87,14 @@
                     @endif
                     @endif
 
-                    <div class="col-sm-12 col-md-2 mt-2 d-flex">
-                        <a class="btn fondoNegro text-white mbmobile mb-4 btn-block" id="btn-buscar"><b><i
+                    <div class="col-sm-12 col-md-2 mt-2">
+                        <a class="btn fondoNegro text-white mb-4 btn-block" id="btn-buscar"><b><i
                                     class="fas fa-search-plus"></i>
                                 Buscar</b></a>
                     </div>
 
-                    <div class="col-sm-12 col-md-2 mt-2 d-flex">
-                        <a wire:click.prevent="resetUI()" class="btn btn-danger mbmobile mb-4 btn-block"
+                    <div class="col-sm-12 col-md-2 mt-2">
+                        <a wire:click.prevent="resetUI()" class="btn btn-danger mb-4 btn-block"
                             id="btn-regresar"><b><i class="fas fa-arrow-left"></i></b></a>
                     </div>
 

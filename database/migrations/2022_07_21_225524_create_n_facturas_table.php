@@ -16,6 +16,7 @@ class CreateNFacturasTable extends Migration
         Schema::create('n_facturas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->unique()->constrained();
+            $table->string('serie_factura');
             $table->integer('numero_factura_inicial');
             $table->integer('numero_factura_correlativo');
             $table->timestamps();

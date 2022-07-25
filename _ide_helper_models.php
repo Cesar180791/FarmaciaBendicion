@@ -695,9 +695,21 @@ namespace App\Models{
 /**
  * App\Models\n_facturas
  *
+ * @property int $id
+ * @property int $user_id
+ * @property int $numero_factura_inicial
+ * @property int $numero_factura_correlativo
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|n_facturas newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|n_facturas newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|n_facturas query()
+ * @method static \Illuminate\Database\Eloquent\Builder|n_facturas whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|n_facturas whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|n_facturas whereNumeroFacturaCorrelativo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|n_facturas whereNumeroFacturaInicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|n_facturas whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|n_facturas whereUserId($value)
  */
 	class n_facturas extends \Eloquent {}
 }
