@@ -390,7 +390,7 @@ class ComprasController extends Component
 
         Cart::update($exist->id, array( 
             array(
-                $exist->price = $final_cost,
+                $exist->price = $cost,
                 $exist->attributes[0] = $cost,
                 $exist->attributes[1] = $iva_cost,
                 $exist->attributes[2] = $final_cost,
