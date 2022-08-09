@@ -95,6 +95,7 @@
             $('#detalle-compra').hide();
             $('#listar-productos').hide();
             $('#lotes').show();
+            $('#garantias').hide();
         });
 
         window.livewire.on('crear-lote', msg=>{

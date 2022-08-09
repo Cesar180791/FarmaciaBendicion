@@ -11,6 +11,8 @@
         $('#lotes').hide();
         $('#nuevo-lote').hide();
         $('#datos-generales').hide();
+        $('#historial-compras').hide();
+        $('#garantias').show();
 
 	})
 	

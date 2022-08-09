@@ -347,7 +347,8 @@ class ComprasController extends Component
                     $buscar_lote->caducidad_lote,
                     $product->id,
                     $politica->meses,
-                    $politica->id
+                    $politica->id,
+                    "NUEVO"
                 ));
                 $this->total = Cart::getTotal();
                 $this->itemsQuantity = Cart::getTotalQuantity();
@@ -408,7 +409,6 @@ class ComprasController extends Component
        // $this->emit('add-ok','Producto eliminado');
     }
 
-
     public function updateCant($productId, $cant = 1){
         $exist = Cart::get($productId);
         
@@ -430,7 +430,8 @@ class ComprasController extends Component
                    $exist->attributes[7],
                    $exist->attributes[8],
                    $exist->attributes[9],
-                   $exist->attributes[10]
+                   $exist->attributes[10],
+                   $exist->attributes[11]
                 ));
            $this->total = Cart::getTotal();
            $this->itemsQuantity = Cart::getTotalQuantity();
@@ -460,7 +461,8 @@ class ComprasController extends Component
                     $exist->attributes[7],
                     $exist->attributes[8],
                     $exist->attributes[9],
-                    $exist->attributes[10]
+                    $exist->attributes[10],
+                    $exist->attributes[11]
                 ));
 
                 $this->total = Cart::getTotal();
@@ -492,7 +494,8 @@ class ComprasController extends Component
                     $exist->attributes[7],
                     $exist->attributes[8],
                     $exist->attributes[9],
-                    $exist->attributes[10]
+                    $exist->attributes[10],
+                    $exist->attributes[11]
                 ));
 
                 $this->total = Cart::getTotal();
@@ -524,7 +527,8 @@ class ComprasController extends Component
                     $exist->attributes[7],
                     $exist->attributes[8],
                     $exist->attributes[9],
-                    $exist->attributes[10]
+                    $exist->attributes[10],
+                    $exist->attributes[11]
                 ));
 
                 $this->total = Cart::getTotal();
@@ -731,7 +735,7 @@ class ComprasController extends Component
 
         //comprobando la existencia del lote
         foreach($detalles as $detalle){
-            $comprobarExistencia = Lotes::find($detalle->lotes_id)->first();
+            $comprobarExistencia = Lotes::find($detalle->lotes_id);
             
             //si la existencia del lote es mayor a la compra hara un return deteniendo el proceso
             if($detalle->quantity > $comprobarExistencia->existencia_lote){
