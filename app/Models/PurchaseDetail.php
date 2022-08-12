@@ -19,6 +19,12 @@ class PurchaseDetail extends Model
         'precio_venta_mayoreo',
         'precio_venta_unidad',
         'quantity',
-        'politicas_garantias_id'
+        'politicas_garantias_id',
+        'costo_ref',
+        'costo_iva_ref',
+        'costo_mas_iva_ref',
+        'precio_venta_ref',
+        'precio_venta_mayoreo_ref',
+        'precio_venta_unidad_ref'
     ];
 }

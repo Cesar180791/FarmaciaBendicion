@@ -105,6 +105,28 @@ class ComprasController extends Component
         }
         //Fin Seteando Variables de Interes
 
+        //Guardando valores de referencia comentarear luego de usar
+        /*$updateCompras = PurchaseDetail::orderBy('id','asc')->get();
+        foreach($updateCompras as $compra){
+            $searchValoresActuales = Lotes::join('products as p','p.id','lotes.products_id')
+            ->where('lotes.id', $compra->lotes_id)
+            ->select('lotes.id as lotes_id','lotes.numero_lote','p.id as product_id','p.name', 'p.cost','p.iva_cost','p.final_cost','p.precio_caja','p.precio_mayoreo','p.precio_unidad')
+            ->first();
+
+          //dd($searchValoresActuales->name);
+           // $update = PurchaseDetail::find($compra->id);
+            //dd($update);
+            $compra->update([
+                'costo_ref' => $searchValoresActuales->cost,
+                'costo_iva_ref' => $searchValoresActuales->iva_cost,
+                'costo_mas_iva_ref' => $searchValoresActuales->final_cost,
+                'precio_venta_ref' => $searchValoresActuales->precio_caja,
+                'precio_venta_mayoreo_ref' => $searchValoresActuales->precio_mayoreo,
+                'precio_venta_unidad_ref' => $searchValoresActuales->precio_unidad,
+            ]);
+        }
+        //Guardando valores de referencia comentarear luego de usar*/
+
         //id de lote se almacena en $idBuscarProducto y cambia mediante la funcion asignarIdBusquedaProducto()
         if (strlen($this->search2) > 0)
         $lotes = Lotes::join('products as pro','pro.id','lotes.products_id')
@@ -348,7 +370,13 @@ class ComprasController extends Component
                     $product->id,
                     $politica->meses,
                     $politica->id,
-                    "NUEVO"
+                    "NUEVO",
+                    $product->cost,             //Para guardar valores de referencia
+                    $product->iva_cost,         //Para guardar valores de referencia
+                    $product->final_cost,       //Para guardar valores de referencia
+                    $product->precio_caja,      //Para guardar valores de referencia
+                    $product->precio_mayoreo,  //Para guardar valores de referencia
+                    $product->precio_unidad,    //Para guardar valores de referencia
                 ));
                 $this->total = Cart::getTotal();
                 $this->itemsQuantity = Cart::getTotalQuantity();
@@ -431,7 +459,13 @@ class ComprasController extends Component
                    $exist->attributes[8],
                    $exist->attributes[9],
                    $exist->attributes[10],
-                   $exist->attributes[11]
+                   $exist->attributes[11],
+                   $exist->attributes[12],
+                   $exist->attributes[13],
+                   $exist->attributes[14],
+                   $exist->attributes[15],
+                   $exist->attributes[16],
+                   $exist->attributes[17]
                 ));
            $this->total = Cart::getTotal();
            $this->itemsQuantity = Cart::getTotalQuantity();
@@ -462,7 +496,13 @@ class ComprasController extends Component
                     $exist->attributes[8],
                     $exist->attributes[9],
                     $exist->attributes[10],
-                    $exist->attributes[11]
+                    $exist->attributes[11],
+                    $exist->attributes[12],
+                    $exist->attributes[13],
+                    $exist->attributes[14],
+                    $exist->attributes[15],
+                    $exist->attributes[16],
+                    $exist->attributes[17]
                 ));
 
                 $this->total = Cart::getTotal();
@@ -495,7 +535,13 @@ class ComprasController extends Component
                     $exist->attributes[8],
                     $exist->attributes[9],
                     $exist->attributes[10],
-                    $exist->attributes[11]
+                    $exist->attributes[11],
+                    $exist->attributes[12],
+                    $exist->attributes[13],
+                    $exist->attributes[14],
+                    $exist->attributes[15],
+                    $exist->attributes[16],
+                    $exist->attributes[17]
                 ));
 
                 $this->total = Cart::getTotal();
@@ -528,7 +574,13 @@ class ComprasController extends Component
                     $exist->attributes[8],
                     $exist->attributes[9],
                     $exist->attributes[10],
-                    $exist->attributes[11]
+                    $exist->attributes[11],
+                    $exist->attributes[12],
+                    $exist->attributes[13],
+                    $exist->attributes[14],
+                    $exist->attributes[15],
+                    $exist->attributes[16],
+                    $exist->attributes[17]
                 ));
 
                 $this->total = Cart::getTotal();
@@ -621,6 +673,12 @@ class ComprasController extends Component
                         'precio_venta_unidad'       =>  $item->attributes[5],
                         'quantity'                  =>  $item->quantity,
                         'politicas_garantias_id'    =>  $item->attributes[10],
+                        'costo_ref'                 =>  $item->attributes[12],
+                        'costo_iva_ref'             =>  $item->attributes[13],
+                        'costo_mas_iva_ref'         =>  $item->attributes[14],
+                        'precio_venta_ref'          =>  $item->attributes[15],
+                        'precio_venta_mayoreo_ref'  =>  $item->attributes[16],
+                        'precio_venta_unidad_ref'   =>  $item->attributes[17],
                     ]);
 
                     ///ACTUALIZAR TABLA PRODUCTO
@@ -760,8 +818,14 @@ class ComprasController extends Component
  
              //SE ACTUALIZA LA EXISTENCIA DE EL PRODUCTO EN LA TABLA PRODUCTO
              $actualizandoExistenciaProductos -> update([
-                 'existencia_caja' => $actualizandoExistenciaProductos->existencia_caja - $detalle->quantity 
-              ]);
+                'cost'              =>  $detalle->costo_ref,     
+                'iva_cost'          =>  $detalle->costo_iva_ref,
+                'final_cost'        =>  $detalle->costo_mas_iva_ref,
+                'precio_caja'       =>  $detalle->precio_venta_ref,
+                'precio_mayoreo'    =>  $detalle->precio_venta_mayoreo_ref,
+                'precio_unidad'     =>  $detalle->precio_venta_unidad_ref,
+                'existencia_caja'   =>  $actualizandoExistenciaProductos->existencia_caja - $detalle->quantity
+            ]);
 
             //SE BUSCA EL REGISTRO EN EL KARDEX
             $kardex = kardexProductos::where('purchase_details_id',$detalle->id)->first();
@@ -782,9 +846,6 @@ class ComprasController extends Component
 
             //SE BORRA EL REGISTRO DEL KARDEX
             $kardex->delete();
-
-           
-
 
         }
 
