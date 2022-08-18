@@ -19,5 +19,11 @@ class Detalle_cargas extends Model
         'detalle_cargas_precio_mayoreo',
         'detalle_cargas_precio_unidad',
         'detalle_cargas_quantity',
+        'costo_ref',
+        'costo_iva_ref',
+        'costo_mas_iva_ref',
+        'precio_venta_ref',
+        'precio_venta_mayoreo_ref',
+        'precio_venta_unidad_ref',
     ];
 }

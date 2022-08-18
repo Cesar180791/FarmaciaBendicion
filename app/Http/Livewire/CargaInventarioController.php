@@ -51,7 +51,30 @@ class CargaInventarioController extends Component
 
 
     public function render()
-    {  
+    {          
+        //Guardando valores de referencia comentarear luego de usar
+       /* $updateCargas = Detalle_cargas::orderBy('id','asc')->get();
+        
+        foreach($updateCargas as $carga){
+            $searchValoresActuales = Lotes::join('products as p','p.id','lotes.products_id')
+            ->where('lotes.id', $carga->lotes_id)
+            ->select('lotes.id as lotes_id','lotes.numero_lote','p.id as product_id','p.name', 'p.cost','p.iva_cost','p.final_cost','p.precio_caja','p.precio_mayoreo','p.precio_unidad')
+            ->first();
+           
+          //dd($searchValoresActuales->name);
+           // $update = PurchaseDetail::find($carga->id);
+            //dd($update);
+            $carga->update([
+                'costo_ref' => $searchValoresActuales->cost,
+                'costo_iva_ref' => $searchValoresActuales->iva_cost,
+                'costo_mas_iva_ref' => $searchValoresActuales->final_cost,
+                'precio_venta_ref' => $searchValoresActuales->precio_caja,
+                'precio_venta_mayoreo_ref' => $searchValoresActuales->precio_mayoreo,
+                'precio_venta_unidad_ref' => $searchValoresActuales->precio_unidad,
+            ]);
+        }
+        //Guardando valores de referencia comentarear luego de usar*/
+
         if ($this->cost == null) {
             $this->cost = 0;
             $this->iva_cost = 0;

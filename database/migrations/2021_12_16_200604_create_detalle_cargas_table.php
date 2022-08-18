@@ -24,6 +24,12 @@ class CreateDetalleCargasTable extends Migration
             $table->decimal('detalle_cargas_precio_mayoreo',10,4);
             $table->decimal('detalle_cargas_precio_unidad',10,4)->nullable();
             $table->integer('detalle_cargas_quantity');
+            $table->decimal('costo_ref',10,4);
+            $table->decimal('costo_iva_ref',10,4);
+            $table->decimal('costo_mas_iva_ref',10,4);
+            $table->decimal('precio_venta_ref',10,4);
+            $table->decimal('precio_venta_mayoreo_ref',10,4);
+            $table->decimal('precio_venta_unidad_ref',10,4);
             $table->timestamps(); 
         });
     }
