@@ -20,6 +20,11 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function(){
+        
+        $('#ver-cargas').on("click", function () {
+            $('#detalle').hide();
+        });
+
         $('#listar-productos').hide();
         $('#asignar-producto-lote').hide();
         $('#crear-lote').hide();
@@ -43,9 +48,6 @@
         $('#crear-lote').hide();
         $('#asignar-producto-lote').show();
         });
-
-        
-       
 
         window.livewire.on('editar-lote', msg=>{
             $('#crear-lote').show();

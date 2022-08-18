@@ -4,11 +4,12 @@
             <div class="card-body">
                 <div class="widget-heading">
                     <h6 class="card-title">
-                        <b>{{$componentName}} | {{$pageTitle2}}</b>
+                        <b>{{$componentName}} | {{$pageTitle2}}  sss</b>
                     </h6>
                 </div>
                 <a class="btn fondoNegro text-white mbmobile mb-4" id="buscarbtn"><b>Buscar F1</b></a>
                 <a class="btn fondoNegro text-white mbmobile mb-4" data-toggle="modal" data-target="#theModal"><b>Nuevo Producto</b></a>
+                <a class="btn fondoNegro text-white mbmobile mb-4" id="ver-cargas"><b><i class="fa-solid fa-eye"></i> Ver Cargas</b></a>
                 @if(count($cart)==0)
                 <div class="alert alert-danger">No hay Registros que mostrar</div>
                 @else
