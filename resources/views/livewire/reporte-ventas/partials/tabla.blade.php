@@ -69,7 +69,7 @@
                 <td class="text-center" width="50px">
                     <button wire:click.prevent="getDetails({{$venta->folio}})"
                         class="btn fondoNegro text-white"><i class="fas fa-list"></i></button>
-                    <button class="mt-2 btn fondoNegro text-white" href="javascript:void(0)" wire:click.prevent='$emit("print-factura-consumidor-final",{{$venta->id}})'
+                    <button class="mt-2 btn fondoNegro text-white" href="javascript:void(0)" wire:click.prevent='$emit("print-factura-consumidor-final",{{$venta->folio}})'
                         title="Imprimir Factura">
                         <i class="fa-solid fa-print"></i>
                     </button>
