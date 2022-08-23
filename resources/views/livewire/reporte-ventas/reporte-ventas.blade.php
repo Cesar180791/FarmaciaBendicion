@@ -24,6 +24,15 @@
             window.livewire.on('show-modal', msg => {
                 $('#theModalDetalle').modal('show');
             });
+
+            window.livewire.on('print-factura-consumidor-final', saleId => {
+                
+                ruta = "{{ url('print/factura/consumidor-final') }}" + '/' + saleId
+                ventana = window.open(ruta, "_blank", "width=100, height=100")
+                setTimeout(function(){ ventana.close()},5000)
+                $('#theModalDetalle').modal('hide');
+            
+            });
         });
     </script>
 </div>

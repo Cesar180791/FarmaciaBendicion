@@ -32,7 +32,7 @@
                 <th class="table-th text-white text-center">
                     Fecha
                 </th>
-                <th class="table-th text-white text-center">
+                <th class="table-th text-white text-center" width="10%">Acciones
                 </th>
             </tr>
         </thead>
@@ -68,13 +68,17 @@
                 </td>
                 <td class="text-center" width="50px">
                     <button wire:click.prevent="getDetails({{$venta->folio}})"
-                    class="btn fondoNegro text-white btn-sm"><i class="fas fa-list"></i></button>
+                        class="btn fondoNegro text-white"><i class="fas fa-list"></i></button>
+                    <button class="mt-2 btn fondoNegro text-white" href="javascript:void(0)" wire:click.prevent='$emit("print-factura-consumidor-final",{{$venta->id}})'
+                        title="Imprimir Factura">
+                        <i class="fa-solid fa-print"></i>
+                    </button>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
-    
+
 </div>
 {{$data->links()}}
 @endif

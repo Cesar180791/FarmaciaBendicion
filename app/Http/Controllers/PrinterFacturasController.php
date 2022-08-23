@@ -17,7 +17,7 @@ use App\Models\Clientes;
 use Carbon\Carbon;
 use Luecano\NumeroALetras\NumeroALetras;
 
-class PrinterFacturasController extends Controller
+class PrinterFacturasController extends Controller 
 {
     public $new='', $printer;
 
