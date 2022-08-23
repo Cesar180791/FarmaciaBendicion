@@ -77,9 +77,7 @@ class PrinterFacturasController extends Controller
                                 ->select('l.products_id', 'sale_details.precio_venta_mas_iva','sale_details.quantity as cantidad','p.name')
                                 ->where('sale_details.sale_id',$id)
                                 ->get();
-
-                                dd($detalle);
-
+                                
         //impresion de factura consumidor final
         $this->printer->setJustification(Printer::JUSTIFY_LEFT);
         $this->printer -> setEmphasis(true);
